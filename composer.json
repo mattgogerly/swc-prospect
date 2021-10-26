@@ -1,0 +1,9 @@
+{
+    "require": {
+        "php-di/php-di": "^6.3",
+        "corneltek/pux": "1.6.1"
+    },
+    "autoload": {
+        "psr-4": {"swcprospect\\": "swcprospect/"}
+    }
+}

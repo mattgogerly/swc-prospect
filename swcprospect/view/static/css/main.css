@@ -1,0 +1,19 @@
+body {
+    background-color: black;
+    color: white;
+}
+
+#planet-list {
+    margin-bottom: 30px;
+}
+
+#planet-grid {
+    max-width: 50%;
+}
+
+.grid-cell {
+    background-color: grey;
+    border: 1px solid white;
+    width: 25px;
+    height: 25px;
+}
