@@ -1,3 +1,13 @@
+CREATE DATABASE IF NOT EXISTS swc;
+
+USE swc;
+
+CREATE TABLE IF NOT EXISTS planet_types (
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS planets (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
@@ -7,13 +17,13 @@ CREATE TABLE IF NOT EXISTS planets (
     FOREIGN KEY (type) REFERENCES planet_types(id)
 );
 
-CREATE TABLE IF NOT EXISTS planet_types (
+CREATE TABLE IF NOT EXISTS tile_types (
     id int NOT NULL AUTO_INCREMENT,
-    name varchar(255) NOT NULL,
+    name varchar(50) NOT NULL,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS tiles {
+CREATE TABLE IF NOT EXISTS tiles (
     id int NOT NULL AUTO_INCREMENT,
     planet int NOT NULL,
     type int NOT NULL,
@@ -21,13 +31,14 @@ CREATE TABLE IF NOT EXISTS tiles {
     y int NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (type) REFERENCES tile_types(id)
-}
+);
 
-CREATE TABLE IF NOT EXISTS tile_types {
+
+CREATE TABLE IF NOT EXISTS deposit_types (
     id int NOT NULL AUTO_INCREMENT,
-    name varchar(50) NOT_NULL,
+    name varchar(255) NOT NULL,
     PRIMARY KEY (id)
-}
+);
 
 CREATE TABLE IF NOT EXISTS deposits (
     id int NOT NULL AUTO_INCREMENT,
@@ -41,8 +52,26 @@ CREATE TABLE IF NOT EXISTS deposits (
     FOREIGN KEY (type) REFERENCES deposit_types(id)
 );
 
-CREATE TABLE IF NOT EXISTS deposit_types (
-    id int NOT NULL AUTO_INCREMENT,
-    name varchar(255) NOT NULL,
-    PRIMARY KEY (id)
-);
+REPLACE INTO swc.planet_types
+    (id, name)
+VALUES
+    (1, 'Hot No Atmos'), (2, 'Hot Toxic'), (3, 'Hot Breathable'), 
+    (4, 'Temperate Breathable'), (5, 'Cold Breathable'), (6, 'Cold Toxic'), 
+    (7, 'Cold No Atmos'), (8, 'Gas Giant'), (9, 'Moon'), 
+    (10, 'Asteroid'), (11, 'Comet');
+
+REPLACE INTO swc.tile_types 
+    (id, name)
+VALUES
+    (1, 'Cave'), (2, 'Crater'), (3, 'Desert'), (4, 'Forest'), (5, 'Gas Giant'),
+    (6, 'Glacier'), (7, 'Grassland'), (8, 'Jungle'), (9, 'Mountain'), (10, 'Ocean'),
+    (11, 'River'), (12, 'Rock'), (13, 'Swap'), (14, 'Volcanic');
+
+REPLACE INTO swc.deposit_types 
+    (id, name)
+VALUES
+    (1, 'Quantum'), (2, 'Meleenium'), (3, 'Ardanium'), (4, 'Rudic'), (5, 'Ryll'),
+    (6, 'Duracrete'), (7, 'Alazhi'), (8, 'Laboi'), (9, 'Adegan'), (10, 'Rockivory'),
+    (11, 'Tibannagas'), (12, 'Nova'), (13, 'Varium'), (14, 'Varmigio'), (15, 'Lommite'),
+    (16, 'Hibridium'), (17, 'Durelium'), (18, 'Lowickan'), (19, 'Vertex'), (20, 'Berubian'),
+    (21, 'Bacta');
