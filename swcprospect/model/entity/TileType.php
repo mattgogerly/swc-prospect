@@ -2,7 +2,7 @@
 
 namespace swcprospect\model\entity;
 
-class DepositType {
+class TileType {
     
     private $id;
     private $name;

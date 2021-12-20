@@ -2,16 +2,16 @@
 
 namespace swcprospect\model\entity;
 
-use swcprospect\model\Model;
-
-class Planet extends Model {
+class Planet {
     
     private $id;
     private $name;
     private $type;
     private $size;
+    private $depositMap;
 
-    public function __construct($name, $type, $size, $db) {
+    public function __construct($id, $name, $type, $size) {
+        $this->id = $id;
         $this->name = $name;
         $this->type = $type;
         $this->size = $size;
@@ -43,6 +43,25 @@ class Planet extends Model {
      */ 
     public function getSize() {
         return $this->size;
+    }
+
+    /**
+     * Get the value of depositMap
+     */ 
+    public function getDepositMap()
+    {
+        return $this->depositMap;
+    }
+
+    /**
+     * Set the value of depositsMap
+     *
+     * @return  self
+     */ 
+    public function setDepositMap($depositMap)
+    {
+        $this->depositMap = $depositMap;
+        return $this;
     }
 }
 ?>

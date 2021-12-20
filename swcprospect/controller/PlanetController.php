@@ -3,33 +3,38 @@
 namespace swcprospect\controller;
 
 use swcprospect\model\PlanetModel;
+use swcprospect\model\DepositModel;
 use swcprospect\view\PlanetListView;
-use swcprospect\view\PlanetGridView;
+use swcprospect\view\PlanetView;
 
 class PlanetController {
 
     private $model;
+    private $depositModel;
 
-    public function __construct(PlanetModel $model) {
+    public function __construct(PlanetModel $model, DepositModel $depositModel) {
         $this->model = $model;
+        $this->depositModel = $depositModel;
     }
 
     public function planets() {
         $planets = $this->model->getAll();
         $view = new PlanetListView();
-        return $view->render($planets);
+        echo $view->render($planets);
     }
 
-    public function planetGrid() {
-        $planet_id = $_GET['id'];
-        if (filter_var($planet_id, FILTER_VALIDATE_INT) === false) {
+    public function planet(int $id) {
+        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
             echo 'Invalid planet ID provided';
             return;
         }
 
-        $planet = $this->model->getById($planet_id);
-        $view = new PlanetGridView();
-        return $view->render($planet);
+        $planet = $this->model->getById($id);
+        $depositMap = $this->depositModel->getByPlanet($id, $planet->getSize());
+        $planet->setDepositMap($depositMap);
+
+        $view = new PlanetView();
+        echo $view->render($planet);
     }
 }
 

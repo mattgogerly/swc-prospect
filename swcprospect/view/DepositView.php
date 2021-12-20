@@ -2,13 +2,11 @@
 
 namespace swcprospect\view;
 
-use swcprospect\model\entity\Planet;
+class DepositView {
 
-class PlanetGridView {
-
-    public function render(Planet $planet) {
+    public function render($deposit) {
         ob_start();
-        include('templates/planet_grid.php');
+        include('templates/deposit.php');
         $content = ob_get_contents();
         ob_end_clean();
 

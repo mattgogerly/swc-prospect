@@ -2,22 +2,20 @@
 
 namespace swcprospect\model\entity;
 
-class Deposit {
+class Tile {
     
     private $id;
+    private $type;
     private $planet;
     private $x;
     private $y;
-    private $type;
-    private $size;
 
-    public function __construct($id, $planet, $x, $y, $type, $size) {
+    public function __construct($id, $type, $planet, $x, $y) {
         $this->id = $id;
+        $this->type = $type;
         $this->planet = $planet;
         $this->x = $x;
         $this->y = $y;
-        $this->type = $type;
-        $this->size = $size;
     }
 
     /**
@@ -25,6 +23,13 @@ class Deposit {
      */ 
     public function getId() {
         return $this->id;
+    }
+
+    /**
+     * Get the value of type
+     */ 
+    public function getType() {
+        return $this->type;
     }
 
     /**
@@ -46,20 +51,6 @@ class Deposit {
      */ 
     public function getY() {
         return $this->y;
-    }
-
-    /**
-     * Get the value of type
-     */ 
-    public function getType() {
-        return $this->type;
-    }
-
-    /**
-     * Get the value of size
-     */ 
-    public function getSize() {
-        return $this->size;
     }
 }
 ?>
