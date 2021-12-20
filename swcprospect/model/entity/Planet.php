@@ -8,6 +8,7 @@ class Planet {
     private $name;
     private $type;
     private $size;
+    private $tileMap;
     private $depositMap;
 
     public function __construct($id, $name, $type, $size) {
@@ -43,6 +44,25 @@ class Planet {
      */ 
     public function getSize() {
         return $this->size;
+    }
+
+    /**
+     * Get the value of tileMap
+     */ 
+    public function getTileMap()
+    {
+        return $this->tileMap;
+    }
+
+    /**
+     * Set the value of tileMap
+     *
+     * @return  self
+     */ 
+    public function setTileMap($tileMap)
+    {
+        $this->tileMap = $tileMap;
+        return $this;
     }
 
     /**

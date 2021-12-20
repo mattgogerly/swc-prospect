@@ -15,10 +15,15 @@ abstract class Query {
     const GET_PLANET_TYPES = 'SELECT * 
                               FROM planet_types';
 
+    const GET_TILE = 'SELECT t.id, t.x, t.y, tt.id AS type_id, tt.name AS type_name
+                                 FROM tiles AS t
+                                 JOIN tile_types AS tt ON t.type = tt.id
+                                 WHERE t.id = :id';
+
     const GET_TILES_BY_PLANET = 'SELECT t.id, t.x, t.y, tt.id AS type_id, tt.name AS type_name
                                  FROM tiles AS t
                                  JOIN tile_types AS tt ON t.type = tt.id
-                                 WHERE planet = :planet';
+                                 WHERE t.planet = :planetId';
 
     const GET_TILE_TYPES = 'SELECT *
                             FROM tile_types';

@@ -10,10 +10,12 @@ use swcprospect\view\PlanetView;
 class PlanetController {
 
     private $model;
+    private $tileModel;
     private $depositModel;
 
-    public function __construct(PlanetModel $model, DepositModel $depositModel) {
+    public function __construct(PlanetModel $model, TileModel $tileModel, DepositModel $depositModel) {
         $this->model = $model;
+        $this->tileModel = $tileModel;
         $this->depositModel = $depositModel;
     }
 
@@ -30,6 +32,12 @@ class PlanetController {
         }
 
         $planet = $this->model->getById($id);
+
+        // get tiles for this planet
+        $tileMap = $this->tileModel->getByPlanet($id, $planet->getSize());
+        $planet->setTileMap($tileMap);
+
+        // get deposits for this planet
         $depositMap = $this->depositModel->getByPlanet($id, $planet->getSize());
         $planet->setDepositMap($depositMap);
 
