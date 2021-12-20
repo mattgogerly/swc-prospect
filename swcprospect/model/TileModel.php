@@ -7,7 +7,7 @@ use swcprospect\model\db\Query;
 use swcprospect\model\entity\Tile;
 use swcprospect\model\entity\TileType;
 
-class DepositModel extends Model {
+class TileModel extends Model {
 
     public function getById(int $id) {
         try {

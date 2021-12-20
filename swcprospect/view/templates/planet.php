@@ -27,19 +27,19 @@
     </div>
     
     <div class="col">
-        <h3><?php echo $planet->getName() ?></h3>
+        <h3><?= $planet->getName() ?></h3>
         <table class="table table-dark table-striped">
             <tr class="align-middle">
                 <th scope="row">Image</th>
-                <td><img src="https://img.swcombine.com//galaxy/planets/<? echo $planet->getType()->getId() ?>/main.gif"></td>
+                <td><img src="https://img.swcombine.com//galaxy/planets/<?= $planet->getType()->getId() ?>/main.gif"></td>
             </tr>
             <tr>
                 <th scope="row">Type</th>
-                <td><? echo $planet->getType()->getName() ?></td>
+                <td><?= $planet->getType()->getName() ?></td>
             </tr>
             <tr>
                 <th scope="row">Size</th>
-                <td><? echo $planet->getSize() ?> x <? echo $planet->getSize() ?></td>
+                <td><?= $planet->getSize() ?> x <?= $planet->getSize() ?></td>
             </tr>
             <tr>
                 <th scope="row"># Deposits</th>

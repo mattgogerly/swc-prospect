@@ -3,6 +3,7 @@
 namespace swcprospect\controller;
 
 use swcprospect\model\PlanetModel;
+use swcprospect\model\TileModel;
 use swcprospect\model\DepositModel;
 use swcprospect\view\PlanetListView;
 use swcprospect\view\PlanetView;

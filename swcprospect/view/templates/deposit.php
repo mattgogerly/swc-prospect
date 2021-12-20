@@ -12,17 +12,17 @@ if ($deposit == null) {
 ?>
 
 <h3>
-    Deposit @ <? echo $deposit->getX() ?>, <? echo $deposit->getY() ?>
+    Deposit @ <?= $deposit->getX() ?>, <?= $deposit->getY() ?>
 </h3>
 
 <table class="table table-dark table-striped">
     <tr class="align-middle">
         <th scope="row">Type</th>
-        <td><? echo $deposit->getType()->getName() ?></td>
+        <td><?= $deposit->getType()->getName() ?></td>
     </tr>
     <tr>
         <th scope="row">Size</th>
-        <td><? echo $deposit->getSize() ?></td>
+        <td><?= $deposit->getSize() ?></td>
     </tr>
 </table>
 

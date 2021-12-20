@@ -13,13 +13,13 @@
     ?>
         <tr class="planet">
             <td>
-                <? echo $planet->getName() ?>
+                <?= $planet->getName() ?>
             </td>
             <td>
-                <? echo $planet->getType()->getName() ?>
+                <?= $planet->getType()->getName() ?>
             </td>
             <td>
-                <? echo $planet->getSize() ?> x <? echo $planet->getSize() ?>
+                <?= $planet->getSize() ?> x <?= $planet->getSize() ?>
             </td>
         </tr>
     <?php
