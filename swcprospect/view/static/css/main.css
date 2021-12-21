@@ -8,8 +8,8 @@ body {
     margin-bottom: 50px;
 }
 
-#planet-grid {
-    max-width: 50%;
+.planet-name {
+    cursor: pointer;
 }
 
 .grid-cell {

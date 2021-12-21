@@ -15,3 +15,5 @@
 
 # Composer PHAR
 /composer.phar
+
+**/.DS_Store
