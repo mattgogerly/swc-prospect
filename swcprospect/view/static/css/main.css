@@ -12,6 +12,10 @@ body {
     cursor: pointer;
 }
 
+.action-icon {
+    cursor: pointer;
+}
+
 .grid-cell {
     background-color: grey;
     border: 1px solid white;
@@ -19,7 +23,6 @@ body {
     width: 50px;
     cursor: pointer;
 }
-
 
 .grid-cell-deposit {
     background-color: green;

@@ -13,8 +13,8 @@
     <?php
     foreach ($planets as $planet) {
     ?>
-        <tr>
-            <td class="planet-name" planet-id="<?= $planet->getId() ?>">
+        <tr class="planet-row" planet-id="<?= $planet->getId() ?>">
+            <td>
                 <?= $planet->getName() ?>
             </td>
             <td>
@@ -24,10 +24,10 @@
                 <?= $planet->getSize() ?> x <?= $planet->getSize() ?>
             </td>
             <td>
-                <i class="bi bi-pencil planet-update" planet-id="<?= $planet->getId() ?>"></i>
+                <i class="bi bi-pencil action-icon planet-update" planet-id="<?= $planet->getId() ?>"></i>
             </td>
             <td>
-                <i class="bi bi-trash planet-delete" planet-id="<?= $planet->getId() ?>"></i>
+                <i class="bi bi-trash action-icon planet-delete" planet-id="<?= $planet->getId() ?>"></i>
             </td>
         </tr>
     <?php

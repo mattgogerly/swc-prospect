@@ -5,27 +5,31 @@ function loadPlanets() {
     $('#deposit-data').html('<div></div>');
 }
 
+function deletePlanet(id) {
+    $.ajax({
+        url: '/planet/' + id,
+        type: 'DELETE',
+        success: function() {
+            loadPlanets();
+        }
+    });
+}
+
 $(function() {
     // call on page load
     loadPlanets();
 
     // when a planet is clicked load its data
-    $(document).on('click', '.planet-name', function(e) {
+    $(document).on('click', '.planet-row', function(e) {
         const id = $(e.currentTarget).attr('planet-id');
         $('#planet-data').load('planet/' + id);
     });
 
     // when a planet delete icon is clicked delete the planet
     $(document).on('click', '.planet-delete', function(e) {
+        e.stopPropagation();
         const id = $(e.currentTarget).attr('planet-id');
-
-        $.ajax({
-            url: '/planet/' + id,
-            type: 'DELETE',
-            success: function() {
-                loadPlanets();
-            }
-        });
+        deletePlanet(id);
     });
 
     // when an empty planet cell is clicked show a warning

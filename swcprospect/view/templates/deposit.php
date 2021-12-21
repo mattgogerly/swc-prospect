@@ -24,6 +24,14 @@ if ($deposit == null) {
         <th scope="row">Size</th>
         <td><?= $deposit->getSize() ?></td>
     </tr>
+    <tr>
+        <th scope="row">Edit</th>
+        <td><i class="bi bi-pencil action-icon deposit-update" deposit-id="<?= $deposit->getId() ?>"></i></td>
+    </tr>
+    <tr>
+        <th scope="row">Delete</th>
+        <td><i class="bi bi-trash action-icon deposit-delete" deposit-id="<?= $deposit->getId() ?>"></i></td>
+    </tr>
 </table>
 
 <?php
