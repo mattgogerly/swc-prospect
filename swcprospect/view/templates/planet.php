@@ -68,7 +68,7 @@ function renderCell($tile, $deposit) {
 
         <div id="deposit-data">
             <div class="alert alert-info">
-                Select a planet and grid cell to view deposit information.
+                Select a grid cell to view deposit information.
             </div>
         </div>
     </div>
