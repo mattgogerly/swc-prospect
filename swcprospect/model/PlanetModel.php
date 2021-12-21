@@ -51,7 +51,9 @@ class PlanetModel extends Model {
 
     public function delete(int $id) {
         try {
-            //
+            $stmt = $this->db->getConn()->prepare(Query::DELETE_PLANET);
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+            $stmt->execute();
         } catch (\PDOException $e) {
             echo "";
         }

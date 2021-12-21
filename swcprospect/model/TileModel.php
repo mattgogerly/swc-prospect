@@ -52,9 +52,11 @@ class TileModel extends Model {
         }
     }
 
-    public function delete(int $id) {
+    public function deleteByPlanet(int $planetId) {
         try {
-            //
+            $stmt = $this->db->getConn()->prepare(Query::DELETE_TILES_BY_PLANET);
+            $stmt->bindParam(':planetId', $planetId, \PDO::PARAM_INT);
+            $stmt->execute();
         } catch (\PDOException $e) {
             echo "";
         }

@@ -45,6 +45,17 @@ class PlanetController {
         $view = new PlanetView();
         echo $view->render($planet);
     }
+
+    public function delete(int $id) {
+        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
+            echo 'Invalid planet ID provided';
+            return;
+        }
+
+        $this->tileModel->deleteByPlanet($id);
+        $this->depositModel->deleteByPlanet($id);
+        $this->model->delete($id);
+    }
 }
 
 ?>

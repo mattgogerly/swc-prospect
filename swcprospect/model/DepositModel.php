@@ -53,7 +53,19 @@ class DepositModel extends Model {
 
     public function delete(int $id) {
         try {
-            //
+            $stmt = $this->db->getConn()->prepare(Query::DELETE_DEPOSIT);
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (\PDOException $e) {
+            echo "";
+        }
+    }
+
+    public function deleteByPlanet(int $planetId) {
+        try {
+            $stmt = $this->db->getConn()->prepare(Query::DELETE_DEPOSITS_BY_PLANET);
+            $stmt->bindParam(':planetId', $planetId, \PDO::PARAM_INT);
+            $stmt->execute();
         } catch (\PDOException $e) {
             echo "";
         }

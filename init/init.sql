@@ -24,12 +24,11 @@ CREATE TABLE IF NOT EXISTS tile_types (
 );
 
 CREATE TABLE IF NOT EXISTS tiles (
-    id int NOT NULL AUTO_INCREMENT,
     planet int NOT NULL,
-    type int NOT NULL,
     x int NOT NULL,
     y int NOT NULL,
-    PRIMARY KEY (id),
+    type int NOT NULL,
+    PRIMARY KEY (planet, x, y),
     FOREIGN KEY (type) REFERENCES tile_types(id)
 );
 
