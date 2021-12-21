@@ -39,6 +39,7 @@ class TileModel extends Model {
 
             return $tileMap;
         } catch (\PDOException $e) {
+            echo $e;
             return null;
         }
     }

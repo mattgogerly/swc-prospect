@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS swc;
+CREATE DATABASE IF NOT EXISTS swcprospect;
 
-USE swc;
+USE swcprospect;
 
 CREATE TABLE IF NOT EXISTS planet_types (
     id int NOT NULL AUTO_INCREMENT,
@@ -33,7 +33,6 @@ CREATE TABLE IF NOT EXISTS tiles (
     FOREIGN KEY (type) REFERENCES tile_types(id)
 );
 
-
 CREATE TABLE IF NOT EXISTS deposit_types (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
@@ -52,22 +51,22 @@ CREATE TABLE IF NOT EXISTS deposits (
     FOREIGN KEY (type) REFERENCES deposit_types(id)
 );
 
-REPLACE INTO swc.planet_types
+REPLACE INTO planet_types
     (id, name)
 VALUES
     (1, 'Hot No Atmos'), (2, 'Hot Toxic'), (3, 'Hot Breathable'), 
     (4, 'Temperate Breathable'), (5, 'Cold Breathable'), (6, 'Cold Toxic'), 
     (7, 'Cold No Atmos'), (8, 'Gas Giant'), (9, 'Moon'), 
-    (10, 'Asteroid'), (11, 'Comet');
+    (10, 'Asteroid'), (11, 'Comet'), (12, 'Temperate Toxic');
 
-REPLACE INTO swc.tile_types 
+REPLACE INTO tile_types 
     (id, name)
 VALUES
     (1, 'Cave'), (2, 'Crater'), (3, 'Desert'), (4, 'Forest'), (5, 'Gas Giant'),
     (6, 'Glacier'), (7, 'Grassland'), (8, 'Jungle'), (9, 'Mountain'), (10, 'Ocean'),
     (11, 'River'), (12, 'Rock'), (13, 'Swap'), (14, 'Volcanic');
 
-REPLACE INTO swc.deposit_types 
+REPLACE INTO deposit_types 
     (id, name)
 VALUES
     (1, 'Quantum'), (2, 'Meleenium'), (3, 'Ardanium'), (4, 'Rudic'), (5, 'Ryll'),
