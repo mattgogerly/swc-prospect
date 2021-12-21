@@ -23,6 +23,15 @@ class DepositController {
         $view = new DepositView();
         echo $view->render($deposit);
     }
+
+    public function delete(int $id) {
+        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
+            echo 'Invalid deposit ID provided';
+            return;
+        }
+
+        $this->model->delete($id);
+    }
 }
 
 ?>
