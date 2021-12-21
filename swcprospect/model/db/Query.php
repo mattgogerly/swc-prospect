@@ -12,7 +12,7 @@ abstract class Query {
                         JOIN planet_types AS pt ON p.type = pt.id 
                         WHERE p.id = :id';
 
-    const GET_PLANET_TYPES = 'SELECT * 
+    const GET_PLANET_TYPES = 'SELECT id, name
                               FROM planet_types';
 
     const DELETE_PLANET = 'DELETE FROM planets
@@ -28,7 +28,7 @@ abstract class Query {
                                  JOIN tile_types AS tt ON t.type = tt.id
                                  WHERE t.planet = :planetId';
 
-    const GET_TILE_TYPES = 'SELECT *
+    const GET_TILE_TYPES = 'SELECT id, name
                             FROM tile_types';
 
     const DELETE_TILES_BY_PLANET = 'DELETE FROM tiles
@@ -44,7 +44,7 @@ abstract class Query {
                                     JOIN deposit_types AS dt ON d.type = dt.id 
                                     WHERE d.planet = :planetId';
 
-    const GET_DEPOSIT_TYPES = 'SELECT * 
+    const GET_DEPOSIT_TYPES = 'SELECT id,
                                FROM deposit_types';
 
     const DELETE_DEPOSIT = 'DELETE FROM deposits

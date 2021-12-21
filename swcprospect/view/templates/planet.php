@@ -46,7 +46,11 @@ function renderCell($tile, $deposit) {
     </div>
     
     <div class="col">
-        <h3><?= $planet->getName() ?></h3>
+        <h3>
+            <?= $planet->getName() ?>
+            <i class="bi bi-pencil action-icon planet-update" data-bs-toggle="modal" data-bs-target="#planetModal"></i>
+        </h3>
+
         <table class="table table-dark table-striped">
             <tr class="align-middle">
                 <th scope="row">Image</th>
@@ -73,3 +77,7 @@ function renderCell($tile, $deposit) {
         </div>
     </div>
 </div>
+
+<?php
+include('planet_modal.php');
+?>

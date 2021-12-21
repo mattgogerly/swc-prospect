@@ -4,7 +4,6 @@
             <th>Name</th>
             <th>Type</th>
             <th>Size</th>
-            <th>Edit</th>
             <th>Delete</th>
         </tr>
     </thead>
@@ -22,9 +21,6 @@
             </td>
             <td>
                 <?= $planet->getSize() ?> x <?= $planet->getSize() ?>
-            </td>
-            <td>
-                <i class="bi bi-pencil action-icon planet-update" planet-id="<?= $planet->getId() ?>"></i>
             </td>
             <td>
                 <i class="bi bi-trash action-icon planet-delete" planet-id="<?= $planet->getId() ?>"></i>

@@ -13,6 +13,9 @@ $container = new Container();
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/', 'swcprospect\controller\HomeController@home');
 
+    $r->addRoute('GET', '/types/planet', 'swcprospect\controller\TypeController@planetTypes');
+    $r->addRoute('GET', '/types/deposit', 'swcprospect\controller\TypeController@depositTypes');
+
     $r->addRoute('GET', '/planets', 'swcprospect\controller\PlanetController@planets');
     $r->addRoute('GET', '/planet/{id:\d+}', 'swcprospect\controller\PlanetController@planet');
     $r->addRoute('DELETE', '/planet/{id:\d+}', 'swcprospect\controller\PlanetController@delete');

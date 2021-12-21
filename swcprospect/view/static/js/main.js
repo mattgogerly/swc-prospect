@@ -1,3 +1,13 @@
+// get planet types ready for the form dropdown
+function loadPlanetTypes() {
+    const types = $.get('types/planet');
+    const $planetTypeSelector = $("#planetType");
+
+    $.each(types, function() {
+        $planetTypeSelector.append($("<option />").val(this.id).text(this.name));
+    });
+}
+
 // load planets into the home table
 function loadPlanets() {
     $('#planet-list').load('planets');
@@ -34,6 +44,8 @@ function deleteDeposit(depositId, planetId) {
 }
 
 $(function() {
+    loadPlanetTypes();
+
     // load planets list on page load
     loadPlanets();
 
