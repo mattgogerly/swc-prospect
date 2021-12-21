@@ -72,4 +72,4 @@ function renderCell($tile, $deposit) {
             </div>
         </div>
     </div>
-</>
+</div>
