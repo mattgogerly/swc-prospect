@@ -13,11 +13,8 @@ body {
     margin-bottom: 50px;
 }
 
-.planet-name {
-    cursor: pointer;
-}
-
 .grid-cell {
+    align-self: flex-start;
     border: 1px solid white;
     height: 50px;
     width: 50px;

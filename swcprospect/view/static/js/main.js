@@ -39,11 +39,12 @@ $('#planetModal').on('shown.bs.modal', event => {
 
 savePlanet = () => {
     const data = $('#planetForm').serializeArray()
-        .reduce((accumObj, { name, value }) => { return { ...accumObj, [name]: value} }, {});
+        .reduce((accumObj, { name, value }) => { 
+            return { ...accumObj, [name]: value ? value : null} 
+        }, {});
 
     $.post('/planets', JSON.stringify(data), () => {
         loadPlanets();
-        loadPlanet()
     });
 }
 

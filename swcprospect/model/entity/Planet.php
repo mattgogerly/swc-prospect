@@ -13,7 +13,7 @@ class Planet implements JsonSerializable {
     private array $tileMap;
     private array $depositMap;
 
-    public function __construct(int $id, string $name, EntityType $type, int $size) {
+    public function __construct(?int $id, string $name, EntityType $type, int $size) {
         $this->id = $id;
         $this->name = $name;
         $this->type = $type;
@@ -23,7 +23,7 @@ class Planet implements JsonSerializable {
     /**
      * Get the value of id
      */ 
-    public function getId(): int {
+    public function getId(): ?int {
         return $this->id;
     }
 
