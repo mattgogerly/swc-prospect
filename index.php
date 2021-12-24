@@ -32,6 +32,9 @@ $uri = $_SERVER['REQUEST_URI'];
 $routeInfo = $dispatcher->dispatch($method, $uri);
 list($state, $handler, $vars) = $routeInfo;
 
+// override POST body if POST
+$vars = $_SERVER['REQUEST_METHOD'] == 'POST' ? json_decode(file_get_contents('php://input'), true) : $vars;
+
 switch ($state) {
     case Dispatcher::NOT_FOUND:
         http_response_code(404);

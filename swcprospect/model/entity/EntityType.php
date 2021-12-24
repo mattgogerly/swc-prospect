@@ -7,9 +7,9 @@ use JsonSerializable;
 class EntityType implements JsonSerializable {
 
     private int $id;
-    private string $name;
+    private ?string $name;
 
-    public function __construct(int $id, string $name) {
+    public function __construct(int $id, string $name = NULL) {
         $this->id = $id;
         $this->name = $name;
     }

@@ -4,20 +4,21 @@ namespace swcprospect\model;
 
 use swcprospect\model\Model;
 use swcprospect\model\db\Query;
-use swcprospect\model\entity\EntityType;
 use swcprospect\model\entity\Tile;
+use PDO;
+use PDOException;
 
 class TileModel extends Model {
 
     public function getById(int $id): Tile {
         try {
             $stmt = $this->db->getConn()->prepare(Query::GET_TILE);
-            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
-            $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
             return $this->convertToEntity($res);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             return null;
         }
     }
@@ -25,9 +26,9 @@ class TileModel extends Model {
     public function getTileMapForPlanet(int $planetId, int $planetSize): array {
         try {
             $stmt = $this->db->getConn()->prepare(Query::GET_TILES_BY_PLANET);
-            $stmt->bindParam(':planetId', $planetId, \PDO::PARAM_INT);
+            $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
             $stmt->execute();
-            $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             // init map to NULL
             $tileMap = array_fill(0, $planetSize, array_fill(0, $planetSize, NULL));
@@ -38,7 +39,7 @@ class TileModel extends Model {
             }
 
             return $tileMap;
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo $e;
             return null;
         }
@@ -47,7 +48,7 @@ class TileModel extends Model {
     public function save(Tile $tile) {
         try {
             //
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo "";
         }
     }
@@ -55,16 +56,15 @@ class TileModel extends Model {
     public function deleteByPlanet(int $planetId): void {
         try {
             $stmt = $this->db->getConn()->prepare(Query::DELETE_TILES_BY_PLANET);
-            $stmt->bindParam(':planetId', $planetId, \PDO::PARAM_INT);
+            $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
             $stmt->execute();
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo "";
         }
     }
 
     private function convertToEntity($arr): Tile {
-        $type = new EntityType($arr['type_id'], $arr['type_name']);
-        return new Tile($arr['id'], $type, $arr['planet'], $arr['x'], $arr['y']);
+        return new Tile($arr['id'], $arr['type_id'], $arr['planet'], $arr['x'], $arr['y']);
     }
 }
 ?>

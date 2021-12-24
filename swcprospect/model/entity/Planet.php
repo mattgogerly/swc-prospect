@@ -6,17 +6,17 @@ use JsonSerializable;
 
 class Planet implements JsonSerializable {
     
-    private int $id;
-    private EntityType $type;
+    private ?int $id;
     private string $name;
+    private EntityType $type;
     private int $size;
     private array $tileMap;
     private array $depositMap;
 
-    public function __construct(int $id, EntityType $type, string $name, int $size) {
+    public function __construct(int $id, string $name, EntityType $type, int $size) {
         $this->id = $id;
-        $this->type = $type;
         $this->name = $name;
+        $this->type = $type;
         $this->size = $size;
     }
 
@@ -28,17 +28,17 @@ class Planet implements JsonSerializable {
     }
 
     /**
-     * Get the value of type
-     */ 
-    public function getType(): EntityType {
-        return $this->type;
-    }
-
-    /**
      * Get the value of name
      */ 
     public function getName(): string {
         return $this->name;
+    }
+
+    /**
+     * Get the value of type
+     */ 
+    public function getType(): EntityType {
+        return $this->type;
     }
 
     /**

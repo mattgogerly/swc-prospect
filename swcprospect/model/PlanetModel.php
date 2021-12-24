@@ -6,6 +6,8 @@ use swcprospect\model\Model;
 use swcprospect\model\db\Query;
 use swcprospect\model\entity\Planet;
 use swcprospect\model\entity\EntityType;
+use PDO;
+use PDOException;
 
 class PlanetModel extends Model {
 
@@ -19,7 +21,7 @@ class PlanetModel extends Model {
             }
 
             return $planets;
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo $e->getMessage();
             return [];
         }
@@ -28,10 +30,11 @@ class PlanetModel extends Model {
    public function getById($id): Planet {
         try {
             $stmt = $this->db->getConn()->prepare(Query::GET_PLANET);
-            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
             $stmt->execute();
             $res = $stmt->fetch(\PDO::FETCH_ASSOC);
-
+            
             return $this->convertToEntity($res);
         } catch (\PDOException $e) {
             return null;
@@ -40,18 +43,29 @@ class PlanetModel extends Model {
 
     public function save(Planet $planet) {
         try {
-            //
-        } catch (\PDOException $e) {
-            echo "";
+            $query = $planet->getId() ? Query::UPDATE_PLANET : Query::SAVE_PLANET;
+            $stmt = $this->db->getConn()->prepare($query);
+
+            if ($planet->getId()) {
+                $stmt->bindValue(':id', $planet->getId(), PDO::PARAM_INT);
+            }
+
+            $stmt->bindValue(':name', $planet->getName());
+            $stmt->bindValue(':type', $planet->getType()->getId(), PDO::PARAM_INT);
+            $stmt->bindValue(':size', $planet->getSize(), PDO::PARAM_INT);
+
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo $e;
         }
     }
 
     public function delete(int $id): void {
         try {
             $stmt = $this->db->getConn()->prepare(Query::DELETE_PLANET);
-            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo "";
         }
     }

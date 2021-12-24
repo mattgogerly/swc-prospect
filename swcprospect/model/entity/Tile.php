@@ -5,12 +5,12 @@ namespace swcprospect\model\entity;
 class Tile {
     
     private int $id;
-    private EntityType $type;
+    private int $type;
     private int $planet;
     private int $x;
     private int $y;
 
-    public function __construct(int $id, EntityType $type, int $planet, int $x, int $y) {
+    public function __construct(int $id, int $type, int $planet, int $x, int $y) {
         $this->id = $id;
         $this->type = $type;
         $this->planet = $planet;
@@ -28,7 +28,7 @@ class Tile {
     /**
      * Get the value of type
      */ 
-    public function getType(): EntityType {
+    public function getType(): int {
         return $this->type;
     }
 

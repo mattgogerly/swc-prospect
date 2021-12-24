@@ -16,6 +16,10 @@ abstract class Query {
     const GET_PLANET_TYPES = 'SELECT id, name
                               FROM planet_types';
 
+    const SAVE_PLANET = 'INSERT INTO planets (name, type, size) VALUES (:name, :type, :size)';
+
+    const UPDATE_PLANET = 'REPLACE INTO planets (id, name, type, size) VALUES (:id, :name, :type, :size)';
+
     const DELETE_PLANET = 'DELETE FROM planets
                            WHERE id = :id';
 

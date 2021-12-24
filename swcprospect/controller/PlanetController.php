@@ -5,6 +5,7 @@ namespace swcprospect\controller;
 use swcprospect\model\PlanetModel;
 use swcprospect\model\TileModel;
 use swcprospect\model\DepositModel;
+use swcprospect\model\entity\EntityType;
 use swcprospect\view\PlanetListView;
 use swcprospect\view\PlanetView;
 use swcprospect\model\entity\Planet;
@@ -47,8 +48,9 @@ class PlanetController {
         echo json_encode($this->getPlanet($id));
     }
 
-    public function save() {
-        echo "test";
+    public function save(int $id =  NULL, string $name, int $type, int $size) {
+        $planet = new Planet($id, new EntityType($type), $name, $size);
+        $this->model->save($planet);
     }
 
     public function delete(int $id): void {
