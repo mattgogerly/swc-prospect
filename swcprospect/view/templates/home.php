@@ -7,11 +7,12 @@ include 'header.php';
 <div class="container">
     <div id="planet-data">
         <div class="alert alert-info">
-            Select a planet to view.
+            No planets saved.
         </div>
     </div>
 </div>
 
 <?php
+include 'planet_modal.php';
 include 'footer.php';
 ?>

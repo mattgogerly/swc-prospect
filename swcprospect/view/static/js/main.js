@@ -1,30 +1,48 @@
 // get planet types ready for the form dropdown
 function loadPlanetTypes() {
-    const types = $.get('type/planet');
-    const $planetTypeSelector = $("#planetType");
-
-    console.log(types);
-
-    $.each(types, function() {
-        $planetTypeSelector.append($("<option />").val(this.id).text(this.name));
+    $.getJSON('type/planet', function(types) {
+        $.each(types, function(i) {
+            $('#planetType').append($('<option>', { 
+                value: types[i].id, 
+                text: types[i].name 
+            }));
+        });
     });
 }
 
+$('#planetModal').on('shown.bs.modal', function(event) {
+    loadPlanetTypes();
+
+    const clickedElement = event.relatedTarget;
+    const planetId = clickedElement.getAttribute('planet-id');
+    if (planetId) {
+        $.getJSON('planet/' + planetId, function(planet) {
+            $('#planetId').val(planet.id);
+            $('#planetName').val(planet.name);
+            $('#planetType').val(planet.type.id).change();
+            $('#planetSize').val(planet.size);
+        });
+    }
+});
+
 // load planets into the home table
 function loadPlanets() {
-    $('#planet-list').load('planets');
+    $('#planet-list').load('planets/view');
     $('#planet-data').html('<div></div>');
     $('#deposit-data').html('<div></div>');
 }
 
+// loads a specific planet into view
 function loadPlanet(id) {
-    $('#planet-data').load('planet/' + id);
+    $('#planet-data').load('planet/' + id  + '/view');
 }
 
+// warning message for no deposits at a specific location
 function showNoDepositWarning() {
     $('#deposit-data').html('<div class="alert alert-warning">No deposit recorded at this location!</div>')
 }
 
+// deletes a planet and then reloads the planets list
 function deletePlanet(id) {
     $.ajax({
         url: '/planet/' + id,
@@ -35,6 +53,7 @@ function deletePlanet(id) {
     });
 }
 
+// deletes a deposit and then reloads the current planet view
 function deleteDeposit(depositId, planetId) {
     $.ajax({
         url: '/deposit/' + depositId,
@@ -46,8 +65,6 @@ function deleteDeposit(depositId, planetId) {
 }
 
 $(function() {
-    loadPlanetTypes();
-
     // load planets list on page load
     loadPlanets();
 
@@ -81,6 +98,6 @@ $(function() {
     // when a deposit cell is clicked load the deposit data
     $(document).on('click', '.grid-cell-deposit', function(e) {
         const id = $(e.currentTarget).attr('deposit-id');
-        $('#deposit-data').load('deposit/' + id);
+        $('#deposit-data').load('deposit/' + id + '/view');
     });
 });

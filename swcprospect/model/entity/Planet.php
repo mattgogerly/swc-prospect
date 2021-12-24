@@ -2,7 +2,9 @@
 
 namespace swcprospect\model\entity;
 
-class Planet {
+use JsonSerializable;
+
+class Planet implements JsonSerializable {
     
     private int $id;
     private EntityType $type;
@@ -72,6 +74,15 @@ class Planet {
      */ 
     public function setDepositMap($depositMap): void {
         $this->depositMap = $depositMap;
+    }
+
+    public function jsonSerialize(): mixed {
+        return [
+            'id' => $this->id,
+            'type' => $this->type,
+            'name' => $this->name,
+            'size' => $this->size
+        ];
     }
 }
 ?>

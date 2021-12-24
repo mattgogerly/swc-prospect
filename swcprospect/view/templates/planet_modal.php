@@ -8,25 +8,23 @@
 
       <div class="modal-body">
         <form>
+            <input class="form-control" id="planetId" hidden>
+
             <div class="form-group">
                 <label for="planetName">Name</label>
-                <input class="form-control" id="planetName" placeholder="Enter planet name" value="<?= $planet->getName() ?>">
+                <input class="form-control" id="planetName" placeholder="Enter planet name">
             </div>
 
             <div class="form-group">
                 <label for="planetType">Type</label>
                 <select class="form-control" id="planetType">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                  <!-- populated dynamically on load -->
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="planetSize">Size</label>
-                <input type="number" class="form-control" id="planetSize" placeholder="10" value="<?= $planet->getSize() ?>">
+                <input type="number" class="form-control" id="planetSize" value="10">
             </div>
         </form>
       </div>
