@@ -13,8 +13,8 @@ $container = new Container();
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/', 'swcprospect\controller\HomeController@home');
 
-    $r->addRoute('GET', '/type/planet', 'swcprospect\controller\TypeController@planetTypes');
-    $r->addRoute('GET', '/type/deposit', 'swcprospect\controller\TypeController@depositTypes');
+    $r->addRoute('GET', '/type/planet', 'swcprospect\controller\EntityTypeController@planetTypes');
+    $r->addRoute('GET', '/type/deposit', 'swcprospect\controller\EntityTypeController@depositTypes');
 
     $r->addRoute('GET', '/planets', 'swcprospect\controller\PlanetController@planets');
     $r->addRoute('GET', '/planet/{id:\d+}', 'swcprospect\controller\PlanetController@planet');

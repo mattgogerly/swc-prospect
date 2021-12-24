@@ -3,6 +3,8 @@ function loadPlanetTypes() {
     const types = $.get('type/planet');
     const $planetTypeSelector = $("#planetType");
 
+    console.log(types);
+
     $.each(types, function() {
         $planetTypeSelector.append($("<option />").val(this.id).text(this.name));
     });
