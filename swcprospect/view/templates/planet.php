@@ -6,8 +6,7 @@ function getCellHtml($tile, $deposit) {
     }
 
     if ($deposit != NULL) {
-        $depositId = $deposit->getId();
-        $cellHtml .= ' class="grid-cell grid-cell-deposit" deposit-id="' . $depositId . '"';
+        $cellHtml .= ' class="grid-cell grid-cell-deposit" planet="' . $deposit->getPlanet() . '" x="'.$deposit->getX().'" y="'.$deposit->getY().'"';
     } else {
         $cellHtml .= ' class="grid-cell grid-cell-no-deposit"';
     }
@@ -19,8 +18,7 @@ function renderCell($tile, $deposit) {
     echo '<div ' . getCellHtml($tile, $deposit) . ' >';
 
     if ($deposit != NULL) {
-        $depositTypeId = $deposit->getType()->getId();
-        echo '<img src="' . STATIC_ROOT . '/img/materials/' . $depositTypeId . '.gif" width="30" height="40" />';
+        echo '<img src="' . STATIC_ROOT . '/img/materials/' . $deposit->getType()->getId() . '.gif" width="15" height="30" />';
     }
 
     echo '</div>';

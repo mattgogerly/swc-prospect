@@ -12,7 +12,10 @@ if ($deposit == null) {
 ?>
 
 <h3>
-    Deposit @ <?= $deposit->getX() ?>, <?= $deposit->getY() ?>
+    Deposit @ <?= $deposit->getX() ?>, <?= $deposit->getY() ?> 
+    <button type="button" class="btn btn-sm btn-primary" planet-id="<?= $deposit->getPlanet() ?>" x="<?= $deposit->getX() ?>" y="<?= $deposit->getY() ?>" data-bs-toggle="modal" data-bs-target="#depositModal">
+        <i class="bi bi-pencil"></i>
+    </button>
 </h3>
 
 <table class="table table-dark table-striped">
@@ -23,16 +26,6 @@ if ($deposit == null) {
     <tr>
         <th scope="row">Size</th>
         <td><?= $deposit->getSize() ?></td>
-    </tr>
-    <tr>
-        <th scope="row">Edit</th>
-        <td>
-            <i class="bi bi-pencil action-icon deposit-update" planet-id="<?= $deposit->getPlanet() ?>" deposit-id="<?= $deposit->getId() ?>"></i>
-        </td>
-    </tr>
-    <tr>
-        <th scope="row">Delete</th>
-        <td><i class="bi bi-trash action-icon deposit-delete" planet-id="<?= $deposit->getPlanet() ?>" deposit-id="<?= $deposit->getId() ?>"></i></td>
     </tr>
 </table>
 

@@ -60,7 +60,7 @@ deletePlanet = (id) => {
 }
 
 // warning message for no deposits at a specific location
-showNoDepositWarning = () => {
+showNoDepositWarning = (planet, x, y) => {
     $('#deposit-view').html('<div class="alert alert-warning">No deposit recorded at this location!</div>')
 }
 
@@ -88,6 +88,7 @@ $(() => {
         loadPlanet(id);
     });
 
+    // save planet when form is submitted
     $('#planetFormSubmit').click(() => {
         savePlanet();
     });
@@ -115,7 +116,9 @@ $(() => {
 
     // when a deposit cell is clicked load the deposit data
     $(document).on('click', '.grid-cell-deposit', e => {
-        const id = $(e.currentTarget).attr('deposit-id');
-        $('#deposit-view').load('deposit/' + id + '/view');
+        const planet = $(e.currentTarget).attr('planet');
+        const x = $(e.currentTarget).attr('x');
+        const y = $(e.currentTarget).attr('y');
+        $('#deposit-view').load('deposit/' + planet + '/' + x + '/' + y + '/view');
     });
 });

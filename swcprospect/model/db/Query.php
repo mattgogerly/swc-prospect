@@ -44,17 +44,16 @@ abstract class Query {
                          JOIN deposit_types AS dt ON d.type = dt.id 
                          WHERE d.planet = :planetId AND d.x = :x AND d.y = :y';
 
-    const GET_DEPOSITS_BY_PLANET = 'SELECT d.planet, d.x, d.y, d.size, dt.id AS type_id, dt.name AS type_name, p.size AS planet_size
+    const GET_DEPOSITS_BY_PLANET = 'SELECT d.planet, d.x, d.y, d.size, dt.id AS type_id, dt.name AS type_name
                                     FROM deposits AS d
                                     JOIN deposit_types AS dt ON d.type = dt.id
-                                    JOIN planets AS p ON d.planet = p.id
                                     WHERE d.planet = :planetId';
 
     const GET_DEPOSIT_TYPES = 'SELECT id,
                                FROM deposit_types';
 
     const DELETE_DEPOSIT = 'DELETE FROM deposits
-                            WHERE id = :id';
+                            WHERE d.planet = :planetId AND d.x = :x AND d.y = :y';
 
     const DELETE_DEPOSITS_BY_PLANET = 'DELETE FROM deposits
                                        WHERE planet = :planetId';

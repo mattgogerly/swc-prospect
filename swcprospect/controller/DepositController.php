@@ -13,14 +13,14 @@ class DepositController {
         $this->model = $model;
     }
 
-    public function deposit(int $planet, int $x, int $y): void {
+    public function depositView(int $planet, int $x, int $y): void {
         $deposit = $this->model->getByPlanetCoord($planet, $x, $y);
         $view = new DepositView();
         echo $view->render($deposit);
     }
 
-    public function delete(int $id): void {
-        $this->model->delete($id);
+    public function delete(int $planet, int $x, int $y): void {
+        $this->model->delete($planet, $x, $y);
     }
 }
 

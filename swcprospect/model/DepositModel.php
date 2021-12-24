@@ -5,6 +5,7 @@ namespace swcprospect\model;
 use swcprospect\model\Model;
 use swcprospect\model\db\Query;
 use swcprospect\model\entity\Deposit;
+use swcprospect\model\entity\EntityType;
 use PDO;
 use PDOException;
 
@@ -21,6 +22,7 @@ class DepositModel extends Model {
             $res = $stmt->fetch(PDO::FETCH_ASSOC);
             return $this->convertToEntity($res);
         } catch (PDOException $e) {
+            echo $e;
             return null;
         }
     }
@@ -39,6 +41,7 @@ class DepositModel extends Model {
 
             return $depositList;
         } catch (PDOException $e) {
+            echo $e;
             return null;
         }
     }
@@ -47,17 +50,19 @@ class DepositModel extends Model {
         try {
             //
         } catch (PDOException $e) {
-            echo "";
+            echo $e;
         }
     }
 
-    public function delete(int $id) {
+    public function delete(int $planetId, int $x, int $y) {
         try {
             $stmt = $this->db->getConn()->prepare(Query::DELETE_DEPOSIT);
-            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
+            $stmt->bindValue(':x', $x, PDO::PARAM_INT);
+            $stmt->bindValue(':y', $y, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
-            echo "";
+            echo $e;
         }
     }
 
@@ -67,12 +72,13 @@ class DepositModel extends Model {
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
-            echo "";
+            echo $e;
         }
     }
 
     private function convertToEntity($arr): Deposit {
-        return new Deposit($arr['id'], $arr['type_id'], $arr['planet'], $arr['x'], $arr['y'], $arr['size']);
+        $type = new EntityType($arr['type_id'], $arr['type_name']);
+        return new Deposit($arr['planet'], $arr['x'], $arr['y'], $type, $arr['size']);
     }
 }
 ?>

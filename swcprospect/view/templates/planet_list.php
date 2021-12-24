@@ -38,5 +38,6 @@
 <div class="float-end">
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#planetModal">
         <i class="bi bi-plus"></i>
+        Add Planet
     </button>
 </div>

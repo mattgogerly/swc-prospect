@@ -22,8 +22,8 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->post('/planets', 'swcprospect\controller\PlanetController@save');
     $r->delete('/planet/{id:\d+}', 'swcprospect\controller\PlanetController@delete');
 
-    $r->get('/deposit/{id:\d+}/view', 'swcprospect\controller\DepositController@depositView');
-    $r->delete('/deposit/{id:\d+}', 'swcprospect\controller\DepositController@delete');
+    $r->get('/deposit/{planet:\d+}/{x:\d+}/{y:\d+}/view', 'swcprospect\controller\DepositController@depositView');
+    $r->delete('/deposit/{planet:\d+}/{x:\d+}/{y:\d+}', 'swcprospect\controller\DepositController@delete');
 });
 
 $method = $_SERVER['REQUEST_METHOD'];
