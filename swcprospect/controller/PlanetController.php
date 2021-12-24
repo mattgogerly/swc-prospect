@@ -67,15 +67,25 @@ class PlanetController {
     private function getPlanet(int $id): Planet {
         $planet = $this->model->getById($id);
 
-        // get tiles for this planet
-        $tileMap = $this->tileModel->getTileMapForPlanet($id, $planet->getSize());
-        $planet->setTileMap($tileMap);
+        // get tile map for this planet
+        $tiles = $this->tileModel->getByPlanet($id);
+        $planet->setTileMap($this->createMap($planet->getSize(), $tiles));
 
-        // get deposits for this planet
-        $depositMap = $this->depositModel->getDepositMapForPlanet($id, $planet->getSize());
-        $planet->setDepositMap($depositMap);
+        // get deposit map for this planet
+        $deposits = $this->depositModel->getByPlanet($id);
+        $planet->setDepositMap($this->createMap($planet->getSize(), $deposits));
 
         return $planet;
+    }
+
+    private function createMap(int $planetSize, array $objects) {
+        $map = array_fill(0, $planetSize, array_fill(0, $planetSize, NULL));
+
+        foreach ($objects as $o) {
+            $map[$o->getY()][$o->getX()] = $o;
+        }
+
+        return $map;
     }
 }
 

@@ -13,23 +13,13 @@ class DepositController {
         $this->model = $model;
     }
 
-    public function deposit(int $id): void {
-        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
-            echo 'Invalid deposit ID provided';
-            return;
-        }
-
-        $deposit = $this->model->getById($id);
+    public function deposit(int $planet, int $x, int $y): void {
+        $deposit = $this->model->getByPlanetCoord($planet, $x, $y);
         $view = new DepositView();
         echo $view->render($deposit);
     }
 
     public function delete(int $id): void {
-        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
-            echo 'Invalid deposit ID provided';
-            return;
-        }
-
         $this->model->delete($id);
     }
 }

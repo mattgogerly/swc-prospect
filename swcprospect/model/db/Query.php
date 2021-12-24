@@ -23,10 +23,10 @@ abstract class Query {
     const DELETE_PLANET = 'DELETE FROM planets
                            WHERE id = :id';
 
-    const GET_TILE = 'SELECT t.id, t.x, t.y, tt.id AS type_id, tt.name AS type_name
-                                 FROM tiles AS t
-                                 JOIN tile_types AS tt ON t.type = tt.id
-                                 WHERE t.id = :id';
+    const GET_TILE = 'SELECT t.planet, t.x, t.y, tt.id AS type_id, tt.name AS type_name
+                      FROM tiles AS t
+                      JOIN tile_types AS tt ON t.type = tt.id
+                      WHERE d.planet = :planetId AND d.x = :x AND d.y = :y';
 
     const GET_TILES_BY_PLANET = 'SELECT t.id, t.x, t.y, tt.id AS type_id, tt.name AS type_name
                                  FROM tiles AS t
@@ -39,14 +39,15 @@ abstract class Query {
     const DELETE_TILES_BY_PLANET = 'DELETE FROM tiles
                                     WHERE planet = :planetId';
 
-    const GET_DEPOSIT = 'SELECT d.id, d.planet, d.x, d.y, d.size, dt.id AS type_id, dt.name AS type_name 
+    const GET_DEPOSIT = 'SELECT d.planet, d.x, d.y, d.size, dt.id AS type_id, dt.name AS type_name
                          FROM deposits AS d
                          JOIN deposit_types AS dt ON d.type = dt.id 
-                         WHERE d.id = :id';
+                         WHERE d.planet = :planetId AND d.x = :x AND d.y = :y';
 
-    const GET_DEPOSITS_BY_PLANET = 'SELECT d.id, d.planet, d.x, d.y, d.size, dt.id AS type_id, dt.name AS type_name 
+    const GET_DEPOSITS_BY_PLANET = 'SELECT d.planet, d.x, d.y, d.size, dt.id AS type_id, dt.name AS type_name, p.size AS planet_size
                                     FROM deposits AS d
-                                    JOIN deposit_types AS dt ON d.type = dt.id 
+                                    JOIN deposit_types AS dt ON d.type = dt.id
+                                    JOIN planets AS p ON d.planet = p.id
                                     WHERE d.planet = :planetId';
 
     const GET_DEPOSIT_TYPES = 'SELECT id,

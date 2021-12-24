@@ -10,42 +10,40 @@ use PDOException;
 
 class TileModel extends Model {
 
-    public function getById(int $id): Tile {
+    public function getByPlanetCoord(int $planetId, int $x, int $y): Tile {
         try {
             $stmt = $this->db->getConn()->prepare(Query::GET_TILE);
-            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
+            $stmt->bindValue(':x', $x, PDO::PARAM_INT);
+            $stmt->bindValue(':y', $y, PDO::PARAM_INT);
             $stmt->execute();
-            $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            $res = $stmt->fetch(PDO::FETCH_ASSOC);
             return $this->convertToEntity($res);
         } catch (PDOException $e) {
             return null;
         }
     }
 
-    public function getTileMapForPlanet(int $planetId, int $planetSize): array {
+    public function getByPlanet(int $planetId): array {
         try {
             $stmt = $this->db->getConn()->prepare(Query::GET_TILES_BY_PLANET);
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
             $stmt->execute();
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // init map to NULL
-            $tileMap = array_fill(0, $planetSize, array_fill(0, $planetSize, NULL));
-
-            // set IDs for deposists in map
-            foreach ($res as $d) {
-                $tileMap[$d['y']][$d['x']] = $this->convertToEntity($d);
+            $tileList = array();
+            foreach ($res as $t) {
+                array_push($tileList, $this->convertToEntity($t));
             }
 
-            return $tileMap;
+            return $tileList;
         } catch (PDOException $e) {
-            echo $e;
-            return null;
+            return [];
         }
     }
 
-    public function save(Tile $tile) {
+    public function save(Tile $tile): void {
         try {
             //
         } catch (PDOException $e) {

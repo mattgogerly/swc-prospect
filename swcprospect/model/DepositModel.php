@@ -10,35 +10,34 @@ use PDOException;
 
 class DepositModel extends Model {
 
-    public function getById(int $id): Deposit {
+    public function getByPlanetCoord(int $planet, int $x, int $y): Deposit {
         try {
             $stmt = $this->db->getConn()->prepare(Query::GET_DEPOSIT);
-            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':planetId', $planet, PDO::PARAM_INT);
+            $stmt->bindValue(':x', $x, PDO::PARAM_INT);
+            $stmt->bindValue(':y', $y, PDO::PARAM_INT);
             $stmt->execute();
-            $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            $res = $stmt->fetch(PDO::FETCH_ASSOC);
             return $this->convertToEntity($res);
         } catch (PDOException $e) {
             return null;
         }
     }
 
-    public function getDepositMapForPlanet(int $planetId, int $planetSize): array {
+    public function getByPlanet(int $planetId): array {
         try {
             $stmt = $this->db->getConn()->prepare(Query::GET_DEPOSITS_BY_PLANET);
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
             $stmt->execute();
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // init map to NULL
-            $depositMap = array_fill(0, $planetSize, array_fill(0, $planetSize, NULL));
-
-            // set IDs for deposists in map
+            $depositList = array();
             foreach ($res as $d) {
-                $depositMap[$d['y']][$d['x']] = $this->convertToEntity($d);
+                array_push($depositList, $this->convertToEntity($d));
             }
 
-            return $depositMap;
+            return $depositList;
         } catch (PDOException $e) {
             return null;
         }
