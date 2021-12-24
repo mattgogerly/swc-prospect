@@ -1,7 +1,16 @@
+function savePlanet() {
+    const data = $('#planetForm').serializeArray()
+        .reduce((accumObj, { name, value }) => { return { ...accumObj, [name]: value} }, {});
+
+    $.post('/planets', JSON.stringify(data), res => {
+        alert(res);
+    });
+}
+
 // get planet types and populate the dropdown in the planets modal
 function loadPlanetTypes() {
-    $.getJSON('type/planet', function(types) {
-        $.each(types, function(i) {
+    $.getJSON('type/planet', types => {
+        $.each(types, i => {
             $('#planetType').append($('<option>', { 
                 value: types[i].id, 
                 text: types[i].name 
@@ -12,13 +21,13 @@ function loadPlanetTypes() {
 
 // when the planet modal is opened load the planet types, and load the data for the 
 // current planet if editing
-$('#planetModal').on('shown.bs.modal', function(event) {
+$('#planetModal').on('shown.bs.modal', event => {
     loadPlanetTypes();
 
     const clickedElement = event.relatedTarget;
     const planetId = clickedElement.getAttribute('planet-id');
     if (planetId) {
-        $.getJSON('planet/' + planetId, function(planet) {
+        $.getJSON('planet/' + planetId, planet => {
             $('#planetId').val(planet.id);
             $('#planetName').val(planet.name);
             $('#planetType').val(planet.type.id).change();
@@ -49,7 +58,7 @@ function deletePlanet(id) {
     $.ajax({
         url: '/planet/' + id,
         type: 'DELETE',
-        success: function() {
+        success: () => {
             loadPlanets();
         }
     });
@@ -60,7 +69,7 @@ function deleteDeposit(depositId, planetId) {
     $.ajax({
         url: '/deposit/' + depositId,
         type: 'DELETE',
-        success: function() {
+        success: () => {
             loadPlanet(planetId);
         }
     });
@@ -71,13 +80,17 @@ $(function() {
     loadPlanets();
 
     // when a planet is clicked load its data and grid
-    $(document).on('click', '.planet-table-row', function(e) {
+    $(document).on('click', '.planet-table-row', e => {
         const id = $(e.currentTarget).attr('planet-id');
         loadPlanet(id);
     });
 
+    $('#planetFormSubmit').click(() => {
+        savePlanet();
+    });
+
     // when a planet delete icon is clicked delete the planet
-    $(document).on('click', '.planet-delete', function(e) {
+    $(document).on('click', '.planet-delete', e => {
         // stop propagation to prevent loading the planet that was just deleted
         e.stopPropagation();
 
@@ -86,19 +99,19 @@ $(function() {
     });
 
     // when a deposit delete icon is clicked delete the deposit
-    $(document).on('click', '.deposit-delete', function(e) {
+    $(document).on('click', '.deposit-delete', e => {
         const depositId = $(e.currentTarget).attr('deposit-id');
         const planetId = $(e.currentTarget).attr('planet-id');
         deleteDeposit(depositId, planetId);
     });
 
     // when an empty planet cell is clicked show a warning
-    $(document).on('click', '.grid-cell', function() {
+    $(document).on('click', '.grid-cell', () => {
         showNoDepositWarning();
     });
 
     // when a deposit cell is clicked load the deposit data
-    $(document).on('click', '.grid-cell-deposit', function(e) {
+    $(document).on('click', '.grid-cell-deposit', e => {
         const id = $(e.currentTarget).attr('deposit-id');
         $('#deposit-view').load('deposit/' + id + '/view');
     });

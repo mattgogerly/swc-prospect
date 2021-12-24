@@ -47,6 +47,10 @@ class PlanetController {
         echo json_encode($this->getPlanet($id));
     }
 
+    public function save() {
+        echo "test";
+    }
+
     public function delete(int $id): void {
         if (filter_var($id, FILTER_VALIDATE_INT) === false) {
             echo 'Invalid planet ID provided';

@@ -7,31 +7,31 @@
       </div>
 
       <div class="modal-body">
-        <form>
-            <input class="form-control" id="planetId" hidden>
+        <form id="planetForm">
+            <input class="form-control" name="id" id="planetId" hidden>
 
             <div class="form-group">
                 <label for="planetName">Name</label>
-                <input class="form-control" id="planetName" placeholder="Enter planet name">
+                <input class="form-control" name="name" id="planetName" placeholder="Enter planet name">
             </div>
 
             <div class="form-group">
                 <label for="planetType">Type</label>
-                <select class="form-control" id="planetType">
+                <select class="form-control" name="type" id="planetType">
                   <!-- populated dynamically on load -->
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="planetSize">Size</label>
-                <input type="number" class="form-control" id="planetSize" value="10">
+                <input type="number" class="form-control" name="size" id="planetSize" value="10">
             </div>
         </form>
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save</button>
+        <button id="planetFormSubmit" type="button" class="btn btn-primary">Save</button>
       </div>
     </div>
   </div>
