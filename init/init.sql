@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS tiles (
     y int NOT NULL,
     type int NOT NULL,
     PRIMARY KEY (planet, x, y),
+    FOREIGN KEY (planet) REFERENCES planets(id),
     FOREIGN KEY (type) REFERENCES tile_types(id)
 );
 
@@ -63,7 +64,7 @@ REPLACE INTO tile_types
 VALUES
     (1, 'Cave'), (2, 'Crater'), (3, 'Desert'), (4, 'Forest'), (5, 'Gas Giant'),
     (6, 'Glacier'), (7, 'Grassland'), (8, 'Jungle'), (9, 'Mountain'), (10, 'Ocean'),
-    (11, 'River'), (12, 'Rock'), (13, 'Swap'), (14, 'Volcanic');
+    (11, 'River'), (12, 'Rock'), (13, 'Swamp'), (14, 'Volcanic');
 
 REPLACE INTO deposit_types 
     (id, name)
