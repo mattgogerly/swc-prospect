@@ -1,9 +1,16 @@
+// load planets into the home table and reset the planet-view
+function loadPlanets() {
+    $('#planet-list').load('planets/view');
+    $('#planet-view').html('<div></div>');
+    $('#deposit-view').html('<div></div>');
+}
+
 function savePlanet() {
     const data = $('#planetForm').serializeArray()
         .reduce((accumObj, { name, value }) => { return { ...accumObj, [name]: value} }, {});
 
-    $.post('/planets', JSON.stringify(data), res => {
-        alert(res);
+    $.post('/planets', JSON.stringify(data), () => {
+        loadPlanets();
     });
 }
 
@@ -35,13 +42,6 @@ $('#planetModal').on('shown.bs.modal', event => {
         });
     }
 });
-
-// load planets into the home table and reset the planet-view
-function loadPlanets() {
-    $('#planet-list').load('planets/view');
-    $('#planet-view').html('<div></div>');
-    $('#deposit-view').html('<div></div>');
-}
 
 // loads a specific planet into view
 function loadPlanet(id) {
