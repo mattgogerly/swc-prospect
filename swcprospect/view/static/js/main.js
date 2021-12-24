@@ -25,8 +25,6 @@ loadPlanetTypes = () => {
 // when the planet modal is opened load the planet types, and load the data for the 
 // current planet if editing
 $('#planetModal').on('shown.bs.modal', event => {
-    loadPlanetTypes();
-
     const clickedElement = event.relatedTarget;
     const planetId = clickedElement.getAttribute('planet-id');
     if (planetId) {
@@ -79,6 +77,9 @@ deleteDeposit = (depositId, planetId) => {
 $(() => {
     // load planets list on page load
     loadPlanets();
+
+    // load planet types into modal
+    loadPlanetTypes();
 
     // when a planet is clicked load its data and grid
     $(document).on('click', '.planet-table-row', e => {
