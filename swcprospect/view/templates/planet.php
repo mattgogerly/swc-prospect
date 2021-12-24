@@ -7,9 +7,9 @@ function getCellHtml($tile, $deposit) {
 
     if ($deposit != NULL) {
         $depositId = $deposit->getId();
-        $cellHtml .= ' class="col grid-cell-deposit" deposit-id="' . $depositId . '"';
+        $cellHtml .= ' class="col grid-cell grid-cell-deposit" deposit-id="' . $depositId . '"';
     } else {
-        $cellHtml .= ' class="col grid-cell"';
+        $cellHtml .= ' class="col grid-cell grid-cell-no-deposit"';
     }
 
     return $cellHtml;

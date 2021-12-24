@@ -18,17 +18,16 @@ body {
 }
 
 .grid-cell {
-    background-color: grey;
     border: 1px solid white;
     height: 50px;
     width: 50px;
     cursor: pointer;
 }
 
+.grid-cell-no-deposit {
+    background-color: grey;
+}
+
 .grid-cell-deposit {
     background-color: green;
-    border: 1px solid white;
-    height: 50px;
-    width: 50px;
-    cursor: pointer;
 }
