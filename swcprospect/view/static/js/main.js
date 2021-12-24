@@ -1,4 +1,4 @@
-// get planet types ready for the form dropdown
+// get planet types and populate the dropdown in the planets modal
 function loadPlanetTypes() {
     $.getJSON('type/planet', function(types) {
         $.each(types, function(i) {
@@ -10,6 +10,8 @@ function loadPlanetTypes() {
     });
 }
 
+// when the planet modal is opened load the planet types, and load the data for the 
+// current planet if editing
 $('#planetModal').on('shown.bs.modal', function(event) {
     loadPlanetTypes();
 
@@ -25,21 +27,21 @@ $('#planetModal').on('shown.bs.modal', function(event) {
     }
 });
 
-// load planets into the home table
+// load planets into the home table and reset the planet-view
 function loadPlanets() {
     $('#planet-list').load('planets/view');
-    $('#planet-data').html('<div></div>');
-    $('#deposit-data').html('<div></div>');
+    $('#planet-view').html('<div></div>');
+    $('#deposit-view').html('<div></div>');
 }
 
 // loads a specific planet into view
 function loadPlanet(id) {
-    $('#planet-data').load('planet/' + id  + '/view');
+    $('#planet-view').load('planet/' + id  + '/view');
 }
 
 // warning message for no deposits at a specific location
 function showNoDepositWarning() {
-    $('#deposit-data').html('<div class="alert alert-warning">No deposit recorded at this location!</div>')
+    $('#deposit-view').html('<div class="alert alert-warning">No deposit recorded at this location!</div>')
 }
 
 // deletes a planet and then reloads the planets list
@@ -69,7 +71,7 @@ $(function() {
     loadPlanets();
 
     // when a planet is clicked load its data and grid
-    $(document).on('click', '.planet-row', function(e) {
+    $(document).on('click', '.planet-table-row', function(e) {
         const id = $(e.currentTarget).attr('planet-id');
         loadPlanet(id);
     });
@@ -98,6 +100,6 @@ $(function() {
     // when a deposit cell is clicked load the deposit data
     $(document).on('click', '.grid-cell-deposit', function(e) {
         const id = $(e.currentTarget).attr('deposit-id');
-        $('#deposit-data').load('deposit/' + id + '/view');
+        $('#deposit-view').load('deposit/' + id + '/view');
     });
 });

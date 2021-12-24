@@ -12,7 +12,7 @@
     <?php
     foreach ($planets as $planet) {
     ?>
-        <tr class="planet-row" planet-id="<?= $planet->getId() ?>">
+        <tr class="planet-table-row" planet-id="<?= $planet->getId() ?>">
             <td>
                 <?= $planet->getName() ?>
             </td>

@@ -70,7 +70,7 @@ function renderCell($tile, $deposit) {
             </tr>
         </table>
 
-        <div id="deposit-data">
+        <div id="deposit-view">
             <div class="alert alert-info">
                 Select a grid cell to view deposit information.
             </div>
