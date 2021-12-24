@@ -1,21 +1,17 @@
 // load planets into the home table and reset the planet-view
-function loadPlanets() {
+loadPlanets = () => {
     $('#planet-list').load('planets/view');
     $('#planet-view').html('<div></div>');
     $('#deposit-view').html('<div></div>');
 }
 
-function savePlanet() {
-    const data = $('#planetForm').serializeArray()
-        .reduce((accumObj, { name, value }) => { return { ...accumObj, [name]: value} }, {});
-
-    $.post('/planets', JSON.stringify(data), () => {
-        loadPlanets();
-    });
+// loads a specific planet into view
+loadPlanet = (id) => {
+    $('#planet-view').load('planet/' + id  + '/view');
 }
 
 // get planet types and populate the dropdown in the planets modal
-function loadPlanetTypes() {
+loadPlanetTypes = () => {
     $.getJSON('type/planet', types => {
         $.each(types, i => {
             $('#planetType').append($('<option>', { 
@@ -43,18 +39,18 @@ $('#planetModal').on('shown.bs.modal', event => {
     }
 });
 
-// loads a specific planet into view
-function loadPlanet(id) {
-    $('#planet-view').load('planet/' + id  + '/view');
-}
+savePlanet = () => {
+    const data = $('#planetForm').serializeArray()
+        .reduce((accumObj, { name, value }) => { return { ...accumObj, [name]: value} }, {});
 
-// warning message for no deposits at a specific location
-function showNoDepositWarning() {
-    $('#deposit-view').html('<div class="alert alert-warning">No deposit recorded at this location!</div>')
+    $.post('/planets', JSON.stringify(data), () => {
+        loadPlanets();
+        loadPlanet()
+    });
 }
 
 // deletes a planet and then reloads the planets list
-function deletePlanet(id) {
+deletePlanet = (id) => {
     $.ajax({
         url: '/planet/' + id,
         type: 'DELETE',
@@ -64,8 +60,13 @@ function deletePlanet(id) {
     });
 }
 
+// warning message for no deposits at a specific location
+showNoDepositWarning = () => {
+    $('#deposit-view').html('<div class="alert alert-warning">No deposit recorded at this location!</div>')
+}
+
 // deletes a deposit and then reloads the current planet view
-function deleteDeposit(depositId, planetId) {
+deleteDeposit = (depositId, planetId) => {
     $.ajax({
         url: '/deposit/' + depositId,
         type: 'DELETE',
@@ -75,7 +76,7 @@ function deleteDeposit(depositId, planetId) {
     });
 }
 
-$(function() {
+$(() => {
     // load planets list on page load
     loadPlanets();
 
