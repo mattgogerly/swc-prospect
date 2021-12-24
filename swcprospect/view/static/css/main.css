@@ -20,8 +20,8 @@ body {
 .grid-cell {
     align-self: flex-start;
     border: 1px solid white;
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
     cursor: pointer;
 }
 
