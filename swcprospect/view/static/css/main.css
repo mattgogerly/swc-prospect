@@ -13,6 +13,10 @@ body {
     margin-bottom: 50px;
 }
 
+.grid-row {
+    justify-content: center;
+}
+
 .grid-cell {
     align-self: flex-start;
     border: 1px solid white;

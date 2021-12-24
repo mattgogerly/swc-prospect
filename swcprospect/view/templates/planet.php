@@ -31,7 +31,7 @@ function renderCell($tile, $deposit) {
     <div class="col">
     <?php
     for ($y = 0; $y < $planet->getSize(); $y++) {
-        echo '<div class="row align-middle">';
+        echo '<div class="row grid-row">';
         
         for ($x = 0; $x < $planet->getSize(); $x++) {
             $tile = $planet->getTileMap()[$y][$x];
