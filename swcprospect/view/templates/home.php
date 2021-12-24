@@ -7,7 +7,7 @@ include 'header.php';
 <div class="container">
     <div id="planet-view">
         <div class="alert alert-info">
-            No planets saved.
+            No planets loaded.
         </div>
     </div>
 </div>
