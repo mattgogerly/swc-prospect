@@ -1,6 +1,6 @@
 // get planet types ready for the form dropdown
 function loadPlanetTypes() {
-    const types = $.get('types/planet');
+    const types = $.get('type/planet');
     const $planetTypeSelector = $("#planetType");
 
     $.each(types, function() {
