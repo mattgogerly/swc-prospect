@@ -4,7 +4,7 @@ body {
     padding: 20px;
 }
 
-body.modal-open  {
+.modal {
     color: black;
 }
 
@@ -14,10 +14,6 @@ body.modal-open  {
 }
 
 .planet-name {
-    cursor: pointer;
-}
-
-.action-icon {
     cursor: pointer;
 }
 

@@ -48,7 +48,9 @@ function renderCell($tile, $deposit) {
     <div class="col">
         <h3>
             <?= $planet->getName() ?>
-            <i class="bi bi-pencil action-icon planet-update" planet-id="<?= $planet->getId() ?>" data-bs-toggle="modal" data-bs-target="#planetModal"></i>
+            <button type="button" class="btn btn-sm btn-primary planet-update" planet-id="<?= $planet->getId() ?>" data-bs-toggle="modal" data-bs-target="#planetModal">
+                <i class="bi bi-pencil"></i>
+            </button>
         </h3>
 
         <table class="table table-dark table-striped">

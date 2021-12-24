@@ -23,7 +23,9 @@
                 <?= $planet->getSize() ?> x <?= $planet->getSize() ?>
             </td>
             <td>
-                <i class="bi bi-trash action-icon planet-delete" planet-id="<?= $planet->getId() ?>"></i>
+                <button type="button" class="btn btn-sm btn-danger planet-delete" planet-id="<?= $planet->getId() ?>">
+                    <i class="bi bi-trash"></i>
+                </button>
             </td>
         </tr>
     <?php
