@@ -10,9 +10,9 @@ use swcprospect\view\PlanetView;
 
 class PlanetController {
 
-    private $model;
-    private $tileModel;
-    private $depositModel;
+    private PlanetModel $model;
+    private TileModel $tileModel;
+    private DepositModel $depositModel;
 
     public function __construct(PlanetModel $model, TileModel $tileModel, DepositModel $depositModel) {
         $this->model = $model;
@@ -20,13 +20,13 @@ class PlanetController {
         $this->depositModel = $depositModel;
     }
 
-    public function planets() {
+    public function planets(): void {
         $planets = $this->model->getAll();
         $view = new PlanetListView();
         echo $view->render($planets);
     }
 
-    public function planet(int $id) {
+    public function planet(int $id): void {
         if (filter_var($id, FILTER_VALIDATE_INT) === false) {
             echo 'Invalid planet ID provided';
             return;
@@ -35,18 +35,18 @@ class PlanetController {
         $planet = $this->model->getById($id);
 
         // get tiles for this planet
-        $tileMap = $this->tileModel->getByPlanet($id, $planet->getSize());
+        $tileMap = $this->tileModel->getTileMapForPlanet($id, $planet->getSize());
         $planet->setTileMap($tileMap);
 
         // get deposits for this planet
-        $depositMap = $this->depositModel->getByPlanet($id, $planet->getSize());
+        $depositMap = $this->depositModel->getDepositMapForPlanet($id, $planet->getSize());
         $planet->setDepositMap($depositMap);
 
         $view = new PlanetView();
         echo $view->render($planet);
     }
 
-    public function delete(int $id) {
+    public function delete(int $id): void {
         if (filter_var($id, FILTER_VALIDATE_INT) === false) {
             echo 'Invalid planet ID provided';
             return;

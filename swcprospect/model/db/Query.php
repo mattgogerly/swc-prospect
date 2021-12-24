@@ -3,6 +3,7 @@
 namespace swcprospect\model\db;
 
 abstract class Query {
+    
     const GET_PLANETS = 'SELECT p.id, p.name, p.size, pt.id AS type_id, pt.name AS type_name
                          FROM planets AS p
                          JOIN planet_types AS pt ON p.type = pt.id';

@@ -4,13 +4,13 @@ namespace swcprospect\model\entity;
 
 class Tile {
     
-    private $id;
-    private $type;
-    private $planet;
-    private $x;
-    private $y;
+    private int $id;
+    private EntityType $type;
+    private int $planet;
+    private int $x;
+    private int $y;
 
-    public function __construct($id, $type, $planet, $x, $y) {
+    public function __construct(int $id, EntityType $type, int $planet, int $x, int $y) {
         $this->id = $id;
         $this->type = $type;
         $this->planet = $planet;
@@ -21,35 +21,35 @@ class Tile {
     /**
      * Get the value of id
      */ 
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
     /**
      * Get the value of type
      */ 
-    public function getType() {
+    public function getType(): EntityType {
         return $this->type;
     }
 
     /**
      * Get the value of planet
      */ 
-    public function getPlanet() {
+    public function getPlanet(): int {
         return $this->planet;
     }
 
     /**
      * Get the value of x
      */ 
-    public function getX() {
+    public function getX(): int {
         return $this->x;
     }
 
     /**
      * Get the value of y
      */ 
-    public function getY() {
+    public function getY(): int {
         return $this->y;
     }
 }

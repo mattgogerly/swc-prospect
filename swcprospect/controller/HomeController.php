@@ -6,7 +6,7 @@ use swcprospect\view\HomeView;
 
 class HomeController {
 
-    public function home() {
+    public function home(): void {
         $view = new HomeView();
         echo $view->render();
     }

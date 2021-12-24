@@ -5,19 +5,17 @@ namespace swcprospect\model;
 use swcprospect\model\Model;
 use swcprospect\model\db\Query;
 use swcprospect\model\entity\Planet;
-use swcprospect\model\entity\PlanetType;
+use swcprospect\model\entity\EntityType;
 
 class PlanetModel extends Model {
 
-    public function getAll() {
+    public function getAll(): array {
         try {
             $res = $this->db->getConn()->query(Query::GET_PLANETS);
             
             $planets = [];
             foreach ($res as $p) {
-                $type = new PlanetType($p['type_id'], $p['type_name']);
-                $planet = new Planet($p['id'], $p['name'], $type, $p['size']);
-                array_push($planets, $planet);
+                array_push($planets, $this->convertToEntity($p));
             }
 
             return $planets;
@@ -27,15 +25,14 @@ class PlanetModel extends Model {
         }
    }
 
-   public function getById($id) {
+   public function getById($id): Planet {
         try {
             $stmt = $this->db->getConn()->prepare(Query::GET_PLANET);
             $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
             $stmt->execute();
             $res = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-            $type = new PlanetType($res['type_id'], $res['type_name']);
-            return new Planet($res['id'], $res['name'], $type, $res['size']);
+            return $this->convertToEntity($res);
         } catch (\PDOException $e) {
             return null;
         }
@@ -49,7 +46,7 @@ class PlanetModel extends Model {
         }
     }
 
-    public function delete(int $id) {
+    public function delete(int $id): void {
         try {
             $stmt = $this->db->getConn()->prepare(Query::DELETE_PLANET);
             $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
@@ -57,6 +54,11 @@ class PlanetModel extends Model {
         } catch (\PDOException $e) {
             echo "";
         }
+    }
+
+    private function convertToEntity(array $arr): Planet {
+        $type = new EntityType($arr['type_id'], $arr['type_name']);
+        return new Planet($arr['id'], $type, $arr['name'], $arr['size']);
     }
 }
 ?>

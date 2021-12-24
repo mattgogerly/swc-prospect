@@ -4,7 +4,7 @@ namespace swcprospect\model\entity;
 
 use JsonSerializable;
 
-class PlanetType implements JsonSerializable {
+class EntityType implements JsonSerializable {
 
     private int $id;
     private string $name;

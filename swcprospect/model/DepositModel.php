@@ -5,11 +5,11 @@ namespace swcprospect\model;
 use swcprospect\model\Model;
 use swcprospect\model\db\Query;
 use swcprospect\model\entity\Deposit;
-use swcprospect\model\entity\DepositType;
+use swcprospect\model\entity\EntityType;
 
 class DepositModel extends Model {
 
-    public function getById(int $id) {
+    public function getById(int $id): Deposit {
         try {
             $stmt = $this->db->getConn()->prepare(Query::GET_DEPOSIT);
             $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
@@ -22,7 +22,7 @@ class DepositModel extends Model {
         }
     }
 
-    public function getByPlanet(int $planetId, int $planetSize) {
+    public function getDepositMapForPlanet(int $planetId, int $planetSize): array {
         try {
             $stmt = $this->db->getConn()->prepare(Query::GET_DEPOSITS_BY_PLANET);
             $stmt->bindParam(':planetId', $planetId, \PDO::PARAM_INT);
@@ -61,7 +61,7 @@ class DepositModel extends Model {
         }
     }
 
-    public function deleteByPlanet(int $planetId) {
+    public function deleteByPlanet(int $planetId): void {
         try {
             $stmt = $this->db->getConn()->prepare(Query::DELETE_DEPOSITS_BY_PLANET);
             $stmt->bindParam(':planetId', $planetId, \PDO::PARAM_INT);
@@ -71,9 +71,9 @@ class DepositModel extends Model {
         }
     }
 
-    private function convertToEntity($arr) {
-        $type = new DepositType($arr['type_id'], $arr['type_name']);
-        return new Deposit($arr['id'], $arr['planet'], $arr['x'], $arr['y'], $type, $arr['size']);
+    private function convertToEntity($arr): Deposit {
+        $type = new EntityType($arr['type_id'], $arr['type_name']);
+        return new Deposit($arr['id'], $type, $arr['planet'], $arr['x'], $arr['y'], $arr['size']);
     }
 }
 ?>

@@ -4,7 +4,7 @@ namespace swcprospect\view;
 
 class PlanetView {
 
-    public function render($planet) {
+    public function render($planet): string {
         ob_start();
         include('templates/planet.php');
         $content = ob_get_contents();

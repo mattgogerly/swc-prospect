@@ -4,12 +4,12 @@ namespace swcprospect\model;
 
 use swcprospect\model\Model;
 use swcprospect\model\db\Query;
+use swcprospect\model\entity\EntityType;
 use swcprospect\model\entity\Tile;
-use swcprospect\model\entity\TileType;
 
 class TileModel extends Model {
 
-    public function getById(int $id) {
+    public function getById(int $id): Tile {
         try {
             $stmt = $this->db->getConn()->prepare(Query::GET_TILE);
             $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
@@ -22,7 +22,7 @@ class TileModel extends Model {
         }
     }
 
-    public function getByPlanet(int $planetId, int $planetSize) {
+    public function getTileMapForPlanet(int $planetId, int $planetSize): array {
         try {
             $stmt = $this->db->getConn()->prepare(Query::GET_TILES_BY_PLANET);
             $stmt->bindParam(':planetId', $planetId, \PDO::PARAM_INT);
@@ -52,7 +52,7 @@ class TileModel extends Model {
         }
     }
 
-    public function deleteByPlanet(int $planetId) {
+    public function deleteByPlanet(int $planetId): void {
         try {
             $stmt = $this->db->getConn()->prepare(Query::DELETE_TILES_BY_PLANET);
             $stmt->bindParam(':planetId', $planetId, \PDO::PARAM_INT);
@@ -62,8 +62,8 @@ class TileModel extends Model {
         }
     }
 
-    private function convertToEntity($arr) {
-        $type = new TileType($arr['type_id'], $arr['type_name']);
+    private function convertToEntity($arr): Tile {
+        $type = new EntityType($arr['type_id'], $arr['type_name']);
         return new Tile($arr['id'], $type, $arr['planet'], $arr['x'], $arr['y']);
     }
 }

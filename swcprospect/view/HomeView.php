@@ -4,7 +4,7 @@ namespace swcprospect\view;
 
 class HomeView {
 
-    public function render() {
+    public function render(): string {
         ob_start();
         include('templates/home.php');
         $content = ob_get_contents();
