@@ -11,7 +11,7 @@
     <link href="<?= STATIC_ROOT . '/css/main.css' ?>" rel="stylesheet">
 </head>
 <body>
-<div class="container text-center">
-    <h1>
+<div class="container">
+    <h1 class="text-center">
         SWC Prospect
     </h1>

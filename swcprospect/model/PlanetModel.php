@@ -72,7 +72,7 @@ class PlanetModel extends Model {
 
     private function convertToEntity(array $arr): Planet {
         $type = new EntityType($arr['type_id'], $arr['type_name']);
-        return new Planet($arr['id'], $type, $arr['name'], $arr['size']);
+        return new Planet($arr['id'], $arr['name'], $type, $arr['size']);
     }
 }
 ?>

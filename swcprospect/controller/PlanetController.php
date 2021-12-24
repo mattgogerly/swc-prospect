@@ -49,7 +49,7 @@ class PlanetController {
     }
 
     public function save(int $id =  NULL, string $name, int $type, int $size) {
-        $planet = new Planet($id, new EntityType($type), $name, $size);
+        $planet = new Planet($id, $name, new EntityType($type), $size);
         $this->model->save($planet);
     }
 

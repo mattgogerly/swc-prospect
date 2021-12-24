@@ -2,9 +2,9 @@
 include 'header.php';
 ?>
 
-<div id="planet-list" class="container"></div>
+<div id="planet-list" class="container text-center"></div>
 
-<div class="container">
+<div class="container text-center">
     <div id="planet-view">
         <div class="alert alert-info">
             No planets loaded.
