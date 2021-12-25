@@ -60,7 +60,9 @@ class PlanetModel extends Model {
             $stmt->bindValue(':size', $planet->getSize(), PDO::PARAM_INT);
 
             $stmt->execute();
-            return $this->db->getConn()->lastInsertId();
+
+            $id = $this->db->getConn()->lastInsertId() == 0 ? $planet->getId() : $this->db->getConn()->lastInsertId();
+            return $id;
         } catch (PDOException $e) {
             error_log($e->getMessage());
             trigger_error('500: Error saving planet, try again later');

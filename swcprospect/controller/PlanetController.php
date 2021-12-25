@@ -45,13 +45,13 @@ class PlanetController {
 
         $splitTiles = explode(',', $tiles);
         if (count($splitTiles) != $size * $size) {
-            trigger_error("400: Size of planet tile map doesn't match size of planet");
+            trigger_error("400: Size of planet tile map doesn't match size of planet" . count($splitTiles));
         }
 
         $x = 0;
         $y = 0;
         foreach ($splitTiles as $typeId) {
-            $tile = new Tile($planetId, $x, $y, new EntityType($typeId));
+            $tile = new Tile($planetId, $x, $y, new EntityType(intval($typeId)));
             $this->tileModel->save($tile);
 
             if ($x == $size - 1) {

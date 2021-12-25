@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS planets (
     type int NOT NULL,
     size int NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (type) REFERENCES planet_types(id)
+    FOREIGN KEY (type) REFERENCES planet_types(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS tile_types (
@@ -29,8 +29,8 @@ CREATE TABLE IF NOT EXISTS tiles (
     y int NOT NULL,
     type int NOT NULL,
     PRIMARY KEY (planet, x, y),
-    FOREIGN KEY (planet) REFERENCES planets(id),
-    FOREIGN KEY (type) REFERENCES tile_types(id)
+    FOREIGN KEY (planet) REFERENCES planets(id) ON DELETE CASCADE,
+    FOREIGN KEY (type) REFERENCES tile_types(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS deposit_types (
@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS deposits (
     type int NOT NULL,
     size int NOT NULL,
     PRIMARY KEY (planet, x, y),
-    FOREIGN KEY (planet) REFERENCES planets(id),
-    FOREIGN KEY (type) REFERENCES deposit_types(id)
+    FOREIGN KEY (planet) REFERENCES planets(id) ON DELETE CASCADE,
+    FOREIGN KEY (type) REFERENCES deposit_types(id) ON DELETE CASCADE
 );
 
 REPLACE INTO planet_types

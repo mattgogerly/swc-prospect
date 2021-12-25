@@ -14,7 +14,7 @@ include 'header.php';
 
 <?php
 include 'toast.html';
-include 'planet_modal.html';
+include 'planet_modal.php';
 include 'deposit_modal.html';
 include 'footer.php';
 ?>

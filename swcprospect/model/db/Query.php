@@ -21,7 +21,7 @@ abstract class Query {
                                 VALUES 
                                   (:name, :type, :size)';
 
-    const UPDATE_PLANET      = 'INSERT INTO planets 
+    const UPDATE_PLANET      = 'UPDATE planets 
                                 SET name = :name, type = :type, size = :size
                                 WHERE id = :id';
 

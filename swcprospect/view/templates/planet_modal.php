@@ -32,6 +32,21 @@
                   <input type="number" class="form-control" name="size" id="planetSize" value="10">
                 </div>
             </div>
+
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="terrainMap">Terrain Map</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" rows="10" name="terrainMap" id="terrainMap"><?php 
+                  for ($i = 0; $i < 10; $i++) { 
+                      echo "1, 1, 1, 1, 1, 1, 1, 1, 1, 1";
+                      
+                      if ($i != 9) {
+                        echo ",\n";
+                      }
+                  }
+                ?></textarea>
+              </div>
+          </div>
         </form>
       </div>
 

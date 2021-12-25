@@ -48,7 +48,14 @@ class TileModel extends Model {
 
     public function save(Tile $tile): void {
         try {
-            //
+            $stmt = $this->db->getConn()->prepare(Query::SAVE_TILE);
+
+            $stmt->bindValue(':planetId', $tile->getPlanet(), PDO::PARAM_INT);
+            $stmt->bindValue(':x', $tile->getX(), PDO::PARAM_INT);
+            $stmt->bindValue(':y', $tile->getY(), PDO::PARAM_INT);
+            $stmt->bindValue(':type', $tile->getType()->getId(), PDO::PARAM_INT);
+
+            $stmt->execute();
         } catch (PDOException $e) {
             error_log($e->getMessage());
             trigger_error('500: Error saving tile, try again later');
