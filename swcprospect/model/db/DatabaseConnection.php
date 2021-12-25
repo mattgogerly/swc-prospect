@@ -24,7 +24,7 @@ class DatabaseConnection {
           try {
                $this->conn = new PDO($conn_string, $this->user, $this->pass, $options);
           } catch (PDOException $e) {
-               throw new PDOException($e->getMessage(), (int) $e->getCode());
+               trigger_error('500: Failed to connect to database');
           }
      }
 

@@ -29,20 +29,10 @@ class PlanetController {
     }
 
     public function planet(int $id) {
-        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
-            echo 'Invalid planet ID provided';
-            return;
-        }
-
         echo json_encode($this->getPlanet($id));
     }
 
     public function planetView(int $id): void {
-        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
-            echo 'Invalid planet ID provided';
-            return;
-        }
-
         $planet = $this->getPlanet($id);
         $view = new PlanetView();
         echo $view->render($planet);
@@ -54,11 +44,6 @@ class PlanetController {
     }
 
     public function delete(int $id): void {
-        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
-            echo 'Invalid planet ID provided';
-            return;
-        }
-
         $this->tileModel->deleteByPlanet($id);
         $this->depositModel->deleteByPlanet($id);
         $this->model->delete($id);

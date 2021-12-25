@@ -22,8 +22,7 @@ class DepositModel extends Model {
             $res = $stmt->fetch(PDO::FETCH_ASSOC);
             return $this->convertToEntity($res);
         } catch (PDOException $e) {
-            echo $e;
-            return null;
+            trigger_error('500: Error retrieving deposit, try again later');
         }
     }
 
@@ -41,8 +40,7 @@ class DepositModel extends Model {
 
             return $depositList;
         } catch (PDOException $e) {
-            echo $e;
-            return null;
+            trigger_error('500: Error retrieving deposits, try again later');
         }
     }
 
@@ -58,7 +56,7 @@ class DepositModel extends Model {
 
             $stmt->execute();
         } catch (PDOException $e) {
-            echo $e;
+            trigger_error('500: Error saving deposit, try again later');
         }
     }
 
@@ -70,7 +68,7 @@ class DepositModel extends Model {
             $stmt->bindValue(':y', $y, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
-            echo $e;
+            trigger_error('500: Error deleting deposit, try again later');
         }
     }
 
@@ -80,7 +78,7 @@ class DepositModel extends Model {
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
-            echo $e;
+            trigger_error('500: Error deleting deposits, try again later');
         }
     }
 

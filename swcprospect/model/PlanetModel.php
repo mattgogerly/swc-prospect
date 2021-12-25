@@ -22,22 +22,25 @@ class PlanetModel extends Model {
 
             return $planets;
         } catch (PDOException $e) {
-            echo $e->getMessage();
-            return [];
+            trigger_error('500: Error retrieving planets, try again later');
         }
    }
 
-   public function getById($id): Planet {
+   public function getById($id): ?Planet {
         try {
             $stmt = $this->db->getConn()->prepare(Query::GET_PLANET);
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
             $stmt->execute();
-            $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $res = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$res) {
+                trigger_error('404: Planet does not exist');
+            }
             
             return $this->convertToEntity($res);
-        } catch (\PDOException $e) {
-            return null;
+        } catch (PDOException $e) {
+            trigger_error('500: Error retrieving planet, try again later');
         }
    }
 
@@ -56,7 +59,7 @@ class PlanetModel extends Model {
 
             $stmt->execute();
         } catch (PDOException $e) {
-            echo $e;
+            trigger_error('500: Error saving planet, try again later');
         }
     }
 
@@ -66,7 +69,7 @@ class PlanetModel extends Model {
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
-            echo "";
+            trigger_error('500: Error deleting planet, try again later');
         }
     }
 

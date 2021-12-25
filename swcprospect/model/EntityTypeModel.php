@@ -5,6 +5,7 @@ namespace swcprospect\model;
 use swcprospect\model\Model;
 use swcprospect\model\db\Query;
 use swcprospect\model\entity\EntityType;
+use PDOException;
 
 class EntityTypeModel extends Model {
 
@@ -31,9 +32,8 @@ class EntityTypeModel extends Model {
             }
 
             return $types;
-        } catch (\PDOException $e) {
-            echo $e;
-            return [];
+        } catch (PDOException $e) {
+            trigger_error('500: Error retrieving types, try again later');
         }
     }
 }

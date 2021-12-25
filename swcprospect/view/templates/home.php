@@ -13,7 +13,8 @@ include 'header.php';
 </div>
 
 <?php
-include 'planet_modal.php';
-include 'deposit_modal.php';
+include 'toast.html';
+include 'planet_modal.html';
+include 'deposit_modal.html';
 include 'footer.php';
 ?>

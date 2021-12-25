@@ -1,3 +1,13 @@
+// show an error toast with a given message
+errorToast = message => {
+    $('.toast-body').html(message);
+    $('#errorToast').toast('show');
+};
+
+$(document).ajaxError((_event, request, _settings) => {
+    errorToast(request.responseText);
+})
+
 // utility to convert a HTML form to an object
 formToObject = (id) => {
     return $(id).serializeArray()
@@ -14,7 +24,7 @@ loadPlanets = () => {
 };
 
 // get deposit types and populate the dropdown in the deposit modal
-loadTypes = (type) => {
+loadTypes = type => {
     $.getJSON('type/' + type, types => {
         $.each(types, i => {
             $('#' + type + 'Type').append($('<option>', { 
@@ -42,7 +52,7 @@ savePlanet = () => {
 };
 
 // deletes a planet and then reloads the planets list
-deletePlanet = (id) => {
+deletePlanet = id => {
     $.ajax({
         url: '/planet/' + id,
         type: 'DELETE',
@@ -100,7 +110,7 @@ $('#planetModal').on('show.bs.modal', event => {
 });
 
 // loads required data into the deposit modal, then fetches existing data and populates if it exists
-loadDepositModalData = (event) => {
+loadDepositModalData = event => {
     const clickedElement = event.relatedTarget;
 
     const planetId = clickedElement.getAttribute('planet-id');
