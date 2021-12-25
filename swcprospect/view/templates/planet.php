@@ -65,10 +65,6 @@ function renderCell($planetId, $x, $y, $tile, $deposit) {
                 <th scope="row">Size</th>
                 <td><?= $planet->getSize() ?> x <?= $planet->getSize() ?></td>
             </tr>
-            <tr>
-                <th scope="row"># Deposits</th>
-                <td>0</td>
-            </tr>
         </table>
 
         <div id="deposit-view">
