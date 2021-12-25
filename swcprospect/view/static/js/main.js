@@ -99,7 +99,7 @@ loadDeposit = (planetId, x, y) => {
 // warning message for no deposits at a specific location
 showNoDepositWarning = (x, y) => {
     const coord = '(' + x + ', ' + y + ')';
-    $('#deposit-view').html('<div class="alert alert-warning">No deposit recorded at ' + coord + '. Double click the cell to add one!</div>')
+    $('#deposit-view').html('<div class="alert alert-warning">No deposit recorded at ' + coord + ' yet. Double click the cell to add one!</div>')
 };
 
 // saves a deposit from the data submitted

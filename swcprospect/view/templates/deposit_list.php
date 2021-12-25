@@ -1,3 +1,13 @@
+<?php
+if (empty($deposits)) {
+?>
+<div class="alert alert-warning">
+    No deposits recorded on this planet yet. Double click a tile to add one!
+</div>
+<?php
+} else {
+?>
+
 <h4>Deposits</h4>
 <table class="table table-striped table-hover table-dark">
     <thead>
@@ -28,3 +38,6 @@
     ?>
     </tbody>
 </table>
+<?php
+}
+?>
