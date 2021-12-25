@@ -18,8 +18,9 @@ loadTypes = (type) => {
 }
 
 // loads a specific planet into view
-loadPlanet = (id) => {
-    $('#planet-view').load('planet/' + id  + '/view');
+loadPlanet = (id, callback) => {
+    callback = callback || function(){};
+    $('#planet-view').load('planet/' + id  + '/view', callback);
 }
 
 // when the planet modal is opened load the planet types, and load the data for the 
@@ -102,7 +103,7 @@ saveDeposit = () => {
     const { planetId, x, y } = data;
 
     $.post('/deposits', JSON.stringify(data), () => {
-        loadPlanet(planetId);
+        loadPlanet(planetId, () => loadDeposit(planetId, x, y));
     });
 }
 
@@ -152,13 +153,12 @@ $(() => {
     });
 
     // when an empty planet cell is clicked show a warning
-    $(document).on('click', '.grid-cell', () => {
+    $(document).on('click', '.grid-cell-no-deposit', () => {
         showNoDepositWarning();
     });
 
     // when a deposit cell is clicked load the deposit data
     $(document).on('click', '.grid-cell-deposit', e => {
-        console.log(e.currentTarget);
         const planet = $(e.currentTarget).attr('planet-id');
         const x = $(e.currentTarget).attr('x');
         const y = $(e.currentTarget).attr('y');
