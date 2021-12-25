@@ -51,7 +51,7 @@ class DepositModel extends Model {
         }
     }
 
-    public function save(Deposit $deposit) {
+    public function save(Deposit $deposit): void {
         try {
             $stmt = $this->db->getConn()->prepare(Query::SAVE_DEPOSIT);
             
@@ -68,7 +68,7 @@ class DepositModel extends Model {
         }
     }
 
-    public function delete(int $planetId, int $x, int $y) {
+    public function delete(int $planetId, int $x, int $y): void {
         try {
             $stmt = $this->db->getConn()->prepare(Query::DELETE_DEPOSIT);
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);

@@ -6,9 +6,10 @@ use swcprospect\model\PlanetModel;
 use swcprospect\model\TileModel;
 use swcprospect\model\DepositModel;
 use swcprospect\model\entity\EntityType;
+use swcprospect\model\entity\Planet;
+use swcprospect\model\entity\Tile;
 use swcprospect\view\PlanetListView;
 use swcprospect\view\PlanetView;
-use swcprospect\model\entity\Planet;
 
 class PlanetController {
 
@@ -28,7 +29,7 @@ class PlanetController {
         echo $view->render($planets);
     }
 
-    public function planet(int $id) {
+    public function planet(int $id): void {
         echo json_encode($this->getPlanet($id));
     }
 
@@ -38,9 +39,29 @@ class PlanetController {
         echo $view->render($planet);
     }
 
-    public function save(int $id =  NULL, string $name, int $type, int $size) {
+    public function save(int $id =  NULL, string $name, int $type, int $size, string $tiles): void {
         $planet = new Planet($id, $name, new EntityType($type), $size);
-        $this->model->save($planet);
+        $planetId = $this->model->save($planet);
+
+        $splitTiles = explode(',', $tiles);
+        if (count($splitTiles) != $size * $size) {
+            trigger_error("400: Size of planet tile map doesn't match size of planet");
+        }
+
+        $x = 0;
+        $y = 0;
+        foreach ($splitTiles as $typeId) {
+            $tile = new Tile($planetId, $x, $y, new EntityType($typeId));
+            $this->tileModel->save($tile);
+
+            if ($x == $size - 1) {
+                // new row so reset x and increment y
+                $x = 0;
+                $y++;
+            } else {
+                $x++;
+            }
+        }
     }
 
     public function delete(int $id): void {
@@ -61,7 +82,7 @@ class PlanetController {
         return $planet;
     }
 
-    private function createMap(int $planetSize, array $objects) {
+    private function createMap(int $planetSize, array $objects): array {
         $map = array_fill(0, $planetSize, array_fill(0, $planetSize, NULL));
 
         foreach ($objects as $o) {

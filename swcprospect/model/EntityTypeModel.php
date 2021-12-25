@@ -9,19 +9,19 @@ use PDOException;
 
 class EntityTypeModel extends Model {
 
-    public function getPlanetTypes() {
+    public function getPlanetTypes(): array {
         return $this->getAll(Query::PLANET_TYPES);
     }
 
-    public function getDepositTypes() {
+    public function getDepositTypes(): array {
         return $this->getAll(Query::DEPOSIT_TYPES);
     }
 
-    public function getTileTypes() {
+    public function getTileTypes(): array {
         return $this->getAll(Query::TILE_TYPES);
     }
 
-    public function getAll(string $query) {
+    public function getAll(string $query): array {
         try {
             $res = $this->db->getConn()->query($query);
 
