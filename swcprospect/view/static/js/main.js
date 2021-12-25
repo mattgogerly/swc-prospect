@@ -19,16 +19,9 @@ formToObject = (id) => {
         }, {});
 };
 
-// load planets into the home table and reset the planet-view
-loadPlanets = () => {
-    $('#planet-list').load('planets/view');
-    $('#planet-view').html('<div></div>');
-    $('#deposit-view').html('<div></div>');
-};
-
-// get deposit types and populate the dropdown in the deposit modal
+// get a list of types and populate the dropdown in the respective modal
 loadTypes = type => {
-    $.getJSON('type/' + type, types => {
+    $.getJSON('/type/' + type, types => {
         $.each(types, i => {
             $('#' + type + 'Type').append($('<option>', { 
                 value: types[i].id, 
@@ -38,10 +31,17 @@ loadTypes = type => {
     });
 };
 
+// load planets into the home table and reset the planet-view
+loadPlanets = () => {
+    $('#planet-list').load('/planets');
+    $('#planet-view').html('<div></div>');
+    $('#deposit-view').html('<div></div>');
+};
+
 // loads a specific planet into view
 loadPlanet = (id, callback) => {
-    callback = callback || function(){};
-    $('#planet-view').load('planet/' + id  + '/view', callback);
+    callback = callback || function(){loadDeposits(id)};
+    $('#planet-view').load('/planet/' + id, callback);
 };
 
 // saves a planet using the data submitted
@@ -65,14 +65,20 @@ deletePlanet = id => {
     });
 };
 
+// loads a list of deposits by planet
+loadDeposits = (planetId) => {
+    $('#deposit-view').load('/deposits/' + planetId);
+}
+
 // loads a deposit into view
 loadDeposit = (planetId, x, y) => {
-    $('#deposit-view').load('deposit/' + planetId + '/' + x + '/' + y + '/view');
+    $('#deposit-view').load('/deposit/' + planetId + '/' + x + '/' + y);
 };
 
 // warning message for no deposits at a specific location
-showNoDepositWarning = (planet, x, y) => {
-    $('#deposit-view').html('<div class="alert alert-warning">No deposit recorded at this location!</div>')
+showNoDepositWarning = (x, y) => {
+    const coord = '(' + x + ', ' + y + ')';
+    $('#deposit-view').html('<div class="alert alert-warning">No deposit recorded at ' + coord + '. Double click the cell to add one!</div>')
 };
 
 // saves a deposit from the data submitted
@@ -124,7 +130,7 @@ loadDepositModalData = event => {
     $('#x').val(x);
     $('#y').val(y);
 
-    $.getJSON('deposit/' + planetId + '/' + x + '/' + y, deposit => {
+    $.getJSON('/deposit/' + planetId + '/' + x + '/' + y + '/json', deposit => {
         $('#depositType').val(deposit.type.id).change();
         $('#depositSize').val(deposit.size);
     });
@@ -177,8 +183,10 @@ $(() => {
 
     // when an empty planet cell is clicked show a warning
     // delegated as grid cells loaded dynamically
-    $(document).on('click', '.grid-cell-no-deposit', () => {
-        showNoDepositWarning();
+    $(document).on('click', '.grid-cell-no-deposit', e => {
+        const x = $(e.currentTarget).attr('x');
+        const y = $(e.currentTarget).attr('y');
+        showNoDepositWarning(x, y);
     });
 
     // when a deposit cell is clicked load the deposit data

@@ -23,17 +23,17 @@ class PlanetController {
         $this->depositModel = $depositModel;
     }
 
-    public function planetsListView(): void {
+    public function planetListView(): void {
         $planets = $this->model->getAll();
         $view = new PlanetListView();
         echo $view->render($planets);
     }
 
-    public function planet(int $id): void {
+    public function planetJson(int $id): void {
         echo json_encode($this->getPlanet($id));
     }
 
-    public function planetView(int $id): void {
+    public function planet(int $id): void {
         $planet = $this->getPlanet($id);
         $view = new PlanetView();
         echo $view->render($planet);

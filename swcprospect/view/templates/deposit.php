@@ -1,16 +1,3 @@
-<?php
-
-if ($deposit == null) {
-?>
-
-<div class="alert alert-danger">
-    Error fetching deposit data
-</div>
-
-<?php
-} else {
-?>
-
 <h3>
     Deposit @ <?= $deposit->getX() ?>, <?= $deposit->getY() ?> 
     <button type="button" class="btn btn-sm btn-primary" planet-id="<?= $deposit->getPlanet() ?>" x="<?= $deposit->getX() ?>" y="<?= $deposit->getY() ?>" data-bs-toggle="modal" data-bs-target="#depositModal">
@@ -31,7 +18,3 @@ if ($deposit == null) {
         <td><?= $deposit->getSize() ?></td>
     </tr>
 </table>
-
-<?php
-}
-?>

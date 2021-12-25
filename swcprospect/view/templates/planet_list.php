@@ -7,8 +7,8 @@
             <th>Delete</th>
         </tr>
     </thead>
-    <tbody>
 
+    <tbody>
     <?php
     foreach ($planets as $planet) {
     ?>
@@ -31,7 +31,6 @@
     <?php
     }
     ?>
-
     </tbody>
 </table>
 
