@@ -13,6 +13,10 @@ body {
     margin-bottom: 50px;
 }
 
+.planet-list-row {
+    cursor: pointer;
+}
+
 .grid-row {
     justify-content: center;
 }

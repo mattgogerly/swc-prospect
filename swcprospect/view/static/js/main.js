@@ -176,7 +176,7 @@ $(() => {
 
     // when a planet is clicked load its data and grid
     // delegated as rows are loaded dynamically
-    $(document).on('click', '.planet-table-row', e => {
+    $(document).on('click', '.planet-list-row', e => {
         const { planetId } = getEntityAttrs(e);
         loadPlanet(planetId);
     });
