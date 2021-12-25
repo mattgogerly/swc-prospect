@@ -57,7 +57,7 @@ abstract class Query {
     const SAVE_DEPOSIT = 'REPLACE INTO deposits (planet, x, y, type, size) VALUES (:planetId, :x, :y, :type, :size)';
 
     const DELETE_DEPOSIT = 'DELETE FROM deposits
-                            WHERE d.planet = :planetId AND d.x = :x AND d.y = :y';
+                            WHERE planet = :planetId AND x = :x AND y = :y';
 
     const DELETE_DEPOSITS_BY_PLANET = 'DELETE FROM deposits
                                        WHERE planet = :planetId';
