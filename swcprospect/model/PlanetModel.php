@@ -46,7 +46,7 @@ class PlanetModel extends Model {
         }
    }
 
-    public function save(Planet $planet) {
+    public function save(Planet $planet): int {
         try {
             $query = $planet->getId() ? Query::UPDATE_PLANET : Query::SAVE_PLANET;
             $stmt = $this->db->getConn()->prepare($query);
@@ -60,6 +60,7 @@ class PlanetModel extends Model {
             $stmt->bindValue(':size', $planet->getSize(), PDO::PARAM_INT);
 
             $stmt->execute();
+            return $this->db->getConn()->lastInsertId();
         } catch (PDOException $e) {
             error_log($e->getMessage());
             trigger_error('500: Error saving planet, try again later');
