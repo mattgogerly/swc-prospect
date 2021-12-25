@@ -19,8 +19,10 @@ body {
 
 .grid-cell {
     align-self: flex-start;
+    padding: 0;
     border: 1px solid white;
     height: 40px;
+    line-height: 35px;
     width: 40px;
     cursor: pointer;
 }
@@ -31,4 +33,9 @@ body {
 
 .grid-cell-deposit {
     background-color: green;
+}
+
+.deposit-icon {
+    width: 30px;
+    height: 30px;
 }
