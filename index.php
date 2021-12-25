@@ -28,8 +28,11 @@ set_error_handler("errorHandler");
 
 // handler for fatal errors
 function fatalErrorHandler(): void {
-    error_log(error_get_last()['message']);
-    errorHandler(0, '500: Fatal error');
+    $error = error_get_last();
+    if ($error) {
+        error_log($error['message']);
+        errorHandler(0, '500: Fatal error');
+    }
 }
 register_shutdown_function("fatalErrorHandler");
 
