@@ -48,6 +48,7 @@ savePlanet = () => {
 
     $.post('/planets', JSON.stringify(data), () => {
         loadPlanets();
+        loadPlanet(data.id);
     });
 }
 

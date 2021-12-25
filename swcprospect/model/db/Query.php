@@ -16,9 +16,14 @@ abstract class Query {
     const GET_PLANET_TYPES = 'SELECT id, name
                               FROM planet_types';
 
-    const SAVE_PLANET = 'INSERT INTO planets (name, type, size) VALUES (:name, :type, :size)';
+    const SAVE_PLANET = 'INSERT INTO planets 
+                           (name, type, size) 
+                         VALUES 
+                           (:name, :type, :size)';
 
-    const UPDATE_PLANET = 'REPLACE INTO planets (id, name, type, size) VALUES (:id, :name, :type, :size)';
+    const UPDATE_PLANET = 'UPDATE planets 
+                           SET name = :name, type = :type, size = :size
+                           WHERE id = :id';
 
     const DELETE_PLANET = 'DELETE FROM planets
                            WHERE id = :id';
@@ -36,7 +41,9 @@ abstract class Query {
     const GET_TILE_TYPES = 'SELECT id, name
                             FROM tile_types';
 
-    const SAVE_TILE = 'REPLACE INTO deposits (planet, x, y, type) VALUES (:planetId, :x, :y, :type)';
+    const SAVE_TILE = 'UPDATE tiles
+                       SET type = :type
+                       WHERE planet = :planetId AND x = :x AND y = :y';
 
     const DELETE_TILES_BY_PLANET = 'DELETE FROM tiles
                                     WHERE planet = :planetId';
@@ -54,7 +61,9 @@ abstract class Query {
     const GET_DEPOSIT_TYPES = 'SELECT id, name
                                FROM deposit_types';
 
-    const SAVE_DEPOSIT = 'REPLACE INTO deposits (planet, x, y, type, size) VALUES (:planetId, :x, :y, :type, :size)';
+    const SAVE_DEPOSIT = 'UPDATE deposits
+                          SET type = :type, size = :size,
+                          WHERE planet = :planetId AND x = :x AND y = :y';
 
     const DELETE_DEPOSIT = 'DELETE FROM deposits
                             WHERE planet = :planetId AND x = :x AND y = :y';
