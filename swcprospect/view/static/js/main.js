@@ -38,6 +38,7 @@ $('#planetModal').on('show.bs.modal', event => {
     }
 });
 
+// saves a planet using the data submitted
 savePlanet = () => {
     const data = $('#planetForm').serializeArray()
         .reduce((accumObj, { name, value }) => { 
@@ -60,6 +61,7 @@ deletePlanet = (id) => {
     });
 }
 
+// loads a deposit into view
 loadDeposit = (planetId, x, y) => {
     $('#deposit-view').load('deposit/' + planetId + '/' + x + '/' + y + '/view');
 };
@@ -69,6 +71,7 @@ showNoDepositWarning = (planet, x, y) => {
     $('#deposit-view').html('<div class="alert alert-warning">No deposit recorded at this location!</div>')
 }
 
+// loads required data into the deposit modal, then fetches existing data and populates if it exists
 loadDepositModalData = (event) => {
     const clickedElement = event.relatedTarget;
 
@@ -89,6 +92,7 @@ loadDepositModalData = (event) => {
 // when the deposit modal is opened load the key data and data for the current deposit if exists
 $('#depositModal').on('show.bs.modal', event => loadDepositModalData(event));
 
+// saves a deposit from the data submitted
 saveDeposit = () => {
     const data = $('#depositForm').serializeArray()
         .reduce((accumObj, { name, value }) => { 
@@ -98,7 +102,7 @@ saveDeposit = () => {
     const { planetId, x, y } = data;
 
     $.post('/deposits', JSON.stringify(data), () => {
-        loadDeposit(planetId, x, y);
+        loadPlanet(planetId);
     });
 }
 
@@ -141,6 +145,7 @@ $(() => {
         deletePlanet(id);
     });
 
+    // when a grid cell is double clicked show the deposit modal
     $(document).on('dblclick', '.grid-cell', e => {
         const modal = new bootstrap.Modal(document.getElementById('depositModal'));
         modal.show(e.currentTarget);
