@@ -5,6 +5,7 @@ namespace swcprospect\model;
 use swcprospect\model\Model;
 use swcprospect\model\db\Query;
 use swcprospect\model\entity\Tile;
+use swcprospect\model\entity\EntityType;
 use PDO;
 use PDOException;
 
@@ -21,6 +22,7 @@ class TileModel extends Model {
             $res = $stmt->fetch(PDO::FETCH_ASSOC);
             return $this->convertToEntity($res);
         } catch (PDOException $e) {
+            echo $e;
             return null;
         }
     }
@@ -39,6 +41,7 @@ class TileModel extends Model {
 
             return $tileList;
         } catch (PDOException $e) {
+            echo $e;
             return [];
         }
     }
@@ -47,6 +50,7 @@ class TileModel extends Model {
         try {
             //
         } catch (PDOException $e) {
+            echo $e;
             echo "";
         }
     }
@@ -57,12 +61,14 @@ class TileModel extends Model {
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
+            echo $e;
             echo "";
         }
     }
 
     private function convertToEntity($arr): Tile {
-        return new Tile($arr['id'], $arr['type_id'], $arr['planet'], $arr['x'], $arr['y']);
+        $type = new EntityType($arr['type_id'], $arr['type_name']);
+        return new Tile($arr['planet'], $arr['x'], $arr['y'], $type);
     }
 }
 ?>

@@ -2,7 +2,7 @@
 function getCellHtml($tile, $deposit) {
     $cellHtml = '';
     if ($tile != NULL) {
-        $cellHtml = 'style="background-image: url(' . STATIC_ROOT . '/img/terrains/' . $tile->getId() . '.gif' . ');"';
+        $cellHtml = 'style="background-image: url(' . STATIC_ROOT . '/img/terrains/' . $tile->getType()->getId() . '.gif' . ');"';
     }
 
     if ($deposit != NULL) {

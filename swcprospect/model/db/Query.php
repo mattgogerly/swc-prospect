@@ -28,7 +28,7 @@ abstract class Query {
                       JOIN tile_types AS tt ON t.type = tt.id
                       WHERE d.planet = :planetId AND d.x = :x AND d.y = :y';
 
-    const GET_TILES_BY_PLANET = 'SELECT t.id, t.x, t.y, tt.id AS type_id, tt.name AS type_name
+    const GET_TILES_BY_PLANET = 'SELECT t.planet, t.x, t.y, tt.id AS type_id, tt.name AS type_name
                                  FROM tiles AS t
                                  JOIN tile_types AS tt ON t.type = tt.id
                                  WHERE t.planet = :planetId';
