@@ -20,6 +20,11 @@ class DepositModel extends Model {
             $stmt->execute();
 
             $res = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$res) {
+                trigger_error('404: Deposit does not exist');
+            }
+
             return $this->convertToEntity($res);
         } catch (PDOException $e) {
             trigger_error('500: Error retrieving deposit, try again later');

@@ -5,7 +5,10 @@ errorToast = message => {
 };
 
 $(document).ajaxError((_event, request, _settings) => {
-    errorToast(request.responseText);
+    // 404s are handled by views so no need to show an alert
+    if (request.status !== 404) {
+        errorToast(request.responseText);
+    }
 })
 
 // utility to convert a HTML form to an object
