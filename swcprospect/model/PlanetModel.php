@@ -72,6 +72,7 @@ class PlanetModel extends Model {
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             trigger_error('500: Error deleting planet, try again later');
         }
     }
