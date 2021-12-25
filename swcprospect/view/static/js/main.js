@@ -69,9 +69,7 @@ showNoDepositWarning = (planet, x, y) => {
     $('#deposit-view').html('<div class="alert alert-warning">No deposit recorded at this location!</div>')
 }
 
-// when the deposit modal is opened load the planet types, and load the data for the 
-// current planet if editing
-$('#depositModal').on('show.bs.modal', event => {
+loadDepositModalData = (event) => {
     const clickedElement = event.relatedTarget;
 
     const planetId = clickedElement.getAttribute('planet-id');
@@ -86,7 +84,10 @@ $('#depositModal').on('show.bs.modal', event => {
         $('#depositType').val(deposit.type.id).change();
         $('#depositSize').val(deposit.size);
     });
-});
+}
+
+// when the deposit modal is opened load the key data and data for the current deposit if exists
+$('#depositModal').on('show.bs.modal', event => loadDepositModalData(event));
 
 saveDeposit = () => {
     const data = $('#depositForm').serializeArray()
@@ -140,9 +141,9 @@ $(() => {
         deletePlanet(id);
     });
 
-    // save deposit when form is submitted
-    $('#depositFormSubmit').click(() => {
-        saveDeposit();
+    $(document).on('dblclick', '.grid-cell', e => {
+        const modal = new bootstrap.Modal(document.getElementById('depositModal'));
+        modal.show(e.currentTarget);
     });
 
     // when an empty planet cell is clicked show a warning
@@ -152,10 +153,16 @@ $(() => {
 
     // when a deposit cell is clicked load the deposit data
     $(document).on('click', '.grid-cell-deposit', e => {
-        const planet = $(e.currentTarget).attr('planet');
+        console.log(e.currentTarget);
+        const planet = $(e.currentTarget).attr('planet-id');
         const x = $(e.currentTarget).attr('x');
         const y = $(e.currentTarget).attr('y');
         loadDeposit(planet, x, y);
+    });
+
+    // save deposit when form is submitted
+    $('#depositFormSubmit').click(() => {
+        saveDeposit();
     });
 
     // when a deposit delete icon is clicked delete the deposit
