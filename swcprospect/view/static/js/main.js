@@ -5,16 +5,11 @@ loadPlanets = () => {
     $('#deposit-view').html('<div></div>');
 }
 
-// loads a specific planet into view
-loadPlanet = (id) => {
-    $('#planet-view').load('planet/' + id  + '/view');
-}
-
-// get planet types and populate the dropdown in the planets modal
-loadPlanetTypes = () => {
-    $.getJSON('type/planet', types => {
+// get deposit types and populate the dropdown in the deposit modal
+loadTypes = (type) => {
+    $.getJSON('type/' + type, types => {
         $.each(types, i => {
-            $('#planetType').append($('<option>', { 
+            $('#' + type + 'Type').append($('<option>', { 
                 value: types[i].id, 
                 text: types[i].name 
             }));
@@ -22,11 +17,17 @@ loadPlanetTypes = () => {
     });
 }
 
+// loads a specific planet into view
+loadPlanet = (id) => {
+    $('#planet-view').load('planet/' + id  + '/view');
+}
+
 // when the planet modal is opened load the planet types, and load the data for the 
 // current planet if editing
-$('#planetModal').on('shown.bs.modal', event => {
+$('#planetModal').on('show.bs.modal', event => {
     const clickedElement = event.relatedTarget;
     const planetId = clickedElement.getAttribute('planet-id');
+
     if (planetId) {
         $.getJSON('planet/' + planetId, planet => {
             $('#planetId').val(planet.id);
@@ -59,15 +60,51 @@ deletePlanet = (id) => {
     });
 }
 
+loadDeposit = (planetId, x, y) => {
+    $('#deposit-view').load('deposit/' + planetId + '/' + x + '/' + y + '/view');
+};
+
 // warning message for no deposits at a specific location
 showNoDepositWarning = (planet, x, y) => {
     $('#deposit-view').html('<div class="alert alert-warning">No deposit recorded at this location!</div>')
 }
 
+// when the deposit modal is opened load the planet types, and load the data for the 
+// current planet if editing
+$('#depositModal').on('show.bs.modal', event => {
+    const clickedElement = event.relatedTarget;
+
+    const planetId = clickedElement.getAttribute('planet-id');
+    const x = clickedElement.getAttribute('x');
+    const y = clickedElement.getAttribute('y');
+
+    $('#depositPlanetId').val(planetId);
+    $('#x').val(x);
+    $('#y').val(y);
+
+    $.getJSON('deposit/' + planetId + '/' + x + '/' + y, deposit => {
+        $('#depositType').val(deposit.type.id).change();
+        $('#depositSize').val(deposit.size);
+    });
+});
+
+saveDeposit = () => {
+    const data = $('#depositForm').serializeArray()
+        .reduce((accumObj, { name, value }) => { 
+            return { ...accumObj, [name]: value ? value : null} 
+        }, {});
+
+    const { planetId, x, y } = data;
+
+    $.post('/deposits', JSON.stringify(data), () => {
+        loadDeposit(planetId, x, y);
+    });
+}
+
 // deletes a deposit and then reloads the current planet view
-deleteDeposit = (depositId, planetId) => {
+deleteDeposit = (planetId, x, y) => {
     $.ajax({
-        url: '/deposit/' + depositId,
+        url: '/deposit/' + planetId + '/' + x + '/' + y,
         type: 'DELETE',
         success: () => {
             loadPlanet(planetId);
@@ -79,8 +116,9 @@ $(() => {
     // load planets list on page load
     loadPlanets();
 
-    // load planet types into modal
-    loadPlanetTypes();
+    // load types into modals
+    loadTypes('planet');
+    loadTypes('deposit');
 
     // when a planet is clicked load its data and grid
     $(document).on('click', '.planet-table-row', e => {
@@ -102,11 +140,9 @@ $(() => {
         deletePlanet(id);
     });
 
-    // when a deposit delete icon is clicked delete the deposit
-    $(document).on('click', '.deposit-delete', e => {
-        const depositId = $(e.currentTarget).attr('deposit-id');
-        const planetId = $(e.currentTarget).attr('planet-id');
-        deleteDeposit(depositId, planetId);
+    // save deposit when form is submitted
+    $('#depositFormSubmit').click(() => {
+        saveDeposit();
     });
 
     // when an empty planet cell is clicked show a warning
@@ -119,6 +155,14 @@ $(() => {
         const planet = $(e.currentTarget).attr('planet');
         const x = $(e.currentTarget).attr('x');
         const y = $(e.currentTarget).attr('y');
-        $('#deposit-view').load('deposit/' + planet + '/' + x + '/' + y + '/view');
+        loadDeposit(planet, x, y);
+    });
+
+    // when a deposit delete icon is clicked delete the deposit
+    $(document).on('click', '.deposit-delete', e => {
+        const planetId = $(e.currentTarget).attr('planet-id');
+        const x = $(e.currentTarget).attr('x');
+        const y = $(e.currentTarget).attr('y');
+        deleteDeposit(planetId, x, y);
     });
 });

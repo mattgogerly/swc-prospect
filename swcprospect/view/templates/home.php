@@ -14,5 +14,6 @@ include 'header.php';
 
 <?php
 include 'planet_modal.php';
+include 'deposit_modal.php';
 include 'footer.php';
 ?>

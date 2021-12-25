@@ -28,6 +28,15 @@ class PlanetController {
         echo $view->render($planets);
     }
 
+    public function planet(int $id) {
+        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
+            echo 'Invalid planet ID provided';
+            return;
+        }
+
+        echo json_encode($this->getPlanet($id));
+    }
+
     public function planetView(int $id): void {
         if (filter_var($id, FILTER_VALIDATE_INT) === false) {
             echo 'Invalid planet ID provided';
@@ -37,15 +46,6 @@ class PlanetController {
         $planet = $this->getPlanet($id);
         $view = new PlanetView();
         echo $view->render($planet);
-    }
-
-    public function planet(int $id) {
-        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
-            echo 'Invalid planet ID provided';
-            return;
-        }
-
-        echo json_encode($this->getPlanet($id));
     }
 
     public function save(int $id =  NULL, string $name, int $type, int $size) {

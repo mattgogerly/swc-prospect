@@ -32,6 +32,7 @@ class EntityTypeModel extends Model {
 
             return $types;
         } catch (\PDOException $e) {
+            echo $e;
             return [];
         }
     }

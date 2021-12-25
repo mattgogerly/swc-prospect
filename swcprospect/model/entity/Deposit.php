@@ -2,7 +2,9 @@
 
 namespace swcprospect\model\entity;
 
-class Deposit {
+use JsonSerializable;
+
+class Deposit implements JsonSerializable {
     
     private int $planet;
     private int $x;
@@ -51,6 +53,16 @@ class Deposit {
      */ 
     public function getSize(): int {
         return $this->size;
+    }
+
+    public function jsonSerialize(): mixed {
+        return [
+            'planet' => $this->planet,
+            'x' => $this->x,
+            'y' => $this->y,
+            'type' => $this->type,
+            'size' => $this->size,
+        ];
     }
 }
 ?>

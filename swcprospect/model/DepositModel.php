@@ -48,7 +48,15 @@ class DepositModel extends Model {
 
     public function save(Deposit $deposit) {
         try {
-            //
+            $stmt = $this->db->getConn()->prepare(Query::SAVE_DEPOSIT);
+            
+            $stmt->bindValue(':planetId', $deposit->getPlanet(), PDO::PARAM_INT);
+            $stmt->bindValue(':x', $deposit->getX(), PDO::PARAM_INT);
+            $stmt->bindValue(':y', $deposit->getY(), PDO::PARAM_INT);
+            $stmt->bindValue(':type', $deposit->getType()->getId(), PDO::PARAM_INT);
+            $stmt->bindValue(':size', $deposit->getSize(), PDO::PARAM_INT);
+
+            $stmt->execute();
         } catch (PDOException $e) {
             echo $e;
         }

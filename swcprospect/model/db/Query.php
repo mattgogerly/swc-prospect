@@ -36,6 +36,8 @@ abstract class Query {
     const GET_TILE_TYPES = 'SELECT id, name
                             FROM tile_types';
 
+    const SAVE_TILE = 'REPLACE INTO deposits (planet, x, y, type) VALUES (:planetId, :x, :y, :type)';
+
     const DELETE_TILES_BY_PLANET = 'DELETE FROM tiles
                                     WHERE planet = :planetId';
 
@@ -49,8 +51,10 @@ abstract class Query {
                                     JOIN deposit_types AS dt ON d.type = dt.id
                                     WHERE d.planet = :planetId';
 
-    const GET_DEPOSIT_TYPES = 'SELECT id,
+    const GET_DEPOSIT_TYPES = 'SELECT id, name
                                FROM deposit_types';
+
+    const SAVE_DEPOSIT = 'REPLACE INTO deposits (planet, x, y, type, size) VALUES (:planetId, :x, :y, :type, :size)';
 
     const DELETE_DEPOSIT = 'DELETE FROM deposits
                             WHERE d.planet = :planetId AND d.x = :x AND d.y = :y';

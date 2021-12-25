@@ -2,6 +2,8 @@
 
 namespace swcprospect\controller;
 
+use swcprospect\model\entity\Deposit;
+use swcprospect\model\entity\EntityType;
 use swcprospect\model\DepositModel;
 use swcprospect\view\DepositView;
 
@@ -13,10 +15,19 @@ class DepositController {
         $this->model = $model;
     }
 
+    public function deposit(int $planet, int $x, int $y) {
+        echo json_encode($this->model->getByPlanetCoord($planet, $x, $y));
+    }
+
     public function depositView(int $planet, int $x, int $y): void {
         $deposit = $this->model->getByPlanetCoord($planet, $x, $y);
         $view = new DepositView();
         echo $view->render($deposit);
+    }
+
+    public function save(int $planetId, int $x, int $y, int $type, int $size) {
+        $deposit = new Deposit($planetId, $x, $y, new EntityType($type), $size);
+        $this->model->save($deposit);
     }
 
     public function delete(int $planet, int $x, int $y): void {

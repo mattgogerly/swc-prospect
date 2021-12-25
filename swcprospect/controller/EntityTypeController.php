@@ -17,7 +17,7 @@ class EntityTypeController {
     }
 
     public function depositTypes() {
-        echo json_encode($this->depositTypeModel->getDepositTypes());
+        echo json_encode($this->entityTypeModel->getDepositTypes());
     }
 }
 
