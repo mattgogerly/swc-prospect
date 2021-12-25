@@ -44,8 +44,6 @@ class PlanetController {
     }
 
     public function delete(int $id): void {
-        $this->tileModel->deleteByPlanet($id);
-        $this->depositModel->deleteByPlanet($id);
         $this->model->delete($id);
     }
 
