@@ -10,15 +10,15 @@ use PDOException;
 class EntityTypeModel extends Model {
 
     public function getPlanetTypes() {
-        return $this->getAll(Query::GET_PLANET_TYPES);
+        return $this->getAll(Query::PLANET_TYPES);
     }
 
     public function getDepositTypes() {
-        return $this->getAll(Query::GET_DEPOSIT_TYPES);
+        return $this->getAll(Query::DEPOSIT_TYPES);
     }
 
     public function getTileTypes() {
-        return $this->getAll(Query::GET_TILE_TYPES);
+        return $this->getAll(Query::TILE_TYPES);
     }
 
     public function getAll(string $query) {

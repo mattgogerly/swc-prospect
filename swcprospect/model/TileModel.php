@@ -13,7 +13,7 @@ class TileModel extends Model {
 
     public function getByPlanetCoord(int $planetId, int $x, int $y): Tile {
         try {
-            $stmt = $this->db->getConn()->prepare(Query::GET_TILE);
+            $stmt = $this->db->getConn()->prepare(Query::TILE_BY_COORD);
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
             $stmt->bindValue(':x', $x, PDO::PARAM_INT);
             $stmt->bindValue(':y', $y, PDO::PARAM_INT);
@@ -28,7 +28,7 @@ class TileModel extends Model {
 
     public function getByPlanet(int $planetId): array {
         try {
-            $stmt = $this->db->getConn()->prepare(Query::GET_TILES_BY_PLANET);
+            $stmt = $this->db->getConn()->prepare(Query::TILES_BY_PLANET);
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
             $stmt->execute();
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -54,7 +54,7 @@ class TileModel extends Model {
 
     public function deleteByPlanet(int $planetId): void {
         try {
-            $stmt = $this->db->getConn()->prepare(Query::DELETE_TILES_BY_PLANET);
+            $stmt = $this->db->getConn()->prepare(Query::DELETE_TILES);
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {

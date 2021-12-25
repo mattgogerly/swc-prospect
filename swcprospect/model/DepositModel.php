@@ -13,7 +13,7 @@ class DepositModel extends Model {
 
     public function getByPlanetCoord(int $planet, int $x, int $y): Deposit {
         try {
-            $stmt = $this->db->getConn()->prepare(Query::GET_DEPOSIT);
+            $stmt = $this->db->getConn()->prepare(Query::DEPOSIT_BY_COORD);
             $stmt->bindValue(':planetId', $planet, PDO::PARAM_INT);
             $stmt->bindValue(':x', $x, PDO::PARAM_INT);
             $stmt->bindValue(':y', $y, PDO::PARAM_INT);
@@ -27,13 +27,14 @@ class DepositModel extends Model {
 
             return $this->convertToEntity($res);
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             trigger_error('500: Error retrieving deposit, try again later');
         }
     }
 
     public function getByPlanet(int $planetId): array {
         try {
-            $stmt = $this->db->getConn()->prepare(Query::GET_DEPOSITS_BY_PLANET);
+            $stmt = $this->db->getConn()->prepare(Query::DEPOSITS_BY_PLANET);
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
             $stmt->execute();
             $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -45,6 +46,7 @@ class DepositModel extends Model {
 
             return $depositList;
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             trigger_error('500: Error retrieving deposits, try again later');
         }
     }
@@ -61,6 +63,7 @@ class DepositModel extends Model {
 
             $stmt->execute();
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             trigger_error('500: Error saving deposit, try again later');
         }
     }
@@ -73,16 +76,18 @@ class DepositModel extends Model {
             $stmt->bindValue(':y', $y, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             trigger_error('500: Error deleting deposit, try again later');
         }
     }
 
     public function deleteByPlanet(int $planetId): void {
         try {
-            $stmt = $this->db->getConn()->prepare(Query::DELETE_DEPOSITS_BY_PLANET);
+            $stmt = $this->db->getConn()->prepare(Query::DELETE_DEPOSITS);
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             trigger_error('500: Error deleting deposits, try again later');
         }
     }
