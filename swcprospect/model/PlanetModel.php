@@ -13,7 +13,7 @@ class PlanetModel extends Model {
 
     public function getAll(): array {
         try {
-            $res = $this->db->getConn()->query(Query::GET_PLANETS);
+            $res = $this->db->getConn()->query(Query::PLANETS);
             
             $planets = [];
             foreach ($res as $p) {
@@ -28,7 +28,7 @@ class PlanetModel extends Model {
 
    public function getById($id): ?Planet {
         try {
-            $stmt = $this->db->getConn()->prepare(Query::GET_PLANET);
+            $stmt = $this->db->getConn()->prepare(Query::PLANET_BY_ID);
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
             $stmt->execute();
