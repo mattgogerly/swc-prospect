@@ -8,7 +8,7 @@
 
       <div class="modal-body">
         <form id="planetForm">
-            <input name="id" id="planetId" hidden disabled>
+            <input name="planetId" id="planetId" hidden>
 
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label" for="planetName">Name</label>
@@ -52,7 +52,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button id="planetFormSubmit" type="button" class="btn btn-primary"  data-bs-dismiss="modal">Save</button>
+        <button id="planetFormSubmit" type="button" class="btn btn-primary">Save</button>
       </div>
     </div>
   </div>

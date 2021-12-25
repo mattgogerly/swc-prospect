@@ -3,13 +3,15 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use FastRoute\Dispatcher;
+use FastRoute\RouteCollector;
 use DI\Container;
 
-const HANDLER_DELIMITER = '@';
-const STATIC_ROOT = './swcprospect/view/static'; 
+/**
+ **** ERROR HANDLING ****
+ */
+error_reporting(0);
 
-$container = new Container();
-
+// handler for exceptions thrown by trigger_exception
 function errorHandler(int $errno, string $errstr): bool {
     if (str_contains($errstr, '400')) {
         $errorCode = 400;
@@ -24,25 +26,51 @@ function errorHandler(int $errno, string $errstr): bool {
 }
 set_error_handler("errorHandler");
 
+// handler for fatal errors
+function fatalErrorHandler(): void {
+    error_log(error_get_last()['message']);
+    errorHandler(0, '500: Fatal error');
+}
+register_shutdown_function("fatalErrorHandler");
+
+
+/**
+ **** ROUTING ****
+ */
+const HANDLER_DELIMITER = '@';
+const STATIC_ROOT = './swcprospect/view/static'; 
+
+$container = new Container();
+
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->get('/', 'swcprospect\controller\HomeController@home');
 
-    $r->get('/type/planet', 'swcprospect\controller\EntityTypeController@planetTypes');
-    $r->get('/type/deposit', 'swcprospect\controller\EntityTypeController@depositTypes');
+    $r->addGroup('/type', function (RouteCollector $r) {
+        $r->get('/planet', 'swcprospect\controller\EntityTypeController@planetTypes');
+        $r->get('/deposit', 'swcprospect\controller\EntityTypeController@depositTypes');
+    });
 
-    $r->get('/planets', 'swcprospect\controller\PlanetController@planetListView');
-    $r->post('/planets', 'swcprospect\controller\PlanetController@save');
+    $r->addGroup('/planets', function (RouteCollector $r) {
+        $r->get('', 'swcprospect\controller\PlanetController@planetListView');
+        $r->post('', 'swcprospect\controller\PlanetController@save');
+    });
 
-    $r->get('/planet/{id:\d+}/json', 'swcprospect\controller\PlanetController@planetJson');
-    $r->get('/planet/{id:\d+}', 'swcprospect\controller\PlanetController@planet');
-    $r->delete('/planet/{id:\d+}', 'swcprospect\controller\PlanetController@delete');
+    $r->addGroup('/planet/{planetId:\d+}', function (RouteCollector $r) {
+        $r->get('', 'swcprospect\controller\PlanetController@planet');
+        $r->get('/json', 'swcprospect\controller\PlanetController@planetJson');
+        $r->delete('', 'swcprospect\controller\PlanetController@delete');
 
-    $r->get('/deposits/{id:\d+}', 'swcprospect\controller\DepositController@depositListView');
-    $r->post('/deposits', 'swcprospect\controller\DepositController@save');
-    
-    $r->get('/deposit/{planet:\d+}/{x:\d+}/{y:\d+}/json', 'swcprospect\controller\DepositController@depositJson');
-    $r->get('/deposit/{planet:\d+}/{x:\d+}/{y:\d+}', 'swcprospect\controller\DepositController@deposit');
-    $r->delete('/deposit/{planet:\d+}/{x:\d+}/{y:\d+}', 'swcprospect\controller\DepositController@delete');
+        $r->addGroup('/deposits', function (RouteCollector $r) {   
+            $r->get('', 'swcprospect\controller\DepositController@depositListView');
+            $r->post('', 'swcprospect\controller\DepositController@save');
+        });
+
+        $r->addGroup('/deposit', function (RouteCollector $r) {   
+            $r->get('/x/{x:\d+}/y/{y:\d+}/json', 'swcprospect\controller\DepositController@depositJson');
+            $r->get('/x/{x:\d+}/y/{y:\d+}', 'swcprospect\controller\DepositController@deposit');
+            $r->delete('/x/{x:\d+}/y/{y:\d+}', 'swcprospect\controller\DepositController@delete');
+        });
+    });
 });
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -65,7 +93,7 @@ switch ($routeInfo[0]) {
         list($class, $method) = explode(HANDLER_DELIMITER, $handler, 2);
 
         $controller = $container->get($class);
-        $controller->{$method}(...array_values($vars));
+        $controller->{$method}(...$vars);
         return;
     default:
         trigger_error('Error routing request');

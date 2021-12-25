@@ -29,21 +29,22 @@ class PlanetController {
         echo $view->render($planets);
     }
 
-    public function planetJson(int $id): void {
-        echo json_encode($this->getPlanet($id));
+    public function planetJson(int $planetId): void {
+        echo json_encode($this->getPlanet($planetId));
     }
 
-    public function planet(int $id): void {
-        $planet = $this->getPlanet($id);
+    public function planet(int $planetId): void {
+        $planet = $this->getPlanet($planetId);
         $view = new PlanetView();
         echo $view->render($planet);
     }
 
-    public function save(int $id =  NULL, string $name, int $type, int $size, string $tiles): void {
-        $planet = new Planet($id, $name, new EntityType($type), $size);
+    public function save(?int $planetId, string $name, int $type, int $size, string $terrainMap): void {
+        $planet = new Planet($planetId, $name, new EntityType($type), $size);
         $planetId = $this->model->save($planet);
+        $planet->setId($planetId);
 
-        $splitTiles = explode(',', $tiles);
+        $splitTiles = explode(',', $terrainMap);
         if (count($splitTiles) != $size * $size) {
             trigger_error("400: Size of planet tile map doesn't match size of planet" . count($splitTiles));
         }
@@ -62,21 +63,23 @@ class PlanetController {
                 $x++;
             }
         }
+
+        echo json_encode($planet);
     }
 
-    public function delete(int $id): void {
-        $this->model->delete($id);
+    public function delete(int $planetId): void {
+        $this->model->delete($planetId);
     }
 
-    private function getPlanet(int $id): Planet {
-        $planet = $this->model->getById($id);
+    private function getPlanet(int $planetId): Planet {
+        $planet = $this->model->getById($planetId);
 
         // get tile map for this planet
-        $tiles = $this->tileModel->getByPlanet($id);
+        $tiles = $this->tileModel->getByPlanet($planetId);
         $planet->setTileMap($this->createMap($planet->getSize(), $tiles));
 
         // get deposit map for this planet
-        $deposits = $this->depositModel->getByPlanet($id);
+        $deposits = $this->depositModel->getByPlanet($planetId);
         $planet->setDepositMap($this->createMap($planet->getSize(), $deposits));
 
         return $planet;

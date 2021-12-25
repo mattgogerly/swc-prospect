@@ -1,9 +1,13 @@
+const planetModal = new bootstrap.Modal(document.getElementById('planetModal'));
+const depositModal = new bootstrap.Modal(document.getElementById('depositModal'));
+
 // show an error toast with a given message
 errorToast = message => {
     $('.toast-body').html(message);
     $('#errorToast').toast('show');
 };
 
+// global error handler for AJAX errors
 $(document).ajaxError((_event, request, _settings) => {
     // 404s are handled by views so no need to show an alert
     if (request.status !== 404) {
@@ -15,9 +19,24 @@ $(document).ajaxError((_event, request, _settings) => {
 formToObject = (id) => {
     return $(id).serializeArray()
         .reduce((accumObj, { name, value }) => { 
+            console.log(name, value);
             return { ...accumObj, [name]: value ? value : null} 
         }, {});
 };
+
+// utility to get the planetId, x and y from an event
+getEntityAttrs = event => {
+    const clickedElement = event.relatedTarget || event.currentTarget;
+    const planetId = clickedElement.getAttribute('planet-id');
+    const x = clickedElement.getAttribute('x');
+    const y = clickedElement.getAttribute('y');
+
+    return { planetId, x, y };
+}
+
+resetForm = (id) => {
+    $(id)[0].reset();
+}
 
 // get a list of types and populate the dropdown in the respective modal
 loadTypes = type => {
@@ -40,6 +59,7 @@ loadPlanets = () => {
 
 // loads a specific planet into view
 loadPlanet = (id, callback) => {
+    // if no callback is provided this is a first time load, so 
     callback = callback || function(){loadDeposits(id)};
     $('#planet-view').load('/planet/' + id, callback);
 };
@@ -48,9 +68,10 @@ loadPlanet = (id, callback) => {
 savePlanet = () => {
     const data = formToObject('#planetForm');
 
-    $.post('/planets', JSON.stringify(data), () => {
+    $.post('/planets', JSON.stringify(data), planet => {
+        planetModal.hide();
         loadPlanets();
-        loadPlanet(data.id);
+        loadPlanet(JSON.parse(planet).id);
     });
 };
 
@@ -67,12 +88,12 @@ deletePlanet = id => {
 
 // loads a list of deposits by planet
 loadDeposits = (planetId) => {
-    $('#deposit-view').load('/deposits/' + planetId);
+    $('#deposit-view').load('/planet/' + planetId + '/deposits');
 }
 
 // loads a deposit into view
 loadDeposit = (planetId, x, y) => {
-    $('#deposit-view').load('/deposit/' + planetId + '/' + x + '/' + y);
+    $('#deposit-view').load('/planet/' + planetId + '/deposit/x/' + x + '/y/' + y);
 };
 
 // warning message for no deposits at a specific location
@@ -86,7 +107,8 @@ saveDeposit = () => {
     const data = formToObject('#depositForm');
     const { planetId, x, y } = data;
 
-    $.post('/deposits', JSON.stringify(data), () => {
+    $.post('/planet/' + planetId + '/deposits', JSON.stringify(data), () => {
+        depositModal.hide();
         loadPlanet(planetId, () => loadDeposit(planetId, x, y));
     });
 }
@@ -94,7 +116,7 @@ saveDeposit = () => {
 // deletes a deposit and then reloads the current planet view
 deleteDeposit = (planetId, x, y) => {
     $.ajax({
-        url: '/deposit/' + planetId + '/' + x + '/' + y,
+        url: '/planet/' + planetId + '/deposit/x/' + x + '/y/' + y,
         type: 'DELETE',
         success: () => {
             loadPlanet(planetId);
@@ -105,11 +127,10 @@ deleteDeposit = (planetId, x, y) => {
 // when the planet modal is opened load the planet types, and load the data for the 
 // current planet if editing
 $('#planetModal').on('show.bs.modal', event => {
-    const clickedElement = event.relatedTarget;
-    const planetId = clickedElement.getAttribute('planet-id');
+    const { planetId } = getEntityAttrs(event);
 
     if (planetId) {
-        $.getJSON('planet/' + planetId, planet => {
+        $.getJSON('/planet/' + planetId + '/json', planet => {
             $('#planetId').val(planet.id);
             $('#planetName').val(planet.name);
             $('#planetType').val(planet.type.id).change();
@@ -118,19 +139,18 @@ $('#planetModal').on('show.bs.modal', event => {
     }
 });
 
+// when the planet modal is closed reset the form
+$('#planetModal').on('hide.bs.modal', () => resetForm('#planetForm'));
+
 // loads required data into the deposit modal, then fetches existing data and populates if it exists
 loadDepositModalData = event => {
-    const clickedElement = event.relatedTarget;
-
-    const planetId = clickedElement.getAttribute('planet-id');
-    const x = clickedElement.getAttribute('x');
-    const y = clickedElement.getAttribute('y');
+    const { planetId, x, y } = getEntityAttrs(event);
 
     $('#depositPlanetId').val(planetId);
     $('#x').val(x);
     $('#y').val(y);
 
-    $.getJSON('/deposit/' + planetId + '/' + x + '/' + y + '/json', deposit => {
+    $.getJSON('/planet/' + planetId + '/deposit/x/' + x + '/y/' + y + '/json', deposit => {
         $('#depositType').val(deposit.type.id).change();
         $('#depositSize').val(deposit.size);
     });
@@ -138,6 +158,9 @@ loadDepositModalData = event => {
 
 // when the deposit modal is opened load the key data and data for the current deposit if exists
 $('#depositModal').on('show.bs.modal', event => loadDepositModalData(event));
+
+// when the deposit modal is closed reset the form
+$('#depositModal').on('hide.bs.modal', () => resetForm('#depositForm'));
 
 $(() => {
     // load planets list on page load
@@ -154,8 +177,8 @@ $(() => {
     // when a planet is clicked load its data and grid
     // delegated as rows are loaded dynamically
     $(document).on('click', '.planet-table-row', e => {
-        const id = $(e.currentTarget).attr('planet-id');
-        loadPlanet(id);
+        const { planetId } = getEntityAttrs(e);
+        loadPlanet(planetId);
     });
 
     // save planet when form is submitted
@@ -170,32 +193,28 @@ $(() => {
         // planet that was just deleted
         e.stopPropagation();
 
-        const id = $(e.currentTarget).attr('planet-id');
-        deletePlanet(id);
+        const { planetId } = getEntityAttrs(e);
+        deletePlanet(planetId);
     });
 
     // when a grid cell is double clicked show the deposit modal
     // delegated as grid cells loaded dynamically
     $(document).on('dblclick', '.grid-cell', e => {
-        const modal = new bootstrap.Modal(document.getElementById('depositModal'));
-        modal.show(e.currentTarget);
+        depositModal.show(e.currentTarget);
     });
 
     // when an empty planet cell is clicked show a warning
     // delegated as grid cells loaded dynamically
     $(document).on('click', '.grid-cell-no-deposit', e => {
-        const x = $(e.currentTarget).attr('x');
-        const y = $(e.currentTarget).attr('y');
+        const { x, y } = getEntityAttrs(e);
         showNoDepositWarning(x, y);
     });
 
     // when a deposit cell is clicked load the deposit data
     // delegated as grid cells loaded dynamically
     $(document).on('click', '.grid-cell-deposit', e => {
-        const planet = $(e.currentTarget).attr('planet-id');
-        const x = $(e.currentTarget).attr('x');
-        const y = $(e.currentTarget).attr('y');
-        loadDeposit(planet, x, y);
+        const { planetId, x, y } = getEntityAttrs(e);
+        loadDeposit(planetId, x, y);
     });
 
     // save deposit when form is submitted
@@ -206,9 +225,7 @@ $(() => {
     // when a deposit delete icon is clicked delete the deposit
     // delegated as delete button loaded dynamicaly
     $(document).on('click', '.deposit-delete', e => {
-        const planetId = $(e.currentTarget).attr('planet-id');
-        const x = $(e.currentTarget).attr('x');
-        const y = $(e.currentTarget).attr('y');
+        const { planetId, x, y } = getEntityAttrs(e);
         deleteDeposit(planetId, x, y);
     });
 });

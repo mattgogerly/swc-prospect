@@ -16,18 +16,18 @@ class DepositController {
         $this->model = $model;
     }
 
-    public function depositListView(int $planet): void {
-        $deposits = $this->model->getByPlanet($planet);
+    public function depositListView(int $planetId): void {
+        $deposits = $this->model->getByPlanet($planetId);
         $view = new DepositListView();
         echo $view->render($deposits);
     }
 
-    public function depositJson(int $planet, int $x, int $y) {
-        echo json_encode($this->model->getByPlanetCoord($planet, $x, $y));
+    public function depositJson(int $planetId, int $x, int $y) {
+        echo json_encode($this->model->getByPlanetCoord($planetId, $x, $y));
     }
 
-    public function deposit(int $planet, int $x, int $y): void {
-        $deposit = $this->model->getByPlanetCoord($planet, $x, $y);
+    public function deposit(int $planetId, int $x, int $y): void {
+        $deposit = $this->model->getByPlanetCoord($planetId, $x, $y);
         $view = new DepositView();
         echo $view->render($deposit);
     }
@@ -37,8 +37,8 @@ class DepositController {
         $this->model->save($deposit);
     }
 
-    public function delete(int $planet, int $x, int $y): void {
-        $this->model->delete($planet, $x, $y);
+    public function delete(int $planetId, int $x, int $y): void {
+        $this->model->delete($planetId, $x, $y);
     }
 }
 

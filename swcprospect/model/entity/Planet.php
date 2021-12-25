@@ -28,6 +28,13 @@ class Planet implements JsonSerializable {
     }
 
     /**
+     * Set the value of id
+     */ 
+    public function setId(int $id): void {
+        $this->id = $id;
+    }
+
+    /**
      * Get the value of name
      */ 
     public function getName(): string {
