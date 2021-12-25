@@ -22,6 +22,7 @@ class PlanetModel extends Model {
 
             return $planets;
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             trigger_error('500: Error retrieving planets, try again later');
         }
    }
@@ -40,6 +41,7 @@ class PlanetModel extends Model {
             
             return $this->convertToEntity($res);
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             trigger_error('500: Error retrieving planet, try again later');
         }
    }
@@ -59,6 +61,7 @@ class PlanetModel extends Model {
 
             $stmt->execute();
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             trigger_error('500: Error saving planet, try again later');
         }
     }

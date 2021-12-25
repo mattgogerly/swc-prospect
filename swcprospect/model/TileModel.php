@@ -22,6 +22,7 @@ class TileModel extends Model {
             $res = $stmt->fetch(PDO::FETCH_ASSOC);
             return $this->convertToEntity($res);
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             trigger_error('500: Error retrieving tile, try again later');
         }
     }
@@ -40,6 +41,7 @@ class TileModel extends Model {
 
             return $tileList;
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             trigger_error('500: Error retrieving tiles, try again later');
         }
     }
@@ -48,6 +50,7 @@ class TileModel extends Model {
         try {
             //
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             trigger_error('500: Error saving tile, try again later');
         }
     }
@@ -58,6 +61,7 @@ class TileModel extends Model {
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             trigger_error('500: Error deleting tiles, try again later');
         }
     }

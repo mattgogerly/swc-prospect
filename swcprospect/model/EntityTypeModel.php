@@ -33,6 +33,7 @@ class EntityTypeModel extends Model {
 
             return $types;
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             trigger_error('500: Error retrieving types, try again later');
         }
     }
