@@ -55,7 +55,7 @@ class DepositModel extends Model {
         try {
             $stmt = $this->db->getConn()->prepare(Query::SAVE_DEPOSIT);
             
-            $stmt->bindValue(':planetId', $deposit->getPlanet(), PDO::PARAM_INT);
+            $stmt->bindValue(':planetId', $deposit->getPlanetId(), PDO::PARAM_INT);
             $stmt->bindValue(':x', $deposit->getX(), PDO::PARAM_INT);
             $stmt->bindValue(':y', $deposit->getY(), PDO::PARAM_INT);
             $stmt->bindValue(':type', $deposit->getType()->getId(), PDO::PARAM_INT);
