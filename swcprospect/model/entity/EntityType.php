@@ -4,11 +4,23 @@ namespace swcprospect\model\entity;
 
 use JsonSerializable;
 
+/**
+ * EntityType is a wrapper class for the various `type` fields of other entities, 
+ * e.g. Planet atmosphere.
+ */
 class EntityType implements JsonSerializable {
 
     private int $id;
     private ?string $name;
 
+    /**
+     * Create a new EntityType instance, e.g. Planet atmosphere or Deposit material.
+     *
+     * @param int    $id   ID of the type.
+     * @param string $name name of the type.
+     * 
+     * @return void
+     */
     public function __construct(int $id, string $name = NULL) {
         $this->id = $id;
         $this->name = $name;

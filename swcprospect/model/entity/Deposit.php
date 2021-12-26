@@ -4,16 +4,31 @@ namespace swcprospect\model\entity;
 
 use JsonSerializable;
 
+/**
+ * Deposit is a record of a deposit of a raw material found at an (x, y) coordinate on a 
+ * given Planet. The type of the Deposit is a value from `deposit_types`.
+ */
 class Deposit implements JsonSerializable {
     
-    private int $planet;
+    private int $planetId;
     private int $x;
     private int $y;
     private EntityType $type;
     private int $size;
-
-    public function __construct(int $planet, int $x, int $y, EntityType $type, int $size) {
-        $this->planet = $planet;
+    
+    /**
+     * Create a new Deposit instance.
+     *
+     * @param int        $planetId ID of the planet the Deposit is on.
+     * @param int        $x        x coord of the Deposit.
+     * @param int        $y        y coord of the Deposit.
+     * @param EntityType $type     type ID of the Deposit.
+     * @param int        $size     size of the Deposit.
+     * 
+     * @return void
+     */
+    public function __construct(int $planetId, int $x, int $y, EntityType $type, int $size) {
+        $this->planetId = $planetId;
         $this->x = $x;
         $this->y = $y;
         $this->type = $type;
@@ -21,12 +36,12 @@ class Deposit implements JsonSerializable {
     }
 
     /**
-     * Get the value of planet.
+     * Get the value of planetId.
      * 
      * @return int ID of the Planet this Deposit belongs to.
      */ 
-    public function getPlanet(): int {
-        return $this->planet;
+    public function getPlanetId(): int {
+        return $this->planetId;
     }
 
     /**
@@ -72,7 +87,7 @@ class Deposit implements JsonSerializable {
      */
     public function jsonSerialize(): mixed {
         return [
-            'planet' => $this->planet,
+            'planetId' => $this->planetId,
             'x' => $this->x,
             'y' => $this->y,
             'type' => $this->type,
