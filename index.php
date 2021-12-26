@@ -96,7 +96,7 @@ switch ($routeInfo[0]) {
         list($class, $method) = explode(HANDLER_DELIMITER, $handler, 2);
 
         $controller = $container->get($class);
-        $controller->{$method}(...$vars);
+        echo $controller->{$method}(...$vars);
         return;
     default:
         trigger_error('Error routing request');

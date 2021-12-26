@@ -13,21 +13,30 @@ class EntityType implements JsonSerializable {
         $this->id = $id;
         $this->name = $name;
     }
-
+  
     /**
-     * Get the value of id
-     */ 
+     * Get the value of id.
+     *
+     * @return int ID of this EntityType.
+     */
     public function getId(): int {
         return $this->id;
     }
 
     /**
-     * Get the value of name
+     * Get the value of name.
+     * 
+     * @return string name of this EntityType.
      */ 
     public function getName(): string {
         return $this->name;
     }
 
+    /**
+     * Serialize this EntityType as JSON.
+     *
+     * @return mixed JSON representation of this EntityType.
+     */
     public function jsonSerialize(): mixed {
         return [
             'id' => $this->id,

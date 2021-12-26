@@ -4,11 +4,19 @@ namespace swcprospect\controller;
 
 use swcprospect\view\HomeView;
 
+/**
+ * Controller for rendering main view.
+ */
 class HomeController {
 
-    public function home(): void {
+    /**
+     * Renders the main view.
+     * 
+     * @return string main SWC Prospect view containing other components.
+     */
+    public function home(): string {
         $view = new HomeView();
-        echo $view->render();
+        return $view->render();
     }
 
 }

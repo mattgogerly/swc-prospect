@@ -11,35 +11,87 @@ use swcprospect\model\entity\Tile;
 use swcprospect\view\PlanetListView;
 use swcprospect\view\PlanetView;
 
+/**
+ * Controller for interacting with the singleton PlanetModel.
+ */
 class PlanetController {
 
     private PlanetModel $model;
     private TileModel $tileModel;
     private DepositModel $depositModel;
 
+    /**
+     * Constructs an instance of PlanetController.
+     * 
+     * @param PlanetModel  $model        model for Planet entities, injected by DI.   
+     * @param TileModel    $tileModel    model for Tile entities, injected by DI.
+     * @param DepositModel $depositModel model for Deposit entities, injected by DI.
+     */
     public function __construct(PlanetModel $model, TileModel $tileModel, DepositModel $depositModel) {
         $this->model = $model;
         $this->tileModel = $tileModel;
         $this->depositModel = $depositModel;
     }
 
-    public function planetListView(): void {
+    /**
+     * Renders a list of Planets in table format.
+     * @see Planet
+     * @see PlanetListView
+     * 
+     * @return string list of Planets in HTML table format.
+     */
+    public function planetListView(): string {
         $planets = $this->model->getAll();
         $view = new PlanetListView();
-        echo $view->render($planets);
+        return $view->render($planets);
     }
 
-    public function planetJson(int $planetId): void {
-        echo json_encode($this->getPlanet($planetId));
+    /**
+     * Returns a Planet as JSON, useful for JavaScript.
+     * @see Planet
+     * 
+     * @param int $planetId the id of the Planet to return.
+     * 
+     * @return string JSON representation of the Planet.
+     */
+    public function planetJson(int $planetId): string {
+        return json_encode($this->getPlanet($planetId));
     }
 
-    public function planet(int $planetId): void {
+    /**
+     * Renders a Planet in table format.
+     * @see Planet
+     * @see PlanetView
+     * 
+     * @param int $planetId the id of the Planet to return.
+     * 
+     * @return string Planet data in HTML table format.
+     */
+    public function planet(int $planetId): string {
         $planet = $this->getPlanet($planetId);
         $view = new PlanetView();
-        echo $view->render($planet);
+        return $view->render($planet);
     }
 
-    public function save(?int $planetId, string $name, int $type, int $size, string $terrainMap): void {
+    /**
+     * Persists a Planet entity in the model.
+     * 
+     * Upserts a Planet, then upserts the Tiles representing the Planet. Terrain map size must
+     * match the size of the Planet.
+     * 
+     * @see Planet
+     * @see EntityType
+     * @see Tile
+     * 
+     * @param ?int   $planetId   the id of the Planet, null if new.
+     * @param string $name       the name coord of the Planet.
+     * @param int    $type       the EntityType ID for the Planet type.
+     * @param int    $size       the dimension of the planet on one axis.
+     * @param string $terrainMap a command separated string of EntityType IDs for Tiles.
+     * 
+     * @return string JSON representation of the Planet.
+     */
+    public function save(?int $planetId, string $name, int $type, int $size, string $terrainMap): string {
         $planet = new Planet($planetId, $name, new EntityType($type), $size);
         $planetId = $this->model->save($planet);
         $planet->setId($planetId);
@@ -64,13 +116,31 @@ class PlanetController {
             }
         }
 
-        echo json_encode($planet);
+        return json_encode($planet);
     }
 
+    /**
+     * Deletes a Planet entity from the model.
+     * @see Planet
+     * 
+     * @param int $planetId the ID of the Planet to delete
+     */
     public function delete(int $planetId): void {
         $this->model->delete($planetId);
     }
 
+    /**
+     * Utility method to get a Planet from the model. Populates the tileMap and depositMap fields
+     * as arrays representing the layout of the respective entities on the Planet grid.
+     * 
+     * @see Planet
+     * @see Tile
+     * @see Deposit
+     * 
+     * @param int $planetId the ID of the Planet to retrieve.
+     * 
+     * @return Planet Planet with ID retrieved from PlanetModel.
+     */
     private function getPlanet(int $planetId): Planet {
         $planet = $this->model->getById($planetId);
 
@@ -85,11 +155,25 @@ class PlanetController {
         return $planet;
     }
 
-    private function createMap(int $planetSize, array $objects): array {
+    /**
+     * Utility method to create a map (3D array) representing a Planet grid,
+     * with entity IDs populated at their coordinates.
+     * 
+     * @see Planet
+     * @see Tile
+     * @see Deposit
+     * 
+     * @param int $planetSize the dimension of one axis of the Planet, 
+     *                        used to fill the map with NULLs.
+     * @param array $entities the entities to place in the map.
+     * 
+     * @return Planet Planet with ID retrieved from PlanetModel.
+     */
+    private function createMap(int $planetSize, array $entities): array {
         $map = array_fill(0, $planetSize, array_fill(0, $planetSize, NULL));
 
-        foreach ($objects as $o) {
-            $map[$o->getY()][$o->getX()] = $o;
+        foreach ($entities as $e) {
+            $map[$e->getY()][$e->getX()] = $e;
         }
 
         return $map;

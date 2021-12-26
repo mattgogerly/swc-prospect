@@ -13,7 +13,12 @@
 # Build data
 /build/
 
-# Composer PHAR
-/composer.phar
+# PHAR files
+*.phar
+phpdoc
 
+# phpDoc files
+.phpdoc/
+
+# macOS generated files
 **/.DS_Store
