@@ -2,9 +2,21 @@
 
 namespace swcprospect\view;
 
-class DepositView {
+use swcprospect\model\entity\Deposit;
 
-    public function render($deposit): string {
+/**
+ * View of a Deposit. Shows type and size, and buttons for update/delete.
+ */
+class DepositView {
+    
+    /**
+     * Render the DepositView.
+     *
+     * @param Deposit $deposit Deposit to display.
+     * 
+     * @return string HTML of the view.
+     */
+    public function render(Deposit $deposit): string {
         ob_start();
         include('templates/deposit.php');
         $content = ob_get_contents();
