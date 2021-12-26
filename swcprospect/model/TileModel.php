@@ -50,7 +50,7 @@ class TileModel extends Model {
         try {
             $stmt = $this->db->getConn()->prepare(Query::SAVE_TILE);
 
-            $stmt->bindValue(':planetId', $tile->getPlanet(), PDO::PARAM_INT);
+            $stmt->bindValue(':planetId', $tile->getPlanetId(), PDO::PARAM_INT);
             $stmt->bindValue(':x', $tile->getX(), PDO::PARAM_INT);
             $stmt->bindValue(':y', $tile->getY(), PDO::PARAM_INT);
             $stmt->bindValue(':type', $tile->getType()->getId(), PDO::PARAM_INT);
