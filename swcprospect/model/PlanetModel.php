@@ -9,8 +9,17 @@ use swcprospect\model\entity\EntityType;
 use swcprospect\model\entity\Planet;
 use swcprospect\model\Model;
 
+/**
+ * PlanetModel is a wrapper for manipulating Planets in the DB.
+ */
 class PlanetModel extends Model
 {
+    /**
+     * Retrieves a list of all Planetseposit from the DB by Planet and X, Y coord.
+     * @see Planet
+     *
+     * @return array array of Planet objects.
+     */
     public function getAll(): array
     {
         try {
@@ -28,7 +37,16 @@ class PlanetModel extends Model
         }
     }
 
-    public function getById($id): ?Planet
+    /**
+     * Retrieves a Planet from the DB by ID.
+     * @see Planet
+     *
+     * @param int $id the ID of the Planet.
+     *
+     * @return Planet Planet object.
+     * @throws 404 if not found.
+     */
+    public function getById($id): Planet
     {
         try {
             $stmt = $this->db->getConn()->prepare(Query::PLANET_BY_ID);
@@ -48,6 +66,14 @@ class PlanetModel extends Model
         }
     }
 
+    /**
+     * Saves a Planet to the DB.
+     * @see Planet
+     *
+     * @param Planet $planet Planet object to be saved.
+     *
+     * @return void
+     */
     public function save(Planet $planet): int
     {
         try {
@@ -72,6 +98,14 @@ class PlanetModel extends Model
         }
     }
 
+    /**
+     * Deletes a specific Planet from the DB.
+     * @see Planet
+     *
+     * @param int $id the Planet ID to delete.
+     *
+     * @return void
+     */
     public function delete(int $id): void
     {
         try {
@@ -84,6 +118,14 @@ class PlanetModel extends Model
         }
     }
 
+    /**
+     * Utility to convert a row from the DB to a Planet object.
+     * @see Planet
+     *
+     * @param array $arr Array of data from the DB containing fields for a Planet.
+     *
+     * @return Planet Planet object from the data in the DB.
+     */
     private function convertToEntity(array $arr): Planet
     {
         $type = new EntityType($arr['type_id'], $arr['type_name']);

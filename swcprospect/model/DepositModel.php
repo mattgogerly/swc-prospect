@@ -9,8 +9,22 @@ use swcprospect\model\entity\Deposit;
 use swcprospect\model\entity\EntityType;
 use swcprospect\model\Model;
 
+/**
+ * Model is a parent class for entity models, holding the DB connection.
+ */
 class DepositModel extends Model
 {
+    /**
+     * Retrieves a Deposit from the DB by Planet and X, Y coord.
+     * @see Deposit
+     *
+     * @param int $planetId the planet the Deposit is on.
+     * @param int $x        the x coord of the Deposit.
+     * @param int $y        the y coord of the Deposit.
+     *
+     * @return Deposit Deposit object.
+     * @throws 404 if not found.
+     */
     public function getByPlanetCoord(int $planet, int $x, int $y): Deposit
     {
         try {
@@ -33,6 +47,14 @@ class DepositModel extends Model
         }
     }
 
+    /**
+     * Retrieves a list of Deposits by Planet.
+     * @see Deposit
+     *
+     * @param int $planetId the planet to retrieve Deposits for.
+     *
+     * @return string array of Deposits on a given Planet.
+     */
     public function getByPlanet(int $planetId): array
     {
         try {
@@ -53,6 +75,14 @@ class DepositModel extends Model
         }
     }
 
+    /**
+     * Saves a Deposit to the DB.
+     * @see Deposit
+     *
+     * @param Deposit $deposit Deposit object to be saved.
+     *
+     * @return void
+     */
     public function save(Deposit $deposit): void
     {
         try {
@@ -71,6 +101,16 @@ class DepositModel extends Model
         }
     }
 
+    /**
+     * Deletes a specific Deposit from the DB.
+     * @see Deposit
+     *
+     * @param int $planetId the planet the Deposit is on.
+     * @param int $x        the x coord of the Deposit.
+     * @param int $y        the y coord of the Deposit.
+     *
+     * @return void
+     */
     public function delete(int $planetId, int $x, int $y): void
     {
         try {
@@ -85,18 +125,14 @@ class DepositModel extends Model
         }
     }
 
-    public function deleteByPlanet(int $planetId): void
-    {
-        try {
-            $stmt = $this->db->getConn()->prepare(Query::DELETE_DEPOSITS);
-            $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
-            $stmt->execute();
-        } catch (PDOException $e) {
-            error_log($e->getMessage());
-            trigger_error('500: Error deleting deposits, try again later');
-        }
-    }
-
+    /**
+     * Utility to convert a row from the DB to a Deposit object.
+     * @see Deposit
+     *
+     * @param array $arr Array of data from the DB containing fields for a Deposit.
+     *
+     * @return Deposit Deposit object from the data in the DB.
+     */
     private function convertToEntity($arr): Deposit
     {
         $type = new EntityType($arr['type_id'], $arr['type_name']);

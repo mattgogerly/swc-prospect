@@ -9,8 +9,22 @@ use swcprospect\model\entity\EntityType;
 use swcprospect\model\entity\Tile;
 use swcprospect\model\Model;
 
+/**
+ * TileModel is a wrapper for manipulating Tiles in the DB.
+ */
 class TileModel extends Model
 {
+    /**
+     * Retrieves a Tile from the DB by Planet and X, Y coord.
+     * @see Tile
+     *
+     * @param int $planetId the planet the Deposit is on.
+     * @param int $x        the x coord of the Deposit.
+     * @param int $y        the y coord of the Deposit.
+     *
+     * @return Tile Tile object.
+     * @throws 404 if not found.
+     */
     public function getByPlanetCoord(int $planetId, int $x, int $y): Tile
     {
         try {
@@ -28,6 +42,14 @@ class TileModel extends Model
         }
     }
 
+    /**
+     * Retrieves a list of Tiles by Planet.
+     * @see Tile
+     *
+     * @param int $planetId the planet to retrieve Tiles for.
+     *
+     * @return array array of Tiles on a given Planet.
+     */
     public function getByPlanet(int $planetId): array
     {
         try {
@@ -48,6 +70,14 @@ class TileModel extends Model
         }
     }
 
+    /**
+     * Saves a Tile to the DB.
+     * @see Tile
+     *
+     * @param Tile $tile Tile object to be saved.
+     *
+     * @return void
+     */
     public function save(Tile $tile): void
     {
         try {
@@ -65,18 +95,14 @@ class TileModel extends Model
         }
     }
 
-    public function deleteByPlanet(int $planetId): void
-    {
-        try {
-            $stmt = $this->db->getConn()->prepare(Query::DELETE_TILES);
-            $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
-            $stmt->execute();
-        } catch (PDOException $e) {
-            error_log($e->getMessage());
-            trigger_error('500: Error deleting tiles, try again later');
-        }
-    }
-
+    /**
+     * Utility to convert a row from the DB to a Tile object.
+     * @see Tile
+     *
+     * @param array $arr Array of data from the DB containing fields for a Tile.
+     *
+     * @return Tile Tile object from the data in the DB.
+     */
     private function convertToEntity($arr): Tile
     {
         $type = new EntityType($arr['type_id'], $arr['type_name']);
