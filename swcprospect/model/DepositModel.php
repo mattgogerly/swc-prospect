@@ -10,7 +10,7 @@ use swcprospect\model\entity\EntityType;
 use swcprospect\model\Model;
 
 /**
- * Model is a parent class for entity models, holding the DB connection.
+ * DepositModel is a wrapper for manipulating Deposits in the DB.
  */
 class DepositModel extends Model
 {
