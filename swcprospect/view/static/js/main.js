@@ -19,7 +19,7 @@ $(document).ajaxError((_event, request, _settings) => {
 formToObject = (id) => {
     return $(id).serializeArray()
         .reduce((accumObj, { name, value }) => { 
-            return { ...accumObj, [name]: value ? value : null} 
+            return { ...accumObj, [name]: value ? value.replace(/\s+/g, '') : null} 
         }, {});
 };
 

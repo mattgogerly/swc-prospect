@@ -84,27 +84,24 @@ class PlanetController {
      * @see Tile
      * 
      * @param ?int   $planetId   the id of the Planet, null if new.
-     * @param string $name       the name coord of the Planet.
+     * @param string $name       the name of the Planet.
      * @param int    $type       the EntityType ID for the Planet type.
      * @param int    $size       the dimension of the planet on one axis.
-     * @param string $terrainMap a command separated string of EntityType IDs for Tiles.
+     * @param string $terrainMap a comma separated string of EntityType IDs for Tiles.
      * 
      * @return string JSON representation of the Planet.
      */
     public function save(?int $planetId, string $name, int $type, int $size, string $terrainMap): string {
+        $this->validatePlanetData($planetId, $name, $size);
+        $validatedTerrainMap = $this->validateTerrainMap($terrainMap, $size);
+
         $planet = new Planet($planetId, $name, new EntityType($type), $size);
         $planetId = $this->model->save($planet);
         $planet->setId($planetId);
 
-        $splitTiles = explode(',', $terrainMap);
-        if (count($splitTiles) != $size * $size) {
-            trigger_error("400: Size of planet tile map doesn't match size of planet" . count($splitTiles));
-        }
-
-        $x = 0;
-        $y = 0;
-        foreach ($splitTiles as $typeId) {
-            $tile = new Tile($planetId, $x, $y, new EntityType(intval($typeId)));
+        $x = $y = 0;
+        foreach ($validatedTerrainMap as $tile) {
+            $tile = new Tile($planetId, $x, $y, new EntityType(intval($tile)));
             $this->tileModel->save($tile);
 
             if ($x == $size - 1) {
@@ -123,10 +120,57 @@ class PlanetController {
      * Deletes a Planet entity from the model.
      * @see Planet
      * 
-     * @param int $planetId the ID of the Planet to delete
+     * @param int $planetId the ID of the Planet to delete.
      */
     public function delete(int $planetId): void {
         $this->model->delete($planetId);
+    }
+
+        
+    /**
+     * Validates that the data provided when creating a planet is valid. Triggers a 400
+     * response if a field is not valid.
+     *
+     * @param ?int   $planetId the id of the Planet, null if new.
+     * @param string $name     the name coord of the Planet.
+     * @param int    $size     the dimension of the planet on one axis.
+     * 
+     * @return void
+     */
+    private function validatePlanetData(?int $planetId, string $name, int $size): void {
+        if ($planetId && $planetId < 1) {
+            trigger_error('400: Planet ID must be a positive integer');
+        }
+        
+        if (strlen($name) < 1) {
+            trigger_error('400: Planet name must be provided');
+        }
+        
+        if ($size < 1) {
+            trigger_error('400: Planet size must be a positive integer');
+        }
+    }
+
+    /**
+     * Validates that the terrain map provided when upserting a planet is valid. Triggers a 400
+     * response if not.
+     *
+     * @param string $terrainMap a comma separated string of EntityType IDs for Tiles.
+     * @param int    $size       the dimension of the planet on one axis.
+     * 
+     * @return array
+     */
+    private function validateTerrainMap(string $terrainMap, int $planetSize): array {
+        $splitTiles = explode(',', $terrainMap);
+        if (count($splitTiles) != $planetSize * $planetSize) {
+            trigger_error('400: Size of planet tile map does not match size of planet');
+        }
+
+        if (!array_reduce($splitTiles, function ($result, $item) { return $result && intval($item) > 0; }, true)) {
+            trigger_error('400: Values in terrain map must be positive integers');
+        }
+
+        return $splitTiles;
     }
 
     /**

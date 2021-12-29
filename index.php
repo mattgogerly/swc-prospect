@@ -59,13 +59,19 @@ switch ($routeInfo[0]) {
     case Dispatcher::FOUND:
         list(, $handler, $vars) = $routeInfo;
 
-        // override POST body if POST
+        // override POST body with JSON content since that's what we're sending from the frontend
         $vars = $_SERVER['REQUEST_METHOD'] == 'POST' ? json_decode(file_get_contents('php://input'), true) : $vars;
 
         list($class, $method) = explode(HANDLER_DELIMITER, $handler, 2);
 
         $controller = $container->get($class);
-        echo $controller->{$method}(...$vars);
+
+        try {
+            echo $controller->{$method}(...$vars);
+        } catch (TypeError $e) {
+            trigger_error('400: Invalid type for argument');
+        }
+
         return;
     default:
         trigger_error('Error routing request');
