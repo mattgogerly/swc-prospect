@@ -1,4 +1,5 @@
 <?php
+
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/error.php';
 
@@ -10,11 +11,11 @@ use FastRoute\RouteCollector;
  **** ROUTING ****
  */
 const HANDLER_DELIMITER = '@';
-const STATIC_ROOT = './swcprospect/view/static'; 
+const STATIC_ROOT = './swcprospect/view/static';
 
 $container = new Container();
 
-$dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
+$dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->get('/', 'swcprospect\controller\HomeController@home');
 
     $r->addGroup('/type', function (RouteCollector $r) {
@@ -32,12 +33,12 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
         $r->get('/json', 'swcprospect\controller\PlanetController@planetJson');
         $r->delete('', 'swcprospect\controller\PlanetController@delete');
 
-        $r->addGroup('/deposits', function (RouteCollector $r) {   
+        $r->addGroup('/deposits', function (RouteCollector $r) {
             $r->get('', 'swcprospect\controller\DepositController@depositListView');
             $r->post('', 'swcprospect\controller\DepositController@save');
         });
 
-        $r->addGroup('/deposit', function (RouteCollector $r) {   
+        $r->addGroup('/deposit', function (RouteCollector $r) {
             $r->get('/x/{x:\d+}/y/{y:\d+}/json', 'swcprospect\controller\DepositController@depositJson');
             $r->get('/x/{x:\d+}/y/{y:\d+}', 'swcprospect\controller\DepositController@deposit');
             $r->delete('/x/{x:\d+}/y/{y:\d+}', 'swcprospect\controller\DepositController@delete');
@@ -76,4 +77,3 @@ switch ($routeInfo[0]) {
     default:
         trigger_error('Error routing request');
 }
-?>
