@@ -2,12 +2,12 @@
 
 namespace swcprospect\model;
 
-use swcprospect\model\Model;
+use PDO;
+use PDOException;
 use swcprospect\model\db\Query;
 use swcprospect\model\entity\Deposit;
 use swcprospect\model\entity\EntityType;
-use PDO;
-use PDOException;
+use swcprospect\model\Model;
 
 class DepositModel extends Model
 {

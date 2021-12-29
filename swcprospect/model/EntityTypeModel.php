@@ -2,10 +2,10 @@
 
 namespace swcprospect\model;
 
-use swcprospect\model\Model;
+use PDOException;
 use swcprospect\model\db\Query;
 use swcprospect\model\entity\EntityType;
-use PDOException;
+use swcprospect\model\Model;
 
 class EntityTypeModel extends Model
 {

@@ -2,12 +2,12 @@
 
 namespace swcprospect\model;
 
-use swcprospect\model\Model;
-use swcprospect\model\db\Query;
-use swcprospect\model\entity\Planet;
-use swcprospect\model\entity\EntityType;
 use PDO;
 use PDOException;
+use swcprospect\model\db\Query;
+use swcprospect\model\entity\EntityType;
+use swcprospect\model\entity\Planet;
+use swcprospect\model\Model;
 
 class PlanetModel extends Model
 {
