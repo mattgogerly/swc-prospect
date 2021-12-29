@@ -19,7 +19,6 @@ $(document).ajaxError((_event, request, _settings) => {
 formToObject = (id) => {
     return $(id).serializeArray()
         .reduce((accumObj, { name, value }) => { 
-            console.log(name, value);
             return { ...accumObj, [name]: value ? value : null} 
         }, {});
 };
@@ -182,7 +181,8 @@ $(() => {
     });
 
     // save planet when form is submitted
-    $('#planetFormSubmit').click(() => {
+    $('#planetForm').submit(e => {
+        e.preventDefault();
         savePlanet();
     });
 
@@ -218,8 +218,12 @@ $(() => {
     });
 
     // save deposit when form is submitted
-    $('#depositFormSubmit').click(() => {
-        saveDeposit();
+    $('#depositForm').submit(e => {
+        e.preventDefault();
+
+        if ($('#depositForm')[0].reportValidity()) {
+            saveDeposit();
+        }
     });
 
     // when a deposit delete icon is clicked delete the deposit

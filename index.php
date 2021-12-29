@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . 'error.php';
+require __DIR__ . '/error.php';
 
 use DI\Container;
 use FastRoute\Dispatcher;
