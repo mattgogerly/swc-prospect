@@ -11,7 +11,7 @@
     <tbody>
     <?php
     foreach ($planets as $planet) {
-    ?>
+        ?>
         <tr class="planet-list-row" planet-id="<?= $planet->getId() ?>">
             <td>
                 <?= $planet->getName() ?>
@@ -28,7 +28,7 @@
                 </button>
             </td>
         </tr>
-    <?php
+        <?php
     }
     ?>
     </tbody>

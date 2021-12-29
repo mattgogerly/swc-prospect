@@ -14,20 +14,21 @@ use swcprospect\view\PlanetView;
 /**
  * Controller for interacting with the singleton PlanetModel.
  */
-class PlanetController {
-
+class PlanetController
+{
     private PlanetModel $model;
     private TileModel $tileModel;
     private DepositModel $depositModel;
 
     /**
      * Constructs an instance of PlanetController.
-     * 
-     * @param PlanetModel  $model        model for Planet entities, injected by DI.   
+     *
+     * @param PlanetModel  $model        model for Planet entities, injected by DI.
      * @param TileModel    $tileModel    model for Tile entities, injected by DI.
      * @param DepositModel $depositModel model for Deposit entities, injected by DI.
      */
-    public function __construct(PlanetModel $model, TileModel $tileModel, DepositModel $depositModel) {
+    public function __construct(PlanetModel $model, TileModel $tileModel, DepositModel $depositModel)
+    {
         $this->model = $model;
         $this->tileModel = $tileModel;
         $this->depositModel = $depositModel;
@@ -37,10 +38,11 @@ class PlanetController {
      * Renders a list of Planets in table format.
      * @see Planet
      * @see PlanetListView
-     * 
+     *
      * @return string list of Planets in HTML table format.
      */
-    public function planetListView(): string {
+    public function planetListView(): string
+    {
         $planets = $this->model->getAll();
         $view = new PlanetListView();
         return $view->render($planets);
@@ -49,12 +51,13 @@ class PlanetController {
     /**
      * Returns a Planet as JSON, useful for JavaScript.
      * @see Planet
-     * 
+     *
      * @param int $planetId the id of the Planet to return.
-     * 
+     *
      * @return string JSON representation of the Planet.
      */
-    public function planetJson(int $planetId): string {
+    public function planetJson(int $planetId): string
+    {
         return json_encode($this->getPlanet($planetId));
     }
 
@@ -62,12 +65,13 @@ class PlanetController {
      * Renders a Planet in table format.
      * @see Planet
      * @see PlanetView
-     * 
+     *
      * @param int $planetId the id of the Planet to return.
-     * 
+     *
      * @return string Planet data in HTML table format.
      */
-    public function planet(int $planetId): string {
+    public function planet(int $planetId): string
+    {
         $planet = $this->getPlanet($planetId);
         $view = new PlanetView();
         return $view->render($planet);
@@ -75,23 +79,24 @@ class PlanetController {
 
     /**
      * Persists a Planet entity in the model.
-     * 
+     *
      * Upserts a Planet, then upserts the Tiles representing the Planet. Terrain map size must
      * match the size of the Planet.
-     * 
+     *
      * @see Planet
      * @see EntityType
      * @see Tile
-     * 
+     *
      * @param ?int   $planetId   the id of the Planet, null if new.
      * @param string $name       the name of the Planet.
      * @param int    $type       the EntityType ID for the Planet type.
      * @param int    $size       the dimension of the planet on one axis.
      * @param string $terrainMap a comma separated string of EntityType IDs for Tiles.
-     * 
+     *
      * @return string JSON representation of the Planet.
      */
-    public function save(?int $planetId, string $name, int $type, int $size, string $terrainMap): string {
+    public function save(?int $planetId, string $name, int $type, int $size, string $terrainMap): string
+    {
         $this->validatePlanetData($planetId, $name, $size);
         $validatedTerrainMap = $this->validateTerrainMap($terrainMap, $size);
 
@@ -119,10 +124,11 @@ class PlanetController {
     /**
      * Deletes a Planet entity from the model.
      * @see Planet
-     * 
+     *
      * @param int $planetId the ID of the Planet to delete.
      */
-    public function delete(int $planetId): void {
+    public function delete(int $planetId): void
+    {
         $this->model->delete($planetId);
     }
 
@@ -133,18 +139,19 @@ class PlanetController {
      * @param ?int   $planetId the id of the Planet, null if new.
      * @param string $name     the name coord of the Planet.
      * @param int    $size     the dimension of the planet on one axis.
-     * 
+     *
      * @return void
      */
-    private function validatePlanetData(?int $planetId, string $name, int $size): void {
+    private function validatePlanetData(?int $planetId, string $name, int $size): void
+    {
         if ($planetId && $planetId < 1) {
             trigger_error('400: Planet ID must be a positive integer');
         }
-        
+
         if (strlen($name) < 1) {
             trigger_error('400: Planet name must be provided');
         }
-        
+
         if ($size < 1) {
             trigger_error('400: Planet size must be a positive integer');
         }
@@ -156,16 +163,21 @@ class PlanetController {
      *
      * @param string $terrainMap a comma separated string of EntityType IDs for Tiles.
      * @param int    $size       the dimension of the planet on one axis.
-     * 
+     *
      * @return array
      */
-    private function validateTerrainMap(string $terrainMap, int $planetSize): array {
+    private function validateTerrainMap(string $terrainMap, int $planetSize): array
+    {
         $splitTiles = explode(',', $terrainMap);
         if (count($splitTiles) != $planetSize * $planetSize) {
             trigger_error('400: Size of planet tile map does not match size of planet');
         }
 
-        if (!array_reduce($splitTiles, function ($result, $item) { return $result && is_numeric($item); }, true)) {
+        if (
+            !array_reduce($splitTiles, function ($result, $item) {
+                return $result && is_numeric($item);
+            }, true)
+        ) {
             trigger_error('400: Values in terrain map must be positive integers');
         }
 
@@ -175,16 +187,17 @@ class PlanetController {
     /**
      * Utility method to get a Planet from the model. Populates the tileMap and depositMap fields
      * as arrays representing the layout of the respective entities on the Planet grid.
-     * 
+     *
      * @see Planet
      * @see Tile
      * @see Deposit
-     * 
+     *
      * @param int $planetId the ID of the Planet to retrieve.
-     * 
+     *
      * @return Planet Planet with ID retrieved from PlanetModel.
      */
-    private function getPlanet(int $planetId): Planet {
+    private function getPlanet(int $planetId): Planet
+    {
         $planet = $this->model->getById($planetId);
 
         // get tile map for this planet
@@ -201,19 +214,20 @@ class PlanetController {
     /**
      * Utility method to create a map (3D array) representing a Planet grid,
      * with entity IDs populated at their coordinates.
-     * 
+     *
      * @see Planet
      * @see Tile
      * @see Deposit
-     * 
-     * @param int $planetSize the dimension of one axis of the Planet, 
+     *
+     * @param int $planetSize the dimension of one axis of the Planet,
      *                        used to fill the map with NULLs.
      * @param array $entities the entities to place in the map.
-     * 
+     *
      * @return Planet Planet with ID retrieved from PlanetModel.
      */
-    private function createMap(int $planetSize, array $entities): array {
-        $map = array_fill(0, $planetSize, array_fill(0, $planetSize, NULL));
+    private function createMap(int $planetSize, array $entities): array
+    {
+        $map = array_fill(0, $planetSize, array_fill(0, $planetSize, null));
 
         foreach ($entities as $e) {
             $map[$e->getY()][$e->getX()] = $e;
@@ -222,5 +236,3 @@ class PlanetController {
         return $map;
     }
 }
-
-?>

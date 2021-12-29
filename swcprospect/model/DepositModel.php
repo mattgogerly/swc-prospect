@@ -9,9 +9,10 @@ use swcprospect\model\entity\EntityType;
 use PDO;
 use PDOException;
 
-class DepositModel extends Model {
-
-    public function getByPlanetCoord(int $planet, int $x, int $y): Deposit {
+class DepositModel extends Model
+{
+    public function getByPlanetCoord(int $planet, int $x, int $y): Deposit
+    {
         try {
             $stmt = $this->db->getConn()->prepare(Query::DEPOSIT_BY_COORD);
             $stmt->bindValue(':planetId', $planet, PDO::PARAM_INT);
@@ -32,7 +33,8 @@ class DepositModel extends Model {
         }
     }
 
-    public function getByPlanet(int $planetId): array {
+    public function getByPlanet(int $planetId): array
+    {
         try {
             $stmt = $this->db->getConn()->prepare(Query::DEPOSITS_BY_PLANET);
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
@@ -51,10 +53,11 @@ class DepositModel extends Model {
         }
     }
 
-    public function save(Deposit $deposit): void {
+    public function save(Deposit $deposit): void
+    {
         try {
             $stmt = $this->db->getConn()->prepare(Query::SAVE_DEPOSIT);
-            
+
             $stmt->bindValue(':planetId', $deposit->getPlanetId(), PDO::PARAM_INT);
             $stmt->bindValue(':x', $deposit->getX(), PDO::PARAM_INT);
             $stmt->bindValue(':y', $deposit->getY(), PDO::PARAM_INT);
@@ -68,7 +71,8 @@ class DepositModel extends Model {
         }
     }
 
-    public function delete(int $planetId, int $x, int $y): void {
+    public function delete(int $planetId, int $x, int $y): void
+    {
         try {
             $stmt = $this->db->getConn()->prepare(Query::DELETE_DEPOSIT);
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
@@ -81,7 +85,8 @@ class DepositModel extends Model {
         }
     }
 
-    public function deleteByPlanet(int $planetId): void {
+    public function deleteByPlanet(int $planetId): void
+    {
         try {
             $stmt = $this->db->getConn()->prepare(Query::DELETE_DEPOSITS);
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
@@ -92,9 +97,9 @@ class DepositModel extends Model {
         }
     }
 
-    private function convertToEntity($arr): Deposit {
+    private function convertToEntity($arr): Deposit
+    {
         $type = new EntityType($arr['type_id'], $arr['type_name']);
         return new Deposit($arr['planet'], $arr['x'], $arr['y'], $type, $arr['size']);
     }
 }
-?>

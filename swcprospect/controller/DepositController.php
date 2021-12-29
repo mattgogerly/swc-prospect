@@ -11,16 +11,17 @@ use swcprospect\view\DepositView;
 /**
  * Controller for interacting with the singleton DepositModel.
  */
-class DepositController {
-
+class DepositController
+{
     private DepositModel $model;
 
     /**
      * Constructs an instance of DepositController.
-     * 
+     *
      * @param DepositModel $model model for Deposit entities, injected by DI.
      */
-    public function __construct(DepositModel $model) {
+    public function __construct(DepositModel $model)
+    {
         $this->model = $model;
     }
 
@@ -28,12 +29,13 @@ class DepositController {
      * Renders a list of Deposits in table format.
      * @see Deposit
      * @see DepositListView
-     * 
+     *
      * @param int $planetId the planet to retrieve Deposits for.
-     * 
+     *
      * @return string list of Deposits in HTML table format.
      */
-    public function depositListView(int $planetId): string {
+    public function depositListView(int $planetId): string
+    {
         $deposits = $this->model->getByPlanet($planetId);
         $view = new DepositListView();
         return $view->render($deposits);
@@ -42,14 +44,15 @@ class DepositController {
     /**
      * Returns a Deposit as JSON, useful for JavaScript.
      * @see Deposit
-     * 
+     *
      * @param int $planetId the planet the Deposit is on.
      * @param int $x        the x coord of the Deposit.
      * @param int $y        the y coord of the Deposit.
-     * 
+     *
      * @return string JSON representation of the Deposit.
      */
-    public function depositJson(int $planetId, int $x, int $y): string {
+    public function depositJson(int $planetId, int $x, int $y): string
+    {
         return json_encode($this->model->getByPlanetCoord($planetId, $x, $y));
     }
 
@@ -57,14 +60,15 @@ class DepositController {
      * Renders a Deposit in table format.
      * @see Deposit
      * @see DepositView
-     * 
+     *
      * @param int $planetId the planet the Deposit is on.
      * @param int $x        the x coord of the Deposit.
      * @param int $y        the y coord of the Deposit.
-     * 
+     *
      * @return string Deposit data in HTML table format.
      */
-    public function deposit(int $planetId, int $x, int $y): string {
+    public function deposit(int $planetId, int $x, int $y): string
+    {
         $deposit = $this->model->getByPlanetCoord($planetId, $x, $y);
         $view = new DepositView();
         return $view->render($deposit);
@@ -73,14 +77,15 @@ class DepositController {
     /**
      * Persists a Deposit entity in the model.
      * @see Deposit
-     * 
+     *
      * @param int $planetId the planet the Deposit is on.
      * @param int $x        the x coord of the Deposit.
      * @param int $y        the y coord of the Deposit.
      * @param int $type     the type of the Deposit.
      * @param int $size     the size of the Deposit.
      */
-    public function save(int $planetId, int $x, int $y, int $type, int $size): void {
+    public function save(int $planetId, int $x, int $y, int $type, int $size): void
+    {
         $deposit = new Deposit($planetId, $x, $y, new EntityType($type), $size);
         $this->model->save($deposit);
     }
@@ -88,12 +93,13 @@ class DepositController {
     /**
      * Deletes a Deposit entity from the model.
      * @see Deposit
-     * 
+     *
      * @param int $planetId the planet the Deposit is on.
      * @param int $x        the x coord of the Deposit.
      * @param int $y        the y coord of the Deposit.
      */
-    public function delete(int $planetId, int $x, int $y): void {
+    public function delete(int $planetId, int $x, int $y): void
+    {
         $this->model->delete($planetId, $x, $y);
     }
 
@@ -105,14 +111,15 @@ class DepositController {
      * @param int $x        the x coord of the Deposit.
      * @param int $y        the y coord of the Deposit.
      * @param int $size     the size of the Deposit.
-     * 
+     *
      * @return void
      */
-    private function validateDepositData(?int $planetId, string $x, int $y, int $size): void {
+    private function validateDepositData(?int $planetId, string $x, int $y, int $size): void
+    {
         if (!is_numeric($planetId) || $planetId < 1) {
             trigger_error('400: Planet ID must be a positive integer');
         }
-        
+
         if (strlen(!is_numeric($x)) || $x < 0) {
             trigger_error('400: X coord must be an integer');
         }
@@ -120,11 +127,9 @@ class DepositController {
         if (strlen(!is_numeric($x)) || $x < 0) {
             trigger_error('400: Y coord must be an integer');
         }
-        
+
         if ($size < 1) {
             trigger_error('400: Deposit size must be a positive integer');
         }
     }
 }
-
-?>

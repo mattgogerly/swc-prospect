@@ -9,9 +9,10 @@ use swcprospect\model\entity\EntityType;
 use PDO;
 use PDOException;
 
-class TileModel extends Model {
-
-    public function getByPlanetCoord(int $planetId, int $x, int $y): Tile {
+class TileModel extends Model
+{
+    public function getByPlanetCoord(int $planetId, int $x, int $y): Tile
+    {
         try {
             $stmt = $this->db->getConn()->prepare(Query::TILE_BY_COORD);
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
@@ -27,7 +28,8 @@ class TileModel extends Model {
         }
     }
 
-    public function getByPlanet(int $planetId): array {
+    public function getByPlanet(int $planetId): array
+    {
         try {
             $stmt = $this->db->getConn()->prepare(Query::TILES_BY_PLANET);
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
@@ -46,7 +48,8 @@ class TileModel extends Model {
         }
     }
 
-    public function save(Tile $tile): void {
+    public function save(Tile $tile): void
+    {
         try {
             $stmt = $this->db->getConn()->prepare(Query::SAVE_TILE);
 
@@ -62,7 +65,8 @@ class TileModel extends Model {
         }
     }
 
-    public function deleteByPlanet(int $planetId): void {
+    public function deleteByPlanet(int $planetId): void
+    {
         try {
             $stmt = $this->db->getConn()->prepare(Query::DELETE_TILES);
             $stmt->bindValue(':planetId', $planetId, PDO::PARAM_INT);
@@ -73,9 +77,9 @@ class TileModel extends Model {
         }
     }
 
-    private function convertToEntity($arr): Tile {
+    private function convertToEntity($arr): Tile
+    {
         $type = new EntityType($arr['type_id'], $arr['type_name']);
         return new Tile($arr['planet'], $arr['x'], $arr['y'], $type);
     }
 }
-?>

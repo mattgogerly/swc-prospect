@@ -5,8 +5,8 @@ namespace swcprospect\model\db;
 /**
  * Constants representing the MySQL queries used by SWC Prospect.
  */
-abstract class Query {
-    
+abstract class Query
+{
     const PLANETS            = 'SELECT p.id, p.name, p.size, pt.id AS type_id, pt.name AS type_name
                                 FROM planets AS p
                                 JOIN planet_types AS pt ON p.type = pt.id';

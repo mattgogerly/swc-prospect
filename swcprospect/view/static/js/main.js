@@ -18,8 +18,8 @@ $(document).ajaxError((_event, request, _settings) => {
 // utility to convert a HTML form to an object
 formToObject = (id) => {
     return $(id).serializeArray()
-        .reduce((accumObj, { name, value }) => { 
-            return { ...accumObj, [name]: value ? value.replace(/\s+/g, '') : null} 
+        .reduce((accumObj, { name, value }) => {
+            return { ...accumObj, [name]: value ? value.replace(/\s+/g, '') : null}
         }, {});
 };
 
@@ -41,9 +41,9 @@ resetForm = (id) => {
 loadTypes = type => {
     $.getJSON('/type/' + type, types => {
         $.each(types, i => {
-            $('#' + type + 'Type').append($('<option>', { 
-                value: types[i].id, 
-                text: types[i].name 
+            $('#' + type + 'Type').append($('<option>', {
+                value: types[i].id,
+                text: types[i].name
             }));
         });
     });
@@ -58,8 +58,9 @@ loadPlanets = () => {
 
 // loads a specific planet into view
 loadPlanet = (id, callback) => {
-    // if no callback is provided this is a first time load, so 
-    callback = callback || function(){loadDeposits(id)};
+    // if no callback is provided this is a first time load, so
+    callback = callback || function () {
+        loadDeposits(id)};
     $('#planet-view').load('/planet/' + id, callback);
 };
 
@@ -123,7 +124,7 @@ deleteDeposit = (planetId, x, y) => {
     });
 };
 
-// when the planet modal is opened load the planet types, and load the data for the 
+// when the planet modal is opened load the planet types, and load the data for the
 // current planet if editing
 $('#planetModal').on('show.bs.modal', event => {
     const { planetId } = getEntityAttrs(event);
@@ -189,7 +190,7 @@ $(() => {
     // when a planet delete icon is clicked delete the planet
     // delegated as button loaded dynamically
     $(document).on('click', '.planet-delete', e => {
-        // stop propagation to prevent the click on the planet-table-row behind loading the 
+        // stop propagation to prevent the click on the planet-table-row behind loading the
         // planet that was just deleted
         e.stopPropagation();
 

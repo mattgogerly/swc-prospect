@@ -1,12 +1,14 @@
 <?php
-function getCellHtml($planetId, $x, $y, $tile, $deposit) {
+
+function getCellHtml($planetId, $x, $y, $tile, $deposit)
+{
     $cellHtml = 'planet-id="' . $planetId . '" x="' . $x . '" y="' . $y . '"';
 
-    if ($tile != NULL) {
+    if ($tile != null) {
         $cellHtml .= ' style="background-image: url(' . STATIC_ROOT . '/img/terrains/' . $tile->getType()->getId() . '.gif' . ');"';
     }
 
-    if ($deposit != NULL) {
+    if ($deposit != null) {
         $cellHtml .= ' class="grid-cell grid-cell-deposit"';
     } else {
         $cellHtml .= ' class="grid-cell grid-cell-no-deposit"';
@@ -15,10 +17,11 @@ function getCellHtml($planetId, $x, $y, $tile, $deposit) {
     return $cellHtml;
 }
 
-function renderCell($planetId, $x, $y, $tile, $deposit) {
+function renderCell($planetId, $x, $y, $tile, $deposit)
+{
     echo '<div ' . getCellHtml($planetId, $x, $y, $tile, $deposit) . ' >';
 
-    if ($deposit != NULL) {
+    if ($deposit != null) {
         echo '<img src="' . STATIC_ROOT . '/img/materials/' . $deposit->getType()->getId() . '.gif" class="deposit-icon" />';
     }
 
@@ -37,5 +40,3 @@ for ($y = 0; $y < $planet->getSize(); $y++) {
 
     echo '</div>';
 }
-?>
-

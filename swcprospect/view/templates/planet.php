@@ -16,7 +16,7 @@
         <table class="table table-dark table-striped">
             <tr class="align-middle">
                 <th scope="row">Image</th>
-                <td><img src="<?= STATIC_ROOT . '/img/planets/'. $planet->getType()->getId() ?>.gif"></td>
+                <td><img src="<?= STATIC_ROOT . '/img/planets/' . $planet->getType()->getId() ?>.gif"></td>
             </tr>
             <tr>
                 <th scope="row">Type</th>

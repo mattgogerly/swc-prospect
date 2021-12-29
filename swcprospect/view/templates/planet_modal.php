@@ -36,15 +36,15 @@
           <div class="row mb-3">
             <label class="col-sm-2 col-form-label" for="terrainMap">Terrain Map</label>
             <div class="col-sm-10">
-              <textarea class="form-control" rows="10" name="terrainMap" id="terrainMap" required><?php 
-                for ($i = 0; $i < 10; $i++) { 
-                    echo "1, 1, 1, 1, 1, 1, 1, 1, 1, 1";
-                    
-                    if ($i != 9) {
+              <textarea class="form-control" rows="10" name="terrainMap" id="terrainMap" required><?php
+              for ($i = 0; $i < 10; $i++) {
+                  echo "1, 1, 1, 1, 1, 1, 1, 1, 1, 1";
+
+                  if ($i != 9) {
                       echo ",\n";
-                    }
-                }
-              ?></textarea>
+                  }
+              }
+                ?></textarea>
             </div>
           </div>
         </div>

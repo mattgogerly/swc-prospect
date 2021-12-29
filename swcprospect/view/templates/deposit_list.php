@@ -1,12 +1,12 @@
 <?php
 if (empty($deposits)) {
-?>
+    ?>
 <div class="alert alert-warning">
     No deposits recorded on this planet yet. Double click a tile to add one!
 </div>
-<?php
+    <?php
 } else {
-?>
+    ?>
 
 <h4>Deposits</h4>
 <table class="table table-striped table-hover table-dark">
@@ -21,7 +21,7 @@ if (empty($deposits)) {
     <tbody>
     <?php
     foreach ($deposits as $deposit) {
-    ?>
+        ?>
         <tr class="deposit-table-row">
             <td>
                 <?= $deposit->getType()->getName() ?>
@@ -33,11 +33,11 @@ if (empty($deposits)) {
                 <?= $deposit->getX() ?>, <?= $deposit->getY() ?>
             </td>
         </tr>
-    <?php
+        <?php
     }
     ?>
     </tbody>
 </table>
-<?php
+    <?php
 }
 ?>

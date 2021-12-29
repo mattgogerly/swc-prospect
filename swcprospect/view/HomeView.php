@@ -5,14 +5,15 @@ namespace swcprospect\view;
 /**
  * Home view. Shows containers for other content.
  */
-class HomeView {
-    
+class HomeView
+{
     /**
      * Render the HomeView.
      *
      * @return string HTML of the view.
      */
-    public function render(): string {
+    public function render(): string
+    {
         ob_start();
         include('templates/home.php');
         $content = ob_get_contents();
@@ -21,5 +22,3 @@ class HomeView {
         return $content;
     }
 }
-
-?>

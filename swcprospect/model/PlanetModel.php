@@ -1,4 +1,5 @@
 <?php
+
 namespace swcprospect\model;
 
 use swcprospect\model\Model;
@@ -8,12 +9,13 @@ use swcprospect\model\entity\EntityType;
 use PDO;
 use PDOException;
 
-class PlanetModel extends Model {
-
-    public function getAll(): array {
+class PlanetModel extends Model
+{
+    public function getAll(): array
+    {
         try {
             $res = $this->db->getConn()->query(Query::PLANETS);
-            
+
             $planets = [];
             foreach ($res as $p) {
                 array_push($planets, $this->convertToEntity($p));
@@ -24,9 +26,10 @@ class PlanetModel extends Model {
             error_log($e->getMessage());
             trigger_error('500: Error retrieving planets, try again later');
         }
-   }
+    }
 
-   public function getById($id): ?Planet {
+    public function getById($id): ?Planet
+    {
         try {
             $stmt = $this->db->getConn()->prepare(Query::PLANET_BY_ID);
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);
@@ -37,15 +40,16 @@ class PlanetModel extends Model {
             if (!$res) {
                 trigger_error('404: Planet does not exist');
             }
-            
+
             return $this->convertToEntity($res);
         } catch (PDOException $e) {
             error_log($e->getMessage());
             trigger_error('500: Error retrieving planet, try again later');
         }
-   }
+    }
 
-    public function save(Planet $planet): int {
+    public function save(Planet $planet): int
+    {
         try {
             $query = $planet->getId() ? Query::UPDATE_PLANET : Query::SAVE_PLANET;
             $stmt = $this->db->getConn()->prepare($query);
@@ -68,7 +72,8 @@ class PlanetModel extends Model {
         }
     }
 
-    public function delete(int $id): void {
+    public function delete(int $id): void
+    {
         try {
             $stmt = $this->db->getConn()->prepare(Query::DELETE_PLANET);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -79,9 +84,9 @@ class PlanetModel extends Model {
         }
     }
 
-    private function convertToEntity(array $arr): Planet {
+    private function convertToEntity(array $arr): Planet
+    {
         $type = new EntityType($arr['type_id'], $arr['type_name']);
         return new Planet($arr['id'], $arr['name'], $type, $arr['size']);
     }
 }
-?>
