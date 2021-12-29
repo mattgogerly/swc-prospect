@@ -1,5 +1,4 @@
 <?php
-
 namespace swcprospect\model\entity;
 
 use JsonSerializable;

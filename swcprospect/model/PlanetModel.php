@@ -1,5 +1,4 @@
 <?php
-
 namespace swcprospect\model;
 
 use swcprospect\model\Model;

@@ -96,6 +96,35 @@ class DepositController {
     public function delete(int $planetId, int $x, int $y): void {
         $this->model->delete($planetId, $x, $y);
     }
+
+        /**
+     * Validates that the data provided when upserting a deposit is valid. Triggers a 400
+     * response if a field is not valid.
+     *
+     * @param int $planetId the planet the Deposit is on.
+     * @param int $x        the x coord of the Deposit.
+     * @param int $y        the y coord of the Deposit.
+     * @param int $size     the size of the Deposit.
+     * 
+     * @return void
+     */
+    private function validateDepositData(?int $planetId, string $x, int $y, int $size): void {
+        if (!is_numeric($planetId) || $planetId < 1) {
+            trigger_error('400: Planet ID must be a positive integer');
+        }
+        
+        if (strlen(!is_numeric($x)) || $x < 0) {
+            trigger_error('400: X coord must be an integer');
+        }
+
+        if (strlen(!is_numeric($x)) || $x < 0) {
+            trigger_error('400: Y coord must be an integer');
+        }
+        
+        if ($size < 1) {
+            trigger_error('400: Deposit size must be a positive integer');
+        }
+    }
 }
 
 ?>

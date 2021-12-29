@@ -126,9 +126,8 @@ class PlanetController {
         $this->model->delete($planetId);
     }
 
-        
     /**
-     * Validates that the data provided when creating a planet is valid. Triggers a 400
+     * Validates that the data provided when upserting a planet is valid. Triggers a 400
      * response if a field is not valid.
      *
      * @param ?int   $planetId the id of the Planet, null if new.
@@ -166,7 +165,7 @@ class PlanetController {
             trigger_error('400: Size of planet tile map does not match size of planet');
         }
 
-        if (!array_reduce($splitTiles, function ($result, $item) { return $result && intval($item) > 0; }, true)) {
+        if (!array_reduce($splitTiles, function ($result, $item) { return $result && is_numeric($item); }, true)) {
             trigger_error('400: Values in terrain map must be positive integers');
         }
 
