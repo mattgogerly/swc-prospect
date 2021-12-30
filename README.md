@@ -5,7 +5,7 @@ A simple application to track material deposits on different planets in SWCombin
 
 ## Usage
 ### Pre-requisites
-* A MySQL database
+* MySQL
 * PHP >= 8.0
 
 ### Setup
