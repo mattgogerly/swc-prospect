@@ -128,7 +128,7 @@ class DepositController
             trigger_error('400: Y coord must be an integer');
         }
 
-        if ($size < 1) {
+        if (!is_numeric($size) || $size < 1) {
             trigger_error('400: Deposit size must be a positive integer');
         }
     }
