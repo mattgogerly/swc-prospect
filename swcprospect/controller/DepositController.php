@@ -120,11 +120,11 @@ class DepositController
             trigger_error('400: Planet ID must be a positive integer');
         }
 
-        if (strlen(!is_numeric($x)) || $x < 0) {
+        if (!is_numeric($x) || $x < 0) {
             trigger_error('400: X coord must be an integer');
         }
 
-        if (strlen(!is_numeric($x)) || $x < 0) {
+        if (!is_numeric($x) || $x < 0) {
             trigger_error('400: Y coord must be an integer');
         }
 
