@@ -144,7 +144,7 @@ class PlanetController
      */
     private function validatePlanetData(?int $planetId, string $name, int $size): void
     {
-        if ($planetId && $planetId < 1) {
+        if ($planetId && (!is_numeric($planetId) || $planetId < 1)) {
             trigger_error('400: Planet ID must be a positive integer');
         }
 
@@ -152,7 +152,7 @@ class PlanetController
             trigger_error('400: Planet name must be provided');
         }
 
-        if ($size < 1) {
+        if (!is_numeric($size) || $size < 1) {
             trigger_error('400: Planet size must be a positive integer');
         }
     }
